@@ -1,7 +1,12 @@
 
+# Env files and folders
+/build
+/packs
+
 # IDEs
 .idea/
 .vscode/
+nbproject/
 
 # Logs
 logs

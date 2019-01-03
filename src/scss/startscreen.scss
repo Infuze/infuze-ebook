@@ -1,0 +1,147 @@
+@import "module/_core";
+
+.startscreen {
+  //border: solid 4px red;
+  text-align: center;
+  padding: 0;
+  top:0;
+  bottom:0;
+  //position: fixed;
+  width: 100%;
+  height: calc(100vh - 6rem);
+}
+
+.startscreen__button,
+.startquiz__button {
+  //@extend %simple-button;
+  font-size: 16px;
+  line-height: 16px;
+  font-style: normal;
+  position: relative;
+  color: white;
+  text-align: center;
+  background: #ffa300;
+  border-radius: 50px;
+  height: 30px;
+  width: auto;
+  border-color: #ffa300;
+  cursor: pointer;
+  //transition: 0.2s;
+  border-style: none;
+  padding: 0 40px 0 40px;
+}
+
+.startscreen__button:hover, .startquiz__button:hover {
+    background: #fe5000;
+    border-color: #fe5000;
+  }
+
+.startscreen__button:focus, .startquiz__button:focus {
+  outline:0;
+}
+
+.startscreen img {
+  padding-top: 50px;
+  height: 20%;
+  min-height: 80px;
+}
+
+.startscreen.iquiz.-end img {
+  padding-top: 20px;
+}
+
+.startscreen.iquiz.-end {
+  padding-top: 20px;
+  position: relative;
+}
+
+.startscreen h1 {
+  font-size: 2em;
+  font-weight: 600;
+  margin: 0;
+  padding-top: 10vh;
+}
+
+.startscreen.iquiz h1 {
+  padding: 6vh 20px 0 20px;
+  font-size: 1.5em;
+}
+
+.startscreen.iquiz.-end h1 {
+    padding-top: 10px;
+}
+
+.startscreen.iquiz.-end h1:first-child {
+  padding-top: 10vh;
+}
+
+
+.startscreen h2 {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 auto;
+  padding-top: 0px;
+}
+
+.startscreen.iquiz h2 {
+  width: 40%;
+  padding-top: 10px;
+  //text-align: center;
+}
+
+.startscreen.iquiz h3 {
+  font-weight: normal;
+  font-size: 1.2em;
+  padding: 20px 20px 0 20px;
+}
+
+.startscreen.iquiz.-end h3 {
+  padding-top: 4px;
+  padding-top: 10vh;
+}
+
+//@media screen and (min-aspect-ratio: 400/650) {
+@media (max-height: 650px) and (max-width: 540px) {
+  .startscreen:not(.-end) figure {
+    visibility: hidden;
+  }
+  //.figure {
+  //    visibility: hidden;
+  //}
+}
+@media (max-height: 580px) and (max-width: 580px) {
+  .startscreen:not(.-end) figure {
+    visibility: hidden;
+  }
+  //.figure {
+  //  visibility: hidden;
+  //}
+}
+
+@media (max-height: 400px) and (max-width: 620px) {
+  .startscreen:not(.-end) figure {
+    visibility: hidden;
+  }
+}
+
+@media (max-height: 740px) and (max-width: 620px) {
+  .startscreen.iquiz:not(.-end) figure {
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 850px) {
+  .startscreen.iquiz h2 {
+    width: 80%;
+  }
+}
+
+.startscreen .minmax-1 {
+  min-width: 200px;
+  max-width: 500px;
+}
+
+.startscreen .minmax-2 {
+  min-width: 50px;
+  max-width: 100px;
+}
