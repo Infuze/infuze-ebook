@@ -1,0 +1,63 @@
+@import "mixins";
+
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  min-height: 100%;
+}
+body {
+  height: 100%;
+  width: 100%;
+  min-height: 100%;
+  -webkit-text-size-adjust: none;
+  font-family: "Avenir", sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  overflow-y: hidden;
+  background-color: white;
+
+  @include for-size(phone-only) {
+    font-size: 16px;
+  }
+
+  @include for-size(tablet-portrait-up) {
+    font-size: 17px;
+  }
+
+  @include for-size(tablet-landscape-up) {
+    font-size: 17px;
+  }
+
+  @include for-size(desktop-up) {
+    padding: 0;
+  }
+
+  @include for-size(big-desktop-up) {
+    padding: 0;
+  }
+}
+
+ul li + li {
+  padding-top: 1em;
+}
+
+ol li + li {
+  padding-top: 1em;
+}
+
+ol ul {
+  padding-top: 0.8em;
+}
+
+ul ul {
+  padding-top: 1em;
+}
+
+@include for-size(phone-only) {
+  ul {
+    padding-left: 1.5em;
+  }
+}
