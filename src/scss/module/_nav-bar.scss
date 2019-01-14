@@ -115,8 +115,8 @@
 
 .stv-radio-buttons-wrapper {
   //border: 1px solid red;
-  width: 30%;
-  max-width: 250px;
+  width: 40%;
+  max-width: 450px;
   //height: 200px;
   min-width: 120px;
 }
@@ -135,7 +135,7 @@
 
 .stv-radio-buttons-wrapper div {
   /*border: 10px solid green;*/
-  width: calc(50% - 1px);
+  width: calc(33% - 1px);
   float: left;
   margin-right: 1px;
 }
@@ -165,6 +165,10 @@
 }
 
 .stv-radio-buttons-wrapper .r2 {
+  border-radius: 0;
+}
+
+.stv-radio-buttons-wrapper .r3 {
   border-radius: 0 20px 20px 0;
 }
 

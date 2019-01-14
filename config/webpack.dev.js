@@ -12,16 +12,15 @@ const TARGET = process.env.npm_lifecycle_event;
 const ARGV = require('yargs').argv;
 
 let common = {
-    entry: ['./src/js/app.js'],
+    entry: ['./src/js/app.js', './src/index.html', './src/slides.html'],
     output: {
         filename: 'infuze-ebook.js',
-        path: path.resolve(__dirname, '../lib')
+        path: path.resolve(__dirname, '../dist')
     },
     devServer: {
         contentBase: [
-            path.join(__dirname, '../')
+            path.join(__dirname, '../dist')
         ],
-        openPage: '/sample',
         open: true,
         watchContentBase: true,
         overlay: true,
@@ -97,11 +96,12 @@ let common = {
             //filename: "css/style.css",
             //chunkFilename: "[id].css"
         }),
-        /* new CopyWebpackPlugin([
-            { from: 'src/sample/images', to: '../sample/images' },
-            { from: 'src/sample/libs', to: '../sample/libs' },
-            { from: 'src/sample/iquiz_assets', to: '../sample/iquiz_assets' }
-        ]) */
+        new CopyWebpackPlugin([
+            { from: 'src/images', to: 'images' },
+            { from: 'src/iquiz-assets', to: 'iquiz-assets' },
+            { from: 'src/libs', to: 'libs' },
+            //{ from: 'src/sample/iquiz_assets', to: '../sample/iquiz_assets' }
+        ])
         //new NodemonPlugin(),
         //new webpack.HotModuleReplacementPlugin()
     ]
@@ -113,7 +113,7 @@ if (ARGV.mode === 'production') {
         mode: "production",
         devtool: 'source-map',
         plugins: [
-            new CleanWebpackPlugin(['lib/**/*'], {
+            new CleanWebpackPlugin(['dist/**/*'], {
                 root: path.join(__dirname, '..'),
             })
         ],
