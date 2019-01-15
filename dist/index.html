@@ -35,6 +35,10 @@
                     <input type="radio" name="displayMode" value="quiz" id="quizRadio"> <span class="rSpan r2"><label
                             for="quizRadio"><img src="./images/_nav/icons/icon_quiz.svg"><span class="button-text">QUIZ</span></label></span>
                 </div>
+                <div>
+                    <input type="radio" name="displayMode" value="media" id="mediaRadio"> <span class="rSpan r3"><label
+                            for="mediaRadio"><img src="./images/_nav/icons/icon_media.svg"><span class="button-text">MEDIA</span></label></span>
+                </div>
             </div>
             <div class="nav--toggle">
                 <div>
@@ -60,7 +64,7 @@
         <h1 class="l-header__banner" data-animate="1">
             Level 3 Business Administrator | <span>Professionalism</span>
         </h1>
-        <button id="loadSlidesBtn">Load slide</button>
+
     </header>
 
     <div class="l-wrapper js-wrapper hidden">
@@ -69,7 +73,10 @@
 
     </div>
 
-    <script src="../lib/infuze-ebook.js"></script>
+    <script src="./infuze-ebook.js"></script>
+    <script>
+        console.log('infuzeEbook ', infuzeEbook)
+    </script>
 
 </body>
 

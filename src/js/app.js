@@ -8,10 +8,8 @@ import Cheerio from 'cheerio';
 //import { Base64 } from 'js-base64';
 
 DocReady(() => {
-  //console.log("DocReady");
   const app = new App();
   const loadHandler = () => app.loadSection('slides.html', '.js-wrapper', app.setView.bind(app));
-  //const loadSlides = () => app.loadSection('slides.html', '.js-wrapper', app.pageLoaded.bind(app));
   const debounce = (fn, time) => {
     let timeout;
     return function () {
@@ -20,7 +18,6 @@ DocReady(() => {
       timeout = setTimeout(functionCall, time);
     };
   };
-  //$on(qs('#loadSlidesBtn'), "click", loadSlides);
   $on(window, "load", loadHandler);
   $on(window, "resize", debounce(e => {
     app.doResize();
@@ -191,6 +188,8 @@ class App {
 
   setStateValues() {
 
+    location.hash = location.hash || "#s0";
+
     const query = /\#(.)(\d+)/.exec(location.hash);
     const prefix = query[1];
     this.currentPage = +query[2];
@@ -198,14 +197,10 @@ class App {
     this.display = thisSectionType.type;
     qs(thisSectionType.button).checked = true;
 
-
-
     $log('****** this.currentPage ', this.currentPage);
     $log('****** prefix ', prefix);
     $log('****** this.display ', this.display);
     $log('****** thisSectionType.button ', thisSectionType.button);
-
-
 
     /* if (media) {
       this.currentPage = +media[1];
