@@ -1,5 +1,26 @@
-@import "_core";
+%simple-button {
+  font-size:0;
+  position: relative;
+  color: white;
+  text-align: center;
+  background: #ffa300;
+  border-radius: 50px;
+  height: 30px;
+  width: auto;
+  border-color: #ffa300;
+  cursor: pointer;
+  transition: 0.2s;
+  border-style: none;
+}
 
+.l-nav-bar {
+  position: fixed;
+  background-color: #f1f1f1;
+  width: 100%;
+  z-index: 1;
+  bottom: 0;
+  height: 60px;
+}
 .nav-bar__container {
   display: flex;
   align-items: center;

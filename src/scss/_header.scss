@@ -1,0 +1,20 @@
+.l-header {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  height: 1rem;
+  left: 0;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  background-color: #f1f1f1;
+  z-index: 1;
+}
+.l-header__banner {
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: 200;
+  span {
+    font-weight: 600;
+  }
+}

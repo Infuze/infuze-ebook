@@ -1,14 +1,46 @@
 @import "fonts";
 @import "mixins";
-@import "_base";
-@import "_layout";
-@import "_state";
-
-//@import "tables";
 @import "toggle";
-//@import "startscreen";
+@import "header";
+@import "nav-bar";
 
-@import "module/header";
-//@import "module/pages";
-@import "module/nav-bar";
-//@import "module/images";
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  min-height: 100%;
+  -webkit-text-size-adjust: none;
+  font-family: "Avenir", sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  overflow-y: hidden;
+  background-color: white;
+}
+
+.l-wrapper {
+  display: flex;
+  justify-content: normal;
+  max-width: 1800px;
+  padding: 36px 0;
+}
+.container--layout-1 {
+  height: auto;
+  flex-grow: 1;
+  flex-basis: 0;
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+  //opacity: .3;
+}

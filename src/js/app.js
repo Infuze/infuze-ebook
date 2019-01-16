@@ -7,24 +7,14 @@ import '../scss/styles.scss'
 import Cheerio from 'cheerio';
 //import { Base64 } from 'js-base64';
 
-DocReady(() => {
+/* DocReady(() => {
+  console.log('APP: DocReady: ', DocReady);
   const app = new App();
-  const loadHandler = () => app.loadSection('slides.html', '.js-wrapper', app.setView.bind(app));
-  const debounce = (fn, time) => {
-    let timeout;
-    return function () {
-      const functionCall = () => fn.apply(this, arguments);
-      clearTimeout(timeout);
-      timeout = setTimeout(functionCall, time);
-    };
-  };
-  $on(window, "load", loadHandler);
-  $on(window, "resize", debounce(e => {
-    app.doResize();
-  }, 100)
-  );
-});
-class App {
+  const loadHandler = () => App.init(app, 'slides.html', '.js-wrapper');
+  $on(window, "load", loadHandler.bind(app));
+}); */
+
+export default class App {
   constructor() {
     this.textElementTimeline;
     this.shapeElementTimeline;
@@ -67,10 +57,16 @@ class App {
     ]
   }
 
-  loadSection(url, selector, cFunction) {
+  static init(inst, url, selector) {
+    inst.loadSection(url, selector);
+  }
+
+  loadSection(url, selector) {
     //alert('LOAD')
+    console.log('APP: loadSection: ');
     const content_div = qs(selector);
     const xmlHttp = new XMLHttpRequest();
+    let cFunction = this.setView.bind(this);
 
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -243,7 +239,22 @@ class App {
     //qs("body").addEventListener("touchmove", this.freezeVp, false);
     qs(".l-nav-bar").addEventListener("touchmove", this.preventDefault, false);
     qs(".l-header").addEventListener("touchmove", this.preventDefault, false);
+
+    $on(window, "resize", this.debounce(e => {
+      this.doResize();
+    }, 1000));
+
   }
+
+  debounce(fn, time) {
+    $log('>>>>>>>>>> DEBOUNCE')
+    let timeout;
+    return function () {
+      const functionCall = () => fn.apply(this, arguments);
+      clearTimeout(timeout);
+      timeout = setTimeout(functionCall, time);
+    };
+  };
 
   displayPage() {
     const currentPageNum = this.getPageNumber(),
@@ -267,8 +278,6 @@ class App {
     qs(".js-wrapper").classList.remove("hidden");
   }
 
-
-
   isNextPageVisible() {
     const currentPageNum = this.getPageNumber();
     let nextPageNode = this.getPageNode(currentPageNum + 1);
@@ -282,7 +291,6 @@ class App {
       return false;
     }
   }
-
 
   hashChangedHandler() {
     this.setStateValues();

@@ -12,11 +12,11 @@ const TARGET = process.env.npm_lifecycle_event;
 const ARGV = require('yargs').argv;
 
 let common = {
-    entry: ['./src/js/app.js', './src/index.html', './src/slides.html', './src/quiz.html', './src/media.html'],
+
     output: {
         filename: 'infuze-ebook.js',
-        //library: 'infuzeEbook',
-        //libraryTarget: 'var',
+        library: 'Ebook',
+        libraryTarget: 'var',
         path: path.resolve(__dirname, '../dist')
     },
     devServer: {
@@ -112,6 +112,7 @@ let common = {
 
 if (ARGV.mode === 'production') {
     module.exports = merge(common, {
+        entry: ['./src/js/app.js', './src/index.html', './src/slides.html', './src/quiz.html', './src/media.html'],
         mode: "production",
         devtool: 'source-map',
         plugins: [
@@ -134,6 +135,7 @@ if (ARGV.mode === 'production') {
 
 if (ARGV.mode === 'development') {
     module.exports = merge(common, {
+        entry: ['./src/js/main.js', './src/index.html', './src/slides.html', './src/quiz.html', './src/media.html'],
         mode: "development",
         devtool: 'source-map',
         //devtool: 'eval-cheap-module-source-map',
