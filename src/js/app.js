@@ -7,34 +7,34 @@ import '../scss/styles.scss'
 import Cheerio from 'cheerio';
 //import { Base64 } from 'js-base64';
 
-/* DocReady(() => {
-  console.log('APP: DocReady: ', DocReady);
+DocReady(() => {
   const app = new App();
-  const loadHandler = () => App.init(app, 'slides.html', '.js-wrapper');
+  const loadHandler = () => {
+    app.setNavigationEvents();
+    app.loadSection();
+  }
   $on(window, "load", loadHandler.bind(app));
-}); */
-
+  $on(window, "onbeforeunload", SCORM.quit);
+  $on(window, "onunload", SCORM.quit);
+});
 export default class App {
   constructor() {
     this.textElementTimeline;
     this.shapeElementTimeline;
-    this.animationJson;
+    this.animationJson = {};
     this.throttled = false;
     this.showAnimations = true;
-    this.allSlides;
-    //this.allQuestions;
+    this.allSlides = [];
     this.currentNodeSelection;
     this.display;
-    //this.quizFirstPage;
-    //this.quizCurrentPage;
     this.slidesCurrentPage = 0;
     this.slideCount = 0;
-    //this.quizCount = 0;
     this.displayModeBtns = document.getElementsByName("displayMode");
 
     this.displayTypes = [
       {
         type: 'slides',
+        container: '.container--layout-1',
         prefix: 's',
         page: 'slides.html',
         selector: 'page-',
@@ -42,6 +42,7 @@ export default class App {
       },
       {
         type: 'quiz',
+        container: '.container--iquiz',
         prefix: 'q',
         page: 'quiz.html',
         selector: 'question-',
@@ -49,6 +50,7 @@ export default class App {
       },
       {
         type: 'media',
+        container: '.container--media',
         prefix: 'm',
         page: 'media.html',
         selector: 'media-',
@@ -57,20 +59,24 @@ export default class App {
     ]
   }
 
-  static init(inst, url, selector) {
-    inst.loadSection(url, selector);
-  }
+  loadSection() {
 
-  loadSection(url, selector) {
-    //alert('LOAD')
-    console.log('APP: loadSection: ');
+    location.hash = location.hash || "#s0";
+    const query = /\#(.)(\d+)/.exec(location.hash);
+    const prefix = query[1];
+    //this.currentPage = +query[2];
+    const thisSectionType = this.displayTypes.find(type => type.prefix === prefix);
+    this.display = thisSectionType.type;
+    const url = thisSectionType.page,
+      selector = '.js-wrapper';
+    $log('****** loadSection ', url);
+
     const content_div = qs(selector);
     const xmlHttp = new XMLHttpRequest();
     let cFunction = this.setView.bind(this);
 
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-
         const $ = Cheerio.load(xmlHttp.responseText);
         const content = $(selector).children()
           .after($(this).contents())
@@ -83,153 +89,80 @@ export default class App {
     xmlHttp.send(null);
   }
 
-  pageLoaded(xhttp) {
-    alert('pageLoaded')
-  }
-
   setView() {
-
-    this.definePages();
+    this.setPageEvents();
+    this.setStateValues();
     this.hidePages();
-    this.continueStartUp();
-    return;
+    this.definePages();
+    this.displayPage();
+    this.doResize();
+    this.resetNavigationStates();
 
+    SCORM.init();
+    ///ANIME/// this.createAnimationTimelines();
+    ////ANIME/// if (this.showAnimations) this.playTimelines();
+  }
+  hashChangedHandler() {
 
-    function getJsonFileName(loc) {
-      let [fileName, foldername, ...rest] = loc.href.split("/").reverse();
-      let pathItems = loc.href.split("/");
-      fileName = pathItems.pop();
-      let path = pathItems.join("/");
-      let retPath = path + "/animate.json";
-      return retPath;
-    }
-    function validateResponse(response) {
-      //console.log('APP: validateResponse: ', response);
-      if (!response.ok) {
-        throw Error(response.statusText);
-      }
-      return response;
-    }
-    function readResponseAsJSON(response) {
-      //console.log('APP: readResponseAsJSON: ', response);
-      return response.json();
-    }
-    function logResult(result) {
-      //console.log('APP: logResult: ', result);
-      return result;
-    }
-    function logError(error) {
-      //console.log('Looks like there was a problem: \n', error);
-    }
-    function setAminProps(response) {
-      //console.log('****** setAminProps response', response);
-      this.animations = response;
-    }
-    //console.log('****** loadAnimationSeq start');
+    const query = /\#(.)(\d+)/.exec(location.hash);
+    const prefix = query[1];
+    this.currentPage = +query[2];
 
-    return (
-      fetch(getJsonFileName(window.location), {
-        headers: { Accept: "application/json" },
-        credentials: "same-origin"
-      })
-        .then(validateResponse)
-        .then(readResponseAsJSON)
-        .then(logResult)
-        //.then(setAminProps)
-        .then(res => this.continueStartUp(res))
-        .catch(err => {
-          logError(err);
-          this.continueStartUp({});
-        })
-    );
+    $log('****** hashChangedHandler ', prefix + ":" + query);
+
+    if (this.displayTypes.find(type => type.prefix === prefix).type !== this.display) {
+      this.loadSection();
+      return;
+    }
+
+    this.setStateValues();
+    this.hidePages();
+    this.displayPage();
+    this.doResize();
+    this.resetNavigationStates();
+    this.setPageNumber(this.getPageNumber());
+    document.querySelector("body").scrollTop = 0;
+
+    ///ANIME/// if (this.showAnimations) this.createAnimationTimelines();
+    ///ANIME/// if (this.showAnimations) this.playTimelines();
   }
 
   definePages() {
-    $log('****** this.querySelectorAll ', document.querySelectorAll(".container--layout-1"));
-    [...this.allSlides] = document.querySelectorAll(".container--layout-1, .container--iquiz");
-    //[...this.allQuestions] = document.querySelectorAll(".container--iquiz");
+    //$log('****** this.display ', this.display);
+    const container = this.displayTypes.find(type => type.type === this.display).container;
+    [...this.allSlides] = document.querySelectorAll(container);
     this.slideCount = this.allSlides.length;
-    //this.quizCount = this.allQuestions.length;
-
-    $log('****** this.slideCount ', this.slideCount);
-    //$log('****** this.quizCount ', this.quizCount);
-
-
-    //this.quizFirstPage = this.slideCount;
-    //this.quizCurrentPage = this.slideCount;
   }
+
   hidePages() {
     // Set wrapper and pages to hidden
     qs(".js-wrapper").classList.add = "hidden";
     this.allSlides.forEach(el => {
       el.classList.add("hidden");
     });
-
-
-    //this.allQuestions.forEach(el => {
-    //  el.classList.add("hidden");
-    //});
-  }
-  continueStartUp(json = {}) {
-    //console.log('****** continueStartUp ');
-    this.animationJson = json;
-    this.setStateValues();
-    this.setNavigationEvents();
-    this.displayPage();
-    this.doResize();
-    this.resetNavigationStates();
-    this.createAnimationTimelines();
-    if (this.showAnimations) this.playTimelines();
   }
 
   setStateValues() {
-
     location.hash = location.hash || "#s0";
-
     const query = /\#(.)(\d+)/.exec(location.hash);
     const prefix = query[1];
     this.currentPage = +query[2];
     const thisSectionType = this.displayTypes.find(type => type.prefix === prefix);
     this.display = thisSectionType.type;
     qs(thisSectionType.button).checked = true;
-
-    $log('****** this.currentPage ', this.currentPage);
-    $log('****** prefix ', prefix);
-    $log('****** this.display ', this.display);
-    $log('****** thisSectionType.button ', thisSectionType.button);
-
-    /* if (media) {
-      this.currentPage = +media[1];
-      this.display = "media";
-      //this.currentNodeSelection = this.allQuestions;
-      qs("#mediaRadio").checked = true;
-    }
-    const quiz = /\#q(\d+)/.exec(location.hash);
-    if (quiz) {
-      this.currentPage = +quiz[1];
-      this.display = "quiz";
-      //this.currentNodeSelection = this.allQuestions;
-      qs("#quizRadio").checked = true;
-    }
-    const slide = /\#s(\d+)/.exec(location.hash);
-    if (slide) {
-      this.currentPage = +slide[1];
-      this.display = "slides";
-      //this.currentNodeSelection = this.allSlides;
-      qs("#slidesRadio").checked = true;
-    } */
   }
 
+  setPageEvents() {
+    Array.from(document.querySelectorAll(".js-start-quiz")).forEach(el => {
+      el.onclick = e => this.startQuiz(e);
+    });
+  }
   setNavigationEvents() {
     location.hash = location.hash || "#s0";
     qs(".js-back").onclick = e => this.previousClick();
     qs(".js-next").onclick = e => this.nextClick();
-    qs(".js-replay").onclick = e => this.replayAnimation();
-    qs(".js-animation input").checked = this.showAnimations;
-    qs(".js-animation input").onclick = e => this.toggleAnimation(e);
-    Array.from(document.querySelectorAll(".js-start-quiz")).forEach(el => {
-      el.onclick = e => this.startQuiz(e);
-    });
+    ///ANIME/// qs(".js-animation input").checked = this.showAnimations;
+    ///ANIME/// qs(".js-animation input").onclick = e => this.toggleAnimation(e);
 
     Array.from(this.displayModeBtns)
       .forEach(v => v.addEventListener("change", e => {
@@ -243,11 +176,10 @@ export default class App {
     $on(window, "resize", this.debounce(e => {
       this.doResize();
     }, 1000));
-
   }
 
   debounce(fn, time) {
-    $log('>>>>>>>>>> DEBOUNCE')
+    //$log('>>>>>>>>>> DEBOUNCE')
     let timeout;
     return function () {
       const functionCall = () => fn.apply(this, arguments);
@@ -257,9 +189,15 @@ export default class App {
   };
 
   displayPage() {
-    const currentPageNum = this.getPageNumber(),
-      currentPageNode = this.getPageNode(currentPageNum),
-      isLeft = currentPageNode.classList.contains("left"),
+    const currentPageNum = this.getPageNumber();
+    const currentPageNode = this.getPageNode(currentPageNum);
+
+    if (!currentPageNode) {
+      alert('displayPage - No page nodes!');
+      return;
+    }
+
+    const isLeft = currentPageNode.classList.contains("left"),
       isRight = currentPageNode.classList.contains("right");
 
     this.addPageNumber(currentPageNode, currentPageNum);
@@ -292,18 +230,6 @@ export default class App {
     }
   }
 
-  hashChangedHandler() {
-    this.setStateValues();
-    this.hidePages();
-    this.displayPage();
-    this.doResize();
-    this.resetNavigationStates();
-    this.setPageNumber(this.getPageNumber());
-    document.querySelector("body").scrollTop = 0;
-    if (this.showAnimations) this.createAnimationTimelines();
-    if (this.showAnimations) this.playTimelines();
-  }
-
   doResize() {
     $log('****** doResize');
     const thisPageNode = this.getPageNode(this.getPageNumber()),
@@ -329,111 +255,65 @@ export default class App {
     el.insertAdjacentHTML("beforeend", `<div class="page-number">${num}</div>`);
   }
 
-  startQuiz(e) {
-    console.log("****** startQuiz ", e.target);
-    if (!this.quizFirstPage) {
-      return;
-    }
-    this.display = "quiz";
-    this.currentNodeSelection = this.allQuestions;
-    const PageNum = this.quizFirstPage;
-    Array.from(this.displayModeBtns).forEach(el => {
-      if (el.value === "quiz") {
-        el.checked = true;
-      }
-    });
-    this.hidePages();
-    this.navigateToPage(PageNum);
-    this.displayPage();
-    this.doResize();
-    this.resetNavigationStates();
-    if (this.showAnimations) this.createAnimationTimelines();
-    if (this.showAnimations) this.playTimelines();
-  }
 
+
+  nextClick() {
+    if (
+      this.getPageNode(this.getPageNumber()).classList.contains("left") &&
+      this.getPageNode(this.getPageNumber(1)) &&
+      !this.getPageNode(this.getPageNumber(1)).classList.contains("hidden")
+    ) {
+      this.navigateToPage(this.getPageNumber(2));
+    } else {
+      this.navigateToPage(this.getPageNumber(1));
+    }
+  }
+  previousClick() {
+    if (
+      this.getPageNode(this.getPageNumber()).classList.contains("right") &&
+      this.getPageNode(this.getPageNumber(-1)) &&
+      !this.getPageNode(this.getPageNumber(-1)).classList.contains("hidden")
+    ) {
+      this.navigateToPage(this.getPageNumber(-2));
+    } else {
+      this.navigateToPage(this.getPageNumber(-1));
+    }
+  }
   displayModeChanged(e) {
     //Array.from(this.displayModeBtns).forEach(v => v.checked ? console.log(v.getAttribute('value')) : null)
     let checkedEl = Array.from(this.displayModeBtns).find(el => {
       if (el.checked) return true;
     });
-    if (this.display !== checkedEl.value) {
-      this.display = checkedEl.value;
-
-      //this.currentNodeSelection = this.allSlides;
-      /*  **************************
-         this.currentNodeSelection =
-         this.display === "slides" ? this.allSlides : this.allQuestions;
-       const PageNum =
-         this.display === "slides"
-           ? this.slidesCurrentPage
-           : this.quizCurrentPage; 
-       ***************************/
-
-
-      this.loadSection('slides.html', '.js-wrapper', app.setView.bind(app))
-
-      this.hidePages();
-      this.navigateToPage(this.slidesCurrentPage);
-      this.displayPage();
-      this.doResize();
-      this.resetNavigationStates();
-      if (this.showAnimations) this.createAnimationTimelines();
-      if (this.showAnimations) this.playTimelines();
-    }
+    this.setPageNumber(0);
+    const thisSectionType = this.displayTypes.find(type => type.type === checkedEl.value);
+    location.hash = '#' + thisSectionType.prefix + '0';
   }
-
-  navigateToPage(p) {
-    //window.removeEventListener('hashchange', this.hashChangedHandler.bind(this));
-    location.hash = this.display === "slides" ? "#s" + p : "#q" + p;
-    //$on(window, 'hashchange', this.hashChangedHandler.bind(this));
-    //if (this.display === 'slides') this.slidesCurrentPage = p;
-    //if (this.display === 'quiz') this.quizCurrentPage = p;
+  startQuiz(e) {
+    //console.log("****** startQuiz ", e.target);
+    location.hash = '#q0';
+    this.setPageNumber(0);
+    document.querySelector('body').scrollTop = 0;
+  }
+  navigateToPage(p = 0) {
+    const thisSectionType = this.displayTypes.find(type => type.type === this.display);
+    location.hash = '#' + thisSectionType.prefix + p;
     this.setPageNumber(p);
-    //this.resetNavigationStates();
     document.querySelector('body').scrollTop = 0;
   }
 
   setPageNumber(page) {
     this.slidesCurrentPage = page;
-    //if (this.display === "slides") this.slidesCurrentPage = page;
-    //if (this.display === "quiz") this.quizCurrentPage = page;
   }
 
   getPageNumber(offset = 0) {
-    const pageTypes = {
-      slides: 's',
-      quiz: 'q',
-      media: 'm'
-    }
-    const pageTypeCodes = {
-      s: 'slides',
-      q: 'quiz',
-      m: 'media'
-    }
-
-    const pagePrefix = pageTypes[this.display];
+    const pagePrefix = this.displayTypes.find(type => type.type === this.display).prefix;
     let currentHash = location.hash || "#s0";
-
     return +currentHash.replace("#" + pagePrefix, "") + offset;
-
-    //const pagePrefix = this.display === "slides" ? "s" : "q";
-    //let currentHash = location.hash || "#s0";
-
-    /* if (this.display === "slides") {
-      return +currentHash.replace("#s", "") + offset;
-    } else if (this.display === "quiz") {
-      return +currentHash.replace("#q", "") + offset;
-    } */
   }
 
   getPageNode(page) {
-    const pageNamePrefixes = {
-      slides: 'page-',
-      quiz: 'question-',
-      media: 'media-'
-    }
-    const pageNamePrefix = pageNamePrefixes[this.display];
-
+    //console.log('getPageNode ', page);
+    const pageNamePrefix = this.displayTypes.find(type => type.type === this.display).selector;
     let node = this.allSlides.find(
       n => n.id === pageNamePrefix + page
     ) || null;
@@ -442,31 +322,15 @@ export default class App {
 
   updateProgressBar() {
     //$log("updateProgressBar quiz ", this.display);
-
     const bar = qs(".nav-bar__progress-bar"),
       desc = qs(".nav-bar__progress-txt"),
       pageNumOffset = this.isNextPageVisible() ? 2 : 1;
 
-    if (this.display === "slides") {
-      bar.style.width =
-        ((this.getPageNumber() + pageNumOffset) / this.slideCount) * 100 + "%";
-      desc.textContent = `${this.getPageNumber() + pageNumOffset} / ${
-        this.slideCount
-        }`;
-    } else if (this.display === "quiz") {
-      let width = (bar.style.width =
-        ((this.getPageNumber() - this.slideCount + pageNumOffset) /
-          this.quizCount) *
-        100 +
-        "%");
-      desc.textContent = `${this.getPageNumber() -
-        this.slideCount +
-        pageNumOffset} / ${this.quizCount}`;
-    }
+    bar.style.width = ((this.getPageNumber() + pageNumOffset) / this.slideCount) * 100 + "%";
+    desc.textContent = `${this.getPageNumber() + pageNumOffset} / ${this.slideCount}`;
   }
 
   resetNavigationStates() {
-    //$log("resetNavigationStates 22");
     let thisPageNode = this.getPageNode(this.getPageNumber()),
       nextPageNode = this.getPageNode(this.getPageNumber(1)),
       prevPageNode = this.getPageNode(this.getPageNumber(-1));
@@ -526,6 +390,13 @@ export default class App {
     }
   }
 
+
+
+
+  //////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////// TIMELINE ANIMATION ///////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////
+
   toggleAnimation(e) {
     //console.log('****** toggleAnimation ', e.target.checked);
     this.showAnimations = e.target.checked;
@@ -534,29 +405,6 @@ export default class App {
     if (this.textElementTimeline) this.textElementTimeline.replayAnimation();
     if (this.shapeElementTimeline) this.shapeElementTimeline.replayAnimation();
   }
-  nextClick() {
-    if (
-      this.getPageNode(this.getPageNumber()).classList.contains("left") &&
-      this.getPageNode(this.getPageNumber(1)) &&
-      !this.getPageNode(this.getPageNumber(1)).classList.contains("hidden")
-    ) {
-      this.navigateToPage(this.getPageNumber(2));
-    } else {
-      this.navigateToPage(this.getPageNumber(1));
-    }
-  }
-  previousClick() {
-    if (
-      this.getPageNode(this.getPageNumber()).classList.contains("right") &&
-      this.getPageNode(this.getPageNumber(-1)) &&
-      !this.getPageNode(this.getPageNumber(-1)).classList.contains("hidden")
-    ) {
-      this.navigateToPage(this.getPageNumber(-2));
-    } else {
-      this.navigateToPage(this.getPageNumber(-1));
-    }
-  }
-
   playTimelines() {
     if (this.textElementTimeline) this.textElementTimeline.startAmnimation();
     if (this.shapeElementTimeline) this.shapeElementTimeline.startAmnimation();
@@ -569,7 +417,6 @@ export default class App {
   enableNav() {
     this.resetNavigationStates();
   }
-
   onTimelineStarted(evt) {
     //$log(">>>>>>>>>>>>>> onTimelineStarted ", evt);
     this.disableNav();
@@ -589,7 +436,6 @@ export default class App {
     document.querySelector("body").scrollTop = 0;
     window.scrollTo(0, 1);
   }
-
   createAnimationTimelines() {
     //$log(">>>>>>>>>>>>>> createAnimationTimelines");
     const defaultDuration = "200",
@@ -747,5 +593,58 @@ export default class App {
     }
 
     return;
+  }
+
+  loadJSON() { // UNUSED
+    function getJsonFileName(loc) {
+      let [fileName, foldername, ...rest] = loc.href.split("/").reverse();
+      let pathItems = loc.href.split("/");
+      fileName = pathItems.pop();
+      let path = pathItems.join("/");
+      let retPath = path + "/animate.json";
+      return retPath;
+    }
+    function validateResponse(response) {
+      //console.log('APP: validateResponse: ', response);
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      return response;
+    }
+    function readResponseAsJSON(response) {
+      //console.log('APP: readResponseAsJSON: ', response);
+      return response.json();
+    }
+    function logResult(result) {
+      //console.log('APP: logResult: ', result);
+      return result;
+    }
+    function logError(error) {
+      //console.log('Looks like there was a problem: \n', error);
+    }
+    function setAminProps(response) {
+      //console.log('****** setAminProps response', response);
+      this.animations = response;
+    }
+    //console.log('****** loadAnimationSeq start');
+
+    return (
+      fetch(getJsonFileName(window.location), {
+        headers: { Accept: "application/json" },
+        credentials: "same-origin"
+      })
+        .then(validateResponse)
+        .then(readResponseAsJSON)
+        .then(logResult)
+        //.then(setAminProps)
+        .then(res => this.continueStartUp(res))
+        .catch(err => {
+          logError(err);
+          this.continueStartUp({});
+        })
+    );
+  }
+  continueStartUp(json = {}) {
+
   }
 }

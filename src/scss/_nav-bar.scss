@@ -116,20 +116,28 @@
   text-align: center;
   //visibility: hidden;
   //opacity: 0.65;
-  img {
-    height: 14px;
-    margin: 9px 0 0 0;
+  span.img {
+    height: 32px;
+    margin: 5px;
     opacity: 0.65;
+    display: block;
+    box-sizing: border-box;
   }
 }
 
 .nav-bar__button-circle--left {
   @extend %nav-bar__button-circle;
   left: -4px;
+  span.img {
+    background: url(./images/arrow-left-solid.svg) no-repeat;
+  }
 }
 .nav-bar__button-circle--right {
   @extend %nav-bar__button-circle;
   right: -4px;
+  span.img {
+    background: url(./images/arrow-right-solid.svg) no-repeat;
+  }
 }
 
 /*Radio Buttons NAV */
@@ -183,6 +191,23 @@
 
 .stv-radio-buttons-wrapper .r1 {
   border-radius: 20px 0 0 20px;
+}
+.stv-radio-buttons-wrapper span.img {
+  display: inline-block;
+  height: 22px;
+  width: 22px;
+}
+.stv-radio-buttons-wrapper .r1 span.img {
+  background: url(./images/icon_docs.svg) no-repeat;
+  vertical-align: text-bottom;
+}
+.stv-radio-buttons-wrapper .r2 span.img {
+  background: url(./images/icon_quiz.svg) no-repeat;
+  vertical-align: text-top;
+}
+.stv-radio-buttons-wrapper .r3 span.img {
+  background: url(./images/icon_media.svg) no-repeat;
+  vertical-align: text-top;
 }
 
 .stv-radio-buttons-wrapper .r2 {

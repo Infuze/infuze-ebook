@@ -15,8 +15,8 @@ let common = {
 
     output: {
         filename: 'infuze-ebook.js',
-        library: 'Ebook',
-        libraryTarget: 'var',
+        //library: 'Ebook',
+        //libraryTarget: 'var',
         path: path.resolve(__dirname, '../dist')
     },
     devServer: {
@@ -64,6 +64,7 @@ let common = {
                     {
                         loader: 'postcss-loader',
                         options: {
+                            outputPath: './css/',
                             options: {},
                             plugins: () => {
                                 autoprefixer({ browsers: ['last 2 versions'] });
@@ -74,9 +75,12 @@ let common = {
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
-                use: [
-                    'file-loader'
-                ]
+                loader: 'file-loader',
+                query: {
+                    outputPath: './img/',
+                    name: '[name].[ext]?[hash]'
+                }
+
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -100,7 +104,7 @@ let common = {
         }),
         new CopyWebpackPlugin([
             { from: 'src/images', to: 'images' },
-            { from: 'src/iquiz-assets', to: 'iquiz-assets' },
+            { from: 'src/iquiz_assets', to: 'iquiz_assets' },
             { from: 'src/libs', to: 'libs' },
             //{ from: 'src/sample/iquiz_assets', to: '../sample/iquiz_assets' }
         ])
@@ -135,7 +139,7 @@ if (ARGV.mode === 'production') {
 
 if (ARGV.mode === 'development') {
     module.exports = merge(common, {
-        entry: ['./src/js/main.js', './src/index.html', './src/slides.html', './src/quiz.html', './src/media.html'],
+        entry: ['./src/js/app.js', './src/index.html', './src/slides.html', './src/quiz.html', './src/media.html'],
         mode: "development",
         devtool: 'source-map',
         //devtool: 'eval-cheap-module-source-map',
