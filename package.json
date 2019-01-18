@@ -1,6 +1,6 @@
 {
   "name": "infuze-ebook",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "description": "Interactive eBook UI including navigation, quiz loading, sidebar menu",
   "main": "./dist/infuze-ebook.js",
   "scripts": {
