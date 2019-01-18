@@ -5,8 +5,9 @@ import Timeline from "./timeline";
 import { SCORM } from "pipwerks-scorm-api-wrapper";
 import '../scss/styles.scss'
 import Cheerio from 'cheerio';
-//import { Base64 } from 'js-base64';
+import Router from 'es6-router';
 
+//import { Base64 } from 'js-base64';
 DocReady(() => {
   const app = new App();
   const loadHandler = () => {
@@ -16,9 +17,35 @@ DocReady(() => {
   $on(window, "load", loadHandler.bind(app));
   $on(window, "onbeforeunload", SCORM.quit);
   $on(window, "onunload", SCORM.quit);
+
+  /* const router = new Router({ ... })
+    .add(() => {
+      // getPage('/');
+    })
+    .add(/about/, () => {
+      // getPage('about');
+    })
+    .add('contact', () => {
+      // getPage('contact');
+    });
+
+  router.remove('contact');
+  router.navigate('about'); */
+
 });
 export default class App {
   constructor() {
+    /* $log('Router', Router)
+
+    this.router = new Router({})
+      .add(/about/, () => {
+        $log('ABOUT')
+      })
+    $log('this.router', this.router) */
+
+    /* router.add(/about/, () => {
+      $log('ABOUT')
+    }) */
     this.textElementTimeline;
     this.shapeElementTimeline;
     this.animationJson = {};
@@ -60,6 +87,14 @@ export default class App {
   }
 
   loadSection() {
+
+    this.router = new Router({})
+      .add(/about/, () => {
+        $log('ABOUT')
+      })
+
+    return;
+
 
     location.hash = location.hash || "#s0";
     const query = /\#(.)(\d+)/.exec(location.hash);
@@ -175,7 +210,7 @@ export default class App {
 
     $on(window, "resize", this.debounce(e => {
       this.doResize();
-    }, 1000));
+    }, 200));
   }
 
   debounce(fn, time) {

@@ -64,7 +64,6 @@ let common = {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            outputPath: './css/',
                             options: {},
                             plugins: () => {
                                 autoprefixer({ browsers: ['last 2 versions'] });
