@@ -11,6 +11,7 @@ html {
   width: 100%;
   min-height: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 body {
@@ -30,8 +31,17 @@ body {
   display: flex;
   justify-content: normal;
   max-width: 1800px;
-  padding: 36px 0;
+  padding: 0;
+  margin: 0;
+  height: calc(100% - 94px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  position: absolute;
+  top: 36px;
+  width: 100%;
 }
+
 .container--layout-1 {
   height: auto;
   flex-grow: 1;
