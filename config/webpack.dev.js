@@ -15,6 +15,8 @@ let common = {
 
     output: {
         filename: 'infuze-ebook.js',
+        library: "Ebook",
+        libraryTarget: "umd",
         //library: 'Ebook',
         //libraryTarget: 'var',
         path: path.resolve(__dirname, '../dist')
@@ -122,8 +124,8 @@ if (ARGV.mode === 'production') {
             new CleanWebpackPlugin(['dist/**/*'], {
                 root: path.join(__dirname, '..'),
             })
-        ],
-        optimization: {
+        ]
+        /* optimization: {
             minimizer: [
                 new UglifyJsPlugin({
                     cache: true,
@@ -132,7 +134,7 @@ if (ARGV.mode === 'production') {
                 }),
                 new OptimizeCSSAssetsPlugin({})
             ]
-        },
+        }, */
     })
 }
 

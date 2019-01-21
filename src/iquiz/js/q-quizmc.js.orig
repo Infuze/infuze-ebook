@@ -1,0 +1,230 @@
+import { shuffleDivs } from "./utils";
+
+class QuizMC {
+    constructor(data) {
+        this.qData = data;
+
+        //let qData = btoa(qData); // base-64 encoding (reverse with atob)
+        console.log('qData:' + this.qData);
+    }
+
+    startUp() {
+        console.log('initQuiz');
+
+        shuffleDivs('#g1', '.quiz_clickText');
+        this.initQuizNav();
+        this.initQuizClickText();
+        // this.reState(true);
+    }
+
+    initQuizNav() {
+        console.log('initQuizNav');
+<<<<<<< HEAD:src/js/q-quizmc.js
+        //FastClick.attach(document.body);
+=======
+        // FastClick.attach(document.body);
+>>>>>>> a2243592d09c606721f128fa93066db192ac9fa3:src/js/quizmc.js
+
+        $("#iqSubmit").click(() => {
+            this.doSubmit();
+        });
+
+        $("#iqFeedbackNext").click(() => {
+            this.closePop(true);
+        });
+
+        $(".iquiz_popClose, .iquiz_popBG").click(() => {
+            this.closePop();
+        });
+    }
+
+    initQuizClickText() {
+        $(".quiz_clickText").click(e => {
+            //var el = $(e.target);
+            this.setAnswer(e.target);
+        });
+    }
+
+    showPop() {
+        console.log('showPop');
+        $('body').addClass('no-scroll');
+        // stopScroll('.player_container'); // stop scroll on main content to avoid double scroll
+        $(".iquiz_popBG").fadeIn(200, function () {
+            $('.iquiz_popContainer')
+                .css({ top: '0px' })
+                .fadeIn({ queue: false, duration: 200 })
+                .animate({ top: "80px" }, 200);
+
+            $('.iquiz_innerScroll').scrollTop(0); // set scroll to top
+
+        });
+    }
+
+    closePop(goNext = false) {
+        console.log('closePop');
+        $('body').removeClass('no-scroll');
+        // $('.iquiz_innerScroll').scrollTop(0); // set scroll to top
+        $('.iquiz_popContainer')
+            .fadeOut({ queue: false, duration: 200 })
+            .animate({ top: "0px" }, 200);
+        $('.iquiz_popBG')
+            .fadeOut({ queue: false, duration: 200 })
+            .promise()
+            .done(function () {
+                if (goNext == true) {
+                    // loadNextPage(true); action next question screen load
+                    alert('loadNext Question Page');
+                }
+            });
+
+        // allowScroll('.player_container'); // allow scroll on main content
+    }
+
+
+    setAnswer(el) {
+        console.log('setAnswer:');
+        //
+        // SET HIGHLIGHT BAR
+        //
+        //
+        // GET CLICKED ELEMENTS
+        //
+        var clickTextID = Number($(el).attr('id'));
+        var clickGroupID = $(el).closest(".quiz_clickText_container").attr('id');
+        console.log('clickGroupID:' + clickGroupID);
+        //
+        var text = $(el).text();
+        var element = $(el);
+        //        console.log('setAnswer:'+$(e.target).attr('class'));
+        //        console.log('y:'+$(e.target).position().top);
+        console.log('el:' + el);
+        console.log('$(el):' + $(el));
+        var style = window.getComputedStyle(el, null).getPropertyValue('font-size');
+        var fontSize = parseFloat(style);
+        // console.log(fontSize);
+        var newTop = $(el).position().top + parseInt($(el).css('marginTop'));
+        // var newTop = $(el).position().top;
+        var newLeft = $(el).position().left + parseInt($(el).css('marginLeft'));
+        //var topAdjuster = (12 / 100) * fontSize;
+        var newHeight = $(el).outerHeight();
+        console.log('newTop:' + newTop);
+        //
+        if (this.qData.multipleAnswers == false) { // ONLY ALLOW 1 ANSWER SO CLEAR OTHERS
+            console.log('multipleAnswers = false');
+            var s = '#' + clickGroupID + ' .quiz_highlighter';
+            var ss = '#' + clickGroupID + ' .quiz_clickText';
+            $(s).removeClass("hide"); // SHOW HIGHLIGHTER SO WE CAN ANIMATE IT
+            $(ss).removeClass("selected"); // REMOVE SELECTED ON ALL GROUP ELEMENTS
+
+            $(el).closest(".quiz_clickText_container").find('.quiz_highlighter').animate(
+                { top: newTop + 'px', height: newHeight + 'px' }, 200, function () {
+                    $(el).addClass("selected notransition");
+                    $('.quiz_highlighter').addClass("hide");
+                }
+            );
+        } else {
+            $(el).toggleClass("selected");
+        }
+
+        //
+        // ADD SCORES TO QDATA OBJECT FOR LOCAL STORAGE
+        //
+
+        clickGroupID = clickGroupID.replace('g', ''); // remove letters from ID
+        var userAnswerArr = this.qData.questionArray[(clickGroupID - 1)].userAnswer;
+
+        //        console.log(clickTextID);
+        //        console.log(clickGroupID);
+        //     qData.questionArray[(clickGroupID-1)].userAnswer = Number(clickTextID);
+
+        // USER ANSWER ARRAY STUFF
+        if (this.qData.multipleAnswers == false) { // ONLY ALLOW 1 ANSWER
+            userAnswerArr[0] = clickTextID;
+        } else { //  ALLOW MULTIPLE ANSWERS
+            if ($(el).hasClass("selected")) { // MULTIPLE ANSWERS & Selected
+                if ($.inArray(clickTextID, userAnswerArr) < 0) { // If answer doesnt exist in userAnswerArr Push ANSWER in
+                    userAnswerArr.push(clickTextID);
+                }
+            } else { // MULTIPLE ANSWERS & DE-Selected
+                if ($.inArray(clickTextID, userAnswerArr) > -1) { // If answer DOES exist in userAnswerArr REMOVE it
+                    userAnswerArr.splice($.inArray(clickTextID, userAnswerArr), 1);
+                }
+            }
+        }
+
+        console.log(this.qData.questionArray);
+
+    }
+
+    reState(showAns) {
+        console.log('reState:showAns:' + showAns);
+        for (let i = 0; i < this.qData.questionArray.length; i++) { // LOOP THROUGH GROUPS OF ANSWERS
+            var answerArr;
+            if (showAns == true) {
+                answerArr = this.qData.questionArray[i].ans;
+            } else {
+                answerArr = this.qData.questionArray[i].userAnswer;
+            }
+            if (answerArr.length > 0) { // FIRST CHECK THERE ARE SOME ANSWERS TO LOOP THROUGH IN THIS GROUP
+                console.log('userAnswerArr:' + answerArr);
+                for (let ii = 0; ii < answerArr.length; ii++) {
+                    var s = '#g' + (i + 1) + ' #' + (answerArr[ii]); // Build string to target Click Element in Group
+                    var el = $(s).get(0);
+                    $(el).toggleClass("selected"); // Set Element to selected
+                }
+            }
+        }
+
+        //var s = '#g1 #1';
+        //var el = $(s).get(0);
+        //console.log('el:'+el);
+        //setAnswer(el, false); // pass element and ANIMATE flag
+        //$(el).toggleClass("selected");
+    }
+
+    doSubmit(event) {
+
+        console.log('doSubmit');
+
+        console.log(this.qData.questionArray[0].ans);
+        //
+        // work out score
+        //
+        var myScore = 0;
+        //var myTotalScore = 0;
+        for (let i = 0; i < this.qData.questionArray.length; i++) {
+            // ADD UP SCORE
+            var userAnswerArr = this.qData.questionArray[i].userAnswer;
+            var answerArr = this.qData.questionArray[i].ans;
+            //
+            if (userAnswerArr.length == answerArr.length) { // FIRST CHECK NUMBER OF ANSWERS MATCH
+                // console.log('array lengths match:');
+                for (let ii = 0; ii < answerArr.length; ii++) {
+                    if ($.inArray(answerArr[ii], userAnswerArr) > -1) {
+                        myScore++;
+                    }
+                }
+            }
+
+        }
+        console.log('myScore:' + myScore);
+        //
+        //check score & action feedback
+        //
+        $('.iquiz_feedback.wrong').css({ display: 'none' });
+        $('.iquiz_feedback.correct').css({ display: 'none' });
+        //
+        if (myScore === this.qData.maxScore) {
+            $('.iquiz_feedback.correct').css({ display: 'block' });
+        } else {
+            $('.iquiz_feedback.wrong').css({ display: 'block' });
+        }
+        //
+        // SHOW FEEDBACK
+        //
+
+        this.showPop();
+    }
+}
+
+export default QuizMC

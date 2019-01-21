@@ -3,37 +3,42 @@ import { $on, qs, $log, $logt } from "./util";
 import DocReady from "./windowLoaded";
 import Timeline from "./timeline";
 import { SCORM } from "pipwerks-scorm-api-wrapper";
-import '../scss/styles.scss'
+//import '../scss/styles.scss'
 import Cheerio from 'cheerio';
-import Router from 'es6-router';
+import Router from './router';
+import Quiz from '../../iquiz/js/q-app'
+
 
 //import { Base64 } from 'js-base64';
-DocReady(() => {
-  const app = new App();
-  const loadHandler = () => {
-    app.setNavigationEvents();
-    app.loadSection();
-  }
-  $on(window, "load", loadHandler.bind(app));
-  $on(window, "onbeforeunload", SCORM.quit);
-  $on(window, "onunload", SCORM.quit);
+//DocReady(() => {
+//const app = new App();
+/* const loadHandler = () => {
+  app.setNavigationEvents();
+  app.loadSection();
+} */
 
-  /* const router = new Router({ ... })
-    .add(() => {
-      // getPage('/');
-    })
-    .add(/about/, () => {
-      // getPage('about');
-    })
-    .add('contact', () => {
-      // getPage('contact');
-    });
+//$on(window, "load", loadHandler.bind(app));
+//$on(window, "onbeforeunload", SCORM.quit);
+//$on(window, "onunload", SCORM.quit);
 
-  router.remove('contact');
-  router.navigate('about'); */
 
-});
-export default class App {
+
+/* const router = new Router({ ... })
+  .add(() => {
+    // getPage('/');
+  })
+  .add(/about/, () => {
+    // getPage('about');
+  })
+  .add('contact', () => {
+    // getPage('contact');
+  });
+
+router.remove('contact');
+router.navigate('about'); */
+
+//});
+export default class Ebook {
   constructor() {
     /* $log('Router', Router)
 
@@ -54,6 +59,8 @@ export default class App {
     this.allSlides = [];
     this.currentNodeSelection;
     this.display;
+    this.router;
+    this.quiz;
     this.slidesCurrentPage = 0;
     this.slideCount = 0;
     this.displayModeBtns = document.getElementsByName("displayMode");
@@ -86,29 +93,67 @@ export default class App {
     ]
   }
 
+  init() {
+    $log('init')
+    this.router = new Router({})
+      .add(/task1\/slides\/[0-9]/, () => {
+        this.loadSection();
+      })
+      .add(/task1\/quiz\/[0-9]/, () => {
+        this.loadSection();
+      })
+      .add(/task1\/media\/[0-9]/, () => {
+        this.loadSection();
+      })
+
+    this.setNavigationEvents();
+    this.router.navigate('task1/slides/0');
+
+  }
+
   loadSection() {
 
-    this.router = new Router({})
+    /* this.router = new Router({})
       .add(/about/, () => {
         $log('ABOUT')
       })
 
-    return;
+    return; */
 
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
 
-    location.hash = location.hash || "#s0";
-    const query = /\#(.)(\d+)/.exec(location.hash);
-    const prefix = query[1];
-    //this.currentPage = +query[2];
-    const thisSectionType = this.displayTypes.find(type => type.prefix === prefix);
+    let flagForReload = false;
+    if (this.task !== urlPaths[0]) {
+      this.task = urlPaths[0];
+      flagForReload = true;
+    }
+    if (this.taskType !== urlPaths[1]) {
+      this.taskType = urlPaths[1];
+      flagForReload = true;
+    }
+    this.currentPage = urlPaths[2];
+
+    const thisSectionType = this.displayTypes.find(type => type.type === this.taskType);
     this.display = thisSectionType.type;
-    const url = thisSectionType.page,
+
+    if (flagForReload) {
+      this.loadHTML();
+    } else {
+      this.setView();
+    }
+
+  }
+
+  loadHTML() {
+    const url = this.task + '-' + this.taskType + '.html',
       selector = '.js-wrapper';
-    $log('****** loadSection ', url);
+
+
+
 
     const content_div = qs(selector);
     const xmlHttp = new XMLHttpRequest();
-    let cFunction = this.setView.bind(this);
+    let cFunction = this.htmlLoaded.bind(this);
 
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -124,11 +169,71 @@ export default class App {
     xmlHttp.send(null);
   }
 
+  htmlLoaded() {
+    if (this.taskType === 'quiz') {
+      this.quiz = new Quiz();
+      this.quiz.on('initialzeNavigation', this.quizInit.bind(this));
+      this.quiz.on('beginQuiz', this.beginQuiz.bind(this));
+      this.quiz.on('navigateToPage', this.navigateToPage.bind(this));
+      this.quiz.on('navigateToNextPage', this.navigateToNextPage.bind(this));
+
+
+      this.quiz.startUp();
+    }
+    this.setView();
+  }
+
+  beginQuiz(evt) {
+    $log('****** beginQuiz ', evt);
+  }
+  quizInit(evt) {
+    $log('****** initialzeNavigation ', evt);
+  }
+
   setView() {
+
     this.setPageEvents();
     this.setStateValues();
     this.hidePages();
     this.definePages();
+
+
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
+    this.task = urlPaths[0];
+    this.taskType = urlPaths[1];
+
+    /* for (let i = 0; i < this.slideCount; i++) {
+      this.router.add(/this.task\/slides\/0/, () => {
+        this.loadSection();
+      })
+    }
+    this.router = new Router({})
+      .add(/task1\/slides\/0/, () => {
+        this.loadSection();
+      })
+      .add(/task1\/slides\/1/, () => {
+        this.loadSection();
+      })
+      .add(/task1\/slides\/2/, () => {
+        this.loadSection();
+      })
+      .add(/task1\/quiz\/0/, () => {
+        this.loadSection();
+      })
+      .add(/task1\/quiz\/1/, () => {
+        this.loadSection();
+      })
+      .add(/task1\/quiz\/2/, () => {
+        this.loadSection();
+      })
+      .add(/task1\/media/, () => {
+        $log('task1/media')
+      }) */
+
+
+
+
+
     this.displayPage();
     this.doResize();
     this.resetNavigationStates();
@@ -137,38 +242,25 @@ export default class App {
     ///ANIME/// this.createAnimationTimelines();
     ////ANIME/// if (this.showAnimations) this.playTimelines();
   }
-  hashChangedHandler() {
+  setPageEvents() {
+    Array.from(document.querySelectorAll(".js-start-quiz")).forEach(el => {
+      el.onclick = e => this.startQuiz(e);
+    });
+  }
+  setStateValues() {
 
-    const query = /\#(.)(\d+)/.exec(location.hash);
-    const prefix = query[1];
-    this.currentPage = +query[2];
-
-    $log('****** hashChangedHandler ', prefix + ":" + query);
-
-    if (this.displayTypes.find(type => type.prefix === prefix).type !== this.display) {
-      this.loadSection();
-      return;
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
+    this.task = urlPaths[0];
+    if (this.taskType !== urlPaths[1]) {
+      this.taskType = urlPaths[1];
     }
 
-    this.setStateValues();
-    this.hidePages();
-    this.displayPage();
-    this.doResize();
-    this.resetNavigationStates();
-    this.setPageNumber(this.getPageNumber());
-    document.querySelector("body").scrollTop = 0;
+    this.currentPage = urlPaths[2];
 
-    ///ANIME/// if (this.showAnimations) this.createAnimationTimelines();
-    ///ANIME/// if (this.showAnimations) this.playTimelines();
+    const thisSectionType = this.displayTypes.find(type => type.type === this.taskType);
+    this.display = thisSectionType.type;
+    qs(thisSectionType.button).checked = true;
   }
-
-  definePages() {
-    //$log('****** this.display ', this.display);
-    const container = this.displayTypes.find(type => type.type === this.display).container;
-    [...this.allSlides] = document.querySelectorAll(container);
-    this.slideCount = this.allSlides.length;
-  }
-
   hidePages() {
     // Set wrapper and pages to hidden
     qs(".js-wrapper").classList.add = "hidden";
@@ -176,53 +268,12 @@ export default class App {
       el.classList.add("hidden");
     });
   }
-
-  setStateValues() {
-    location.hash = location.hash || "#s0";
-    const query = /\#(.)(\d+)/.exec(location.hash);
-    const prefix = query[1];
-    this.currentPage = +query[2];
-    const thisSectionType = this.displayTypes.find(type => type.prefix === prefix);
-    this.display = thisSectionType.type;
-    qs(thisSectionType.button).checked = true;
+  definePages() {
+    //$log('****** this.display ', this.display);
+    const container = this.displayTypes.find(type => type.type === this.display).container;
+    [...this.allSlides] = document.querySelectorAll(container);
+    this.slideCount = this.allSlides.length;
   }
-
-  setPageEvents() {
-    Array.from(document.querySelectorAll(".js-start-quiz")).forEach(el => {
-      el.onclick = e => this.startQuiz(e);
-    });
-  }
-  setNavigationEvents() {
-    location.hash = location.hash || "#s0";
-    qs(".js-back").onclick = e => this.previousClick();
-    qs(".js-next").onclick = e => this.nextClick();
-    ///ANIME/// qs(".js-animation input").checked = this.showAnimations;
-    ///ANIME/// qs(".js-animation input").onclick = e => this.toggleAnimation(e);
-
-    Array.from(this.displayModeBtns)
-      .forEach(v => v.addEventListener("change", e => {
-        this.displayModeChanged(e.currentTarget.value);
-      }));
-    $on(window, "hashchange", this.hashChangedHandler.bind(this));
-    //qs("body").addEventListener("touchmove", this.freezeVp, false);
-    qs(".l-nav-bar").addEventListener("touchmove", this.preventDefault, false);
-    qs(".l-header").addEventListener("touchmove", this.preventDefault, false);
-
-    $on(window, "resize", this.debounce(e => {
-      this.doResize();
-    }, 200));
-  }
-
-  debounce(fn, time) {
-    //$log('>>>>>>>>>> DEBOUNCE')
-    let timeout;
-    return function () {
-      const functionCall = () => fn.apply(this, arguments);
-      clearTimeout(timeout);
-      timeout = setTimeout(functionCall, time);
-    };
-  };
-
   displayPage() {
     const currentPageNum = this.getPageNumber();
     const currentPageNode = this.getPageNode(currentPageNum);
@@ -250,21 +301,6 @@ export default class App {
     // show wrapper
     qs(".js-wrapper").classList.remove("hidden");
   }
-
-  isNextPageVisible() {
-    const currentPageNum = this.getPageNumber();
-    let nextPageNode = this.getPageNode(currentPageNum + 1);
-    if (
-      nextPageNode &&
-      nextPageNode.classList.contains("right") &&
-      !nextPageNode.classList.contains("hidden")
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   doResize() {
     $log('****** doResize');
     const thisPageNode = this.getPageNode(this.getPageNumber()),
@@ -286,6 +322,58 @@ export default class App {
     //this.resetNavigationStates();
   }
 
+
+
+
+  setNavigationEvents() {
+    location.hash = location.hash || "#s0";
+    qs(".js-back").onclick = e => this.previousClick();
+    qs(".js-next").onclick = e => this.nextClick();
+    ///ANIME/// qs(".js-animation input").checked = this.showAnimations;
+    ///ANIME/// qs(".js-animation input").onclick = e => this.toggleAnimation(e);
+
+    Array.from(this.displayModeBtns)
+      .forEach(v => v.addEventListener("change", e => {
+        this.displayModeChanged(e.currentTarget.value);
+      }));
+    //$on(window, "hashchange", this.hashChangedHandler.bind(this));
+    //qs("body").addEventListener("touchmove", this.freezeVp, false);
+    qs(".l-nav-bar").addEventListener("touchmove", this.preventDefault, false);
+    qs(".l-header").addEventListener("touchmove", this.preventDefault, false);
+
+    $on(window, "resize", this.debounce(e => {
+      this.doResize();
+    }, 200));
+  }
+
+  debounce(fn, time) {
+    //$log('>>>>>>>>>> DEBOUNCE')
+    let timeout;
+    return function () {
+      const functionCall = () => fn.apply(this, arguments);
+      clearTimeout(timeout);
+      timeout = setTimeout(functionCall, time);
+    };
+  };
+
+
+
+  isNextPageVisible() {
+    const currentPageNum = this.getPageNumber();
+    let nextPageNode = this.getPageNode(currentPageNum + 1);
+    if (
+      nextPageNode &&
+      nextPageNode.classList.contains("right") &&
+      !nextPageNode.classList.contains("hidden")
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+
   addPageNumber(el, num) {
     el.insertAdjacentHTML("beforeend", `<div class="page-number">${num}</div>`);
   }
@@ -293,6 +381,8 @@ export default class App {
 
 
   nextClick() {
+    const thisPageNode = this.getPageNode(this.getPageNumber());
+    $log('thisPageNode', thisPageNode)
     if (
       this.getPageNode(this.getPageNumber()).classList.contains("left") &&
       this.getPageNode(this.getPageNumber(1)) &&
@@ -321,17 +411,55 @@ export default class App {
     });
     this.setPageNumber(0);
     const thisSectionType = this.displayTypes.find(type => type.type === checkedEl.value);
-    location.hash = '#' + thisSectionType.prefix + '0';
+
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
+    this.task = urlPaths[0];
+
+    const newURL = this.task + '/' + thisSectionType.type + '/0';
+    $log('newURL ', newURL)
+    this.router.navigate(newURL);
   }
+
   startQuiz(e) {
     //console.log("****** startQuiz ", e.target);
-    location.hash = '#q0';
-    this.setPageNumber(0);
-    document.querySelector('body').scrollTop = 0;
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
+    this.task = urlPaths[0];
+
+    const newURL = this.task + '/quiz/0';
+    $log('newURL ', newURL)
+    this.router.navigate(newURL);
+
+
+    //location.hash = '#q0';
+    //this.setPageNumber(0);
+    //document.querySelector('body').scrollTop = 0;
+  }
+  navigateToNextPage(p = 0) {
+    $log('navigateToNextPage ', p)
+
+    p = this.getPageNumber(1);
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
+    this.task = urlPaths[0];
+    this.taskType = urlPaths[1];
+
+    const newURL = this.task + '/' + this.taskType + '/' + p;
+    $log('newURL ', newURL)
+    this.router.navigate(newURL);
   }
   navigateToPage(p = 0) {
-    const thisSectionType = this.displayTypes.find(type => type.type === this.display);
-    location.hash = '#' + thisSectionType.prefix + p;
+    $log('navigateToPage ', p)
+
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
+    this.task = urlPaths[0];
+    this.taskType = urlPaths[1];
+
+    const newURL = this.task + '/' + this.taskType + '/' + p;
+    $log('newURL ', newURL)
+    this.router.navigate(newURL);
+
+
+    //const thisSectionType = this.displayTypes.find(type => type.type === this.display);
+    //location.hash = '#' + thisSectionType.prefix + p;
     this.setPageNumber(p);
     document.querySelector('body').scrollTop = 0;
   }
@@ -341,9 +469,14 @@ export default class App {
   }
 
   getPageNumber(offset = 0) {
-    const pagePrefix = this.displayTypes.find(type => type.type === this.display).prefix;
+
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
+    return +urlPaths[2] + offset;
+
+
+    /* const pagePrefix = this.displayTypes.find(type => type.type === this.display).prefix;
     let currentHash = location.hash || "#s0";
-    return +currentHash.replace("#" + pagePrefix, "") + offset;
+    return +currentHash.replace("#" + pagePrefix, "") + offset; */
   }
 
   getPageNode(page) {
@@ -425,6 +558,47 @@ export default class App {
     }
   }
 
+
+
+  hashChangedHandler() { // UNUSED
+
+    const query = /\#(.)(\d+)/.exec(location.hash);
+    const prefix = query[1];
+    this.currentPage = +query[2];
+
+    $log('****** hashChangedHandler ', prefix + ":" + query);
+
+    if (this.displayTypes.find(type => type.prefix === prefix).type !== this.display) {
+      this.loadSection();
+      return;
+    }
+
+    //this.setStateValues();
+    this.hidePages();
+    this.displayPage();
+    this.doResize();
+    this.resetNavigationStates();
+    this.setPageNumber(this.getPageNumber());
+    document.querySelector("body").scrollTop = 0;
+
+
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
+    this.task = urlPaths[0];
+    if (this.taskType !== urlPaths[1]) {
+      this.taskType = urlPaths[1];
+    }
+
+    this.currentPage = urlPaths[2];
+
+    const thisSectionType = this.displayTypes.find(type => type.type === this.taskType);
+    this.display = thisSectionType.type;
+    qs(thisSectionType.button).checked = true;
+
+
+
+    ///ANIME/// if (this.showAnimations) this.createAnimationTimelines();
+    ///ANIME/// if (this.showAnimations) this.playTimelines();
+  }
 
 
 
