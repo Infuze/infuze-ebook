@@ -8,7 +8,6 @@ import Cheerio from 'cheerio';
 import Router from './router';
 import Quiz from '../../iquiz/js/q-app'
 //import { Base64 } from 'js-base64';
-
 export default class Ebook {
   constructor() {
     this.textElementTimeline;
@@ -67,7 +66,6 @@ export default class Ebook {
       })
 
     this.setNavigationEvents();
-    $on(window, "load", loadHandler.bind(app));
     $on(window, "onbeforeunload", SCORM.quit);
     $on(window, "onunload", SCORM.quit);
     this.router.navigate('task1/slides/0');
