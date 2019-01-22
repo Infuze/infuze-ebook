@@ -3,11 +3,11 @@
   position: relative;
   color: white;
   text-align: center;
-  background: #ffa300;
+  background: #656565;
   border-radius: 50px;
   height: 30px;
   width: auto;
-  border-color: #ffa300;
+  border-color: #656565;
   cursor: pointer;
   transition: 0.2s;
   border-style: none;
@@ -15,7 +15,8 @@
 
 .l-nav-bar {
   position: fixed;
-  background-color: #f1f1f1;
+  //background-color: #f1f1f1;
+  background-image: linear-gradient(to bottom, #272528, #333840);
   width: 100%;
   z-index: 1;
   bottom: 0;
@@ -71,14 +72,10 @@
 }
 
 .no-touchevents .nav-bar__button:not(:disabled):hover {
-  background: #fe5000;
-  border-color: #fe5000;
+  background: #ffa300;;
+  border-color: #ffa300;;
 }
-.nav-bar__button:disabled {
-  background: lightgray;
-  border-color: lightgray;
-  cursor: default;
-}
+
 
 %nav-bar__button-text {
   color: white;
@@ -139,6 +136,20 @@
   }
 }
 
+.nav-bar__button:disabled {
+  background: #464646;
+  border-color: #464646;
+  cursor: default;
+}
+
+.nav-bar__button:disabled > %nav-bar__button-text {
+   color: rgba(255,255,255,.2);
+ }
+
+.nav-bar__button:disabled > %nav-bar__button-circle {
+  background: #5f5f5f;
+}
+
 /*Radio Buttons NAV */
 
 .stv-radio-buttons-wrapper {
@@ -174,7 +185,8 @@
   height: 34px;
   line-height: 34px;
   text-align: center;
-  background-color: #ffa300;
+  //background-color: #ffa300;
+  background-color: #656565;
   user-select: none;
   cursor: pointer;
   @include for-size(tablet-portrait-up) {
@@ -244,12 +256,14 @@
 //}
 
 .stv-radio-buttons-wrapper input[type="radio"]:checked + span {
-  background-color: #fe5000;
+  //background-color: #fe5000;
+  background-color: #ffa300;
   transition: 0s;
 }
 
 .stv-radio-buttons-wrapper input[type="radio"]:not(:checked):hover + span {
-  background-color: #fe5000;
+  //background-color: #fe5000;
+  background-color: #ffa300;
   transition: 0.3s;
 }
 
@@ -343,7 +357,8 @@ input:checked + .kSlider {
 }
 
 .nav-bar__progress {
-  background-color: #b8b8b8;
+  //background-color: #b8b8b8;
+  background-color: red;
   height: 12px;
   display: flex;
   justify-content: center;
