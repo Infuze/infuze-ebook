@@ -1,0 +1,25 @@
+.iquiz .nav-bar {
+  position: fixed;
+  background-color: #e2e2e2;
+  width: calc(100% - 2rem);
+  z-index: 1;
+  bottom: 0;
+  height: 3rem;
+  //visibility: hidden;
+
+  padding: 0 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.iquiz .nav-bar__container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 0.5rem;
+  width: 100%;
+  justify-content: space-between;
+
+  //height: 2em;
+}

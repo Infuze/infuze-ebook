@@ -1,0 +1,42 @@
+<<<<<<< HEAD
+@import "fonts";
+@import "base";
+@import "mixins";
+@import "iquiz_common";
+@import "iquiz_click_text";
+@import "./fonts/fa/famin.css";
+@import "nav";
+
+.iquiz .l-header {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  height: 1rem;
+  left: 0;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  background-color: #f1f1f1;
+  z-index: 1;
+}
+.iquiz .l-header__banner {
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: 200;
+  span {
+    font-weight: 600;
+  }
+}
+.iquiz .wrapper {
+  display: flex;
+  justify-content: normal;
+  margin: 36px auto 50px auto;
+  //padding-left: 1em;
+  //padding-right: 1em;
+  max-width: 900px;
+}
+=======
+@import 'iquiz_common';
+@import 'iquiz_click_text';
+@import './fonts/fa/famin.css';
+>>>>>>> a2243592d09c606721f128fa93066db192ac9fa3

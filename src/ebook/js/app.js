@@ -20,24 +20,6 @@ import Quiz from '../../iquiz/js/q-app'
 //$on(window, "load", loadHandler.bind(app));
 //$on(window, "onbeforeunload", SCORM.quit);
 //$on(window, "onunload", SCORM.quit);
-
-
-
-/* const router = new Router({ ... })
-  .add(() => {
-    // getPage('/');
-  })
-  .add(/about/, () => {
-    // getPage('about');
-  })
-  .add('contact', () => {
-    // getPage('contact');
-  });
-
-router.remove('contact');
-router.navigate('about'); */
-
-//});
 export default class Ebook {
   constructor() {
     /* $log('Router', Router)
