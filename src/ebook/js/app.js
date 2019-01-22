@@ -7,50 +7,10 @@ import { SCORM } from "pipwerks-scorm-api-wrapper";
 import Cheerio from 'cheerio';
 import Router from './router';
 import Quiz from '../../iquiz/js/q-app'
-
-
 //import { Base64 } from 'js-base64';
-//DocReady(() => {
-//const app = new App();
-/* const loadHandler = () => {
-  app.setNavigationEvents();
-  app.loadSection();
-} */
 
-//$on(window, "load", loadHandler.bind(app));
-//$on(window, "onbeforeunload", SCORM.quit);
-//$on(window, "onunload", SCORM.quit);
-
-
-
-/* const router = new Router({ ... })
-  .add(() => {
-    // getPage('/');
-  })
-  .add(/about/, () => {
-    // getPage('about');
-  })
-  .add('contact', () => {
-    // getPage('contact');
-  });
-
-router.remove('contact');
-router.navigate('about'); */
-
-//});
 export default class Ebook {
   constructor() {
-    /* $log('Router', Router)
-
-    this.router = new Router({})
-      .add(/about/, () => {
-        $log('ABOUT')
-      })
-    $log('this.router', this.router) */
-
-    /* router.add(/about/, () => {
-      $log('ABOUT')
-    }) */
     this.textElementTimeline;
     this.shapeElementTimeline;
     this.animationJson = {};
@@ -107,6 +67,9 @@ export default class Ebook {
       })
 
     this.setNavigationEvents();
+    $on(window, "load", loadHandler.bind(app));
+    $on(window, "onbeforeunload", SCORM.quit);
+    $on(window, "onunload", SCORM.quit);
     this.router.navigate('task1/slides/0');
   }
 
