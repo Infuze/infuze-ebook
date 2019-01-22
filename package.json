@@ -4,7 +4,8 @@
   "description": "Interactive eBook UI including navigation, quiz loading, sidebar menu",
   "main": "./build/js/app.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --config=config/webpack.dev.js",
+    "webpack": "webpack-dev-server --mode development --config=config/webpack.dev.js",
+    "start": "gulp",
     "build": "webpack --mode production --config=config/webpack.dev.js"
   },
   "files": [
@@ -50,6 +51,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "cheerio": "^1.0.0-rc.2",
     "es6-router": "^3.1.6",
     "pipwerks-scorm-api-wrapper": "^0.1.2"
