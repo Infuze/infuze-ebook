@@ -1,0 +1,10 @@
+{
+  "course": "business-admin-l3",
+  "packs": [
+    {
+      "topic": "t1",
+      "unit": "u1",
+      "title": "Professionalism"
+    }
+  ]
+}
