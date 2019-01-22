@@ -14,10 +14,10 @@ import rename from 'gulp-rename';
 /* Development
 /* ----------------- */
 
-gulp.task('development', ['scripts', 'styles'], () => {
+gulp.task('development', ['scripts', 'styles', 'html', 'fonts', 'images'], () => {
     browserSync({
         'server': './',
-        startPath: "build/index.html#/task1/slides",
+        startPath: "build/index.html#/task1/slides/0",
         'snippetOptions': {
             'rule': {
                 'match': /<\/body>/i,
@@ -27,10 +27,12 @@ gulp.task('development', ['scripts', 'styles'], () => {
     });
 
     gulp.watch('./src/ebook/scss/**/*.scss', ['styles', browserSync.reload]);
+    gulp.watch('./src/iquiz/scss/**/*.scss', ['styles', browserSync.reload]);
     gulp.watch('./src/ebook/js/**/*.js', ['scripts', browserSync.reload]);
     gulp.watch('./src/iquiz/js/**/*.js', ['scripts', browserSync.reload]);
     gulp.watch('./src/example/js/**/*.js', ['scripts', browserSync.reload]);
-    gulp.watch('./build/*.html', browserSync.reload);
+    gulp.watch('./src/example/css/**/*.scss', ['styles', browserSync.reload]);
+    gulp.watch('./src/example/*.html', ['html', browserSync.reload]);
 });
 
 /* ----------------- */
@@ -79,13 +81,54 @@ gulp.task('styles', () => {
         .pipe(browserSync.stream());
 });
 
+/* ----------------- */
+/* html
+/* ----------------- */
+gulp.task("html", () => {
+    return gulp
+        .src("src/example/*.html")
+        //.pipe(newer("build"))
+        .pipe(gulp.dest("build"))
+        .pipe(browserSync.stream());
+});
+/* ----------------- */
+/* fonts
+/* ----------------- */
+gulp.task("fonts", () => {
+    return gulp
+        .src("src/iquiz/scss/fonts/**/*.*")
+        //.pipe(newer("build"))
+        .pipe(gulp.dest("build/css/fonts"))
+        .pipe(browserSync.stream());
+});
 
+/* ----------------- */
+/* Images
+/* ----------------- */
+gulp.task("images", () => {
+    var imgSrc = "./src/example/images/**/*",
+        imgDst = "./build/images/";
+
+    return (
+        gulp
+            .src(imgSrc)
+            //.pipe(newer(imgDst))
+            /* .pipe(
+                plumber({
+                    errorHandler: onError
+                })
+            ) */
+            //.pipe(changed(imgDst))
+            //.pipe(imagemin())
+            .pipe(gulp.dest(imgDst))
+        //.pipe(notify({ message: "Images task complete" }))
+    );
+});
 /* ----------------- */
 /* HTML
 /* ----------------- */
-
-gulp.task('html', ['cssmin'], () => {
-    return gulp.src('index.html')
+gulp.task('htmlx', ['cssmin'], () => {
+    return gulp.src('./src/example/*.html')
         .pipe(critical.stream({
             'base': 'build/',
             'inline': true,

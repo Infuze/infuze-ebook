@@ -1,0 +1,112 @@
+.iquiz-ft-ques-container{
+  background-color:rgba(0, 0, 0, .08);
+  padding: 10px 10px 0 10px;
+}
+
+.iquiz-ft-ques-container.in-table{
+  background-color:white;
+  padding: 0 0 10px 0;
+}
+
+.iquiz-ft-table-base {
+    border-collapse: collapse;
+    width: 100%;
+
+    td, th {
+      text-align: left;
+      padding: 8px;
+    }
+
+    table, th, td {
+      border: 1px solid rgba(0, 0, 0, .4);
+    }
+
+    th {
+      background-color: red;
+      border-bottom: transparent;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #f1f1f1;
+    }
+
+}
+
+
+
+
+.iquiz-ft-freetext{
+
+  /*background-color:rgba(0, 0, 0, .03);*/
+  background-color: white;
+  width:100%;
+  border:1px solid rgba(0, 0, 0, .3);
+  /*-webkit-box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.3);*/
+  /*-moz-box-shadow: inset 0 20px 20px -20px rgba(0,0,0,0.3);*/
+  box-shadow: inset 0px 3px 6px -2px rgba(0,0,0,0.3);
+  margin: 0 0 5px 0;
+  /*padding-left: 10px;*/
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-weight: 400;
+  font-size: 18px;
+  padding: 5px 10px;
+  resize: none;
+  overflow: hidden;
+  vertical-align: top;
+  min-height: 45px;
+  //height: 45px;
+  /*max-height: 100px;*/
+}
+
+.iquiz-ft-freetext.in-table{
+  margin: 0 0 0 0;
+}
+
+.iquiz-ft-freetext.iquiz-ft-answer.in-table{
+  margin: 8px 0 0 0;
+}
+
+.iquiz-ft-freetext.iquiz-ft-answer {
+  background-color: #CCD846;
+  border: none;
+  box-shadow: none;
+
+}
+
+.iquiz-ft-ques-container textarea:focus {
+  background-color: #e4fbb0;
+  outline: none;
+}
+
+.iquiz-ft-ques-container button:focus, .iquiz-btn-add-container button:focus {
+  outline: none;
+}
+
+.iquiz-ft-ans-container{
+  display: none;
+  /*background-color:rgba(0, 0, 0, .06);*/
+  background-color: #e4fbb0;
+  padding: 10px;
+  margin-bottom: 10px;
+  /*border: solid 1px blue;*/
+}
+
+.iquiz-ft-ans-container.in-table{
+  background-color:transparent;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.iquiz-ft-submitBtn-container .iquiz_submitBtn{
+  width: 150px;
+}
+
+.iquiz-ft-submitBtn-container .iquiz_submitBtn:first-child{
+  margin-right: 10px;
+}

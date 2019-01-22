@@ -1,0 +1,23 @@
+@font-face {
+  font-family: 'Avenir';
+  src: url('./fonts/avenir/AvenirNext-Regular.woff') format('woff'), /* Pretty Modern Browsers */
+  url('./fonts/avenir/AvenirNext-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('./fonts/avenir/AvenirNext-DemiBold.woff') format('woff'), /* Pretty Modern Browsers */
+  url('./fonts/avenir/AvenirNext-Bold.ttf') format('truetype'); /* Safari, Android, iOS */
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('./fonts/avenir/AvenirNext-DemiBold.woff') format('woff'), /* Pretty Modern Browsers */
+  url('./fonts/avenir/AvenirNext-Bold.ttf') format('truetype'); /* Safari, Android, iOS */
+  font-weight: 900;
+  font-style: normal;
+}

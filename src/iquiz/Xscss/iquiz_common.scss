@@ -243,10 +243,10 @@
     /*background-color: blue;*/
     /*border:1px solid red;*/
     margin: 0 auto;
-    overflow-y: auto;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   .iquiz_popClose {
     float: right;
     margin-right: -26px;
