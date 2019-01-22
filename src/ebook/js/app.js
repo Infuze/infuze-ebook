@@ -95,31 +95,24 @@ export default class Ebook {
 
   init() {
     $log('init')
-    this.router = new Router({})
-      .add(/task1\/slides\/[0-9]/, () => {
+    this.router = new Router({ errorPage: 'task1/slides/0' })
+      .add(/task1\/slides\/0/, () => {
         this.loadSection();
       })
-      .add(/task1\/quiz\/[0-9]/, () => {
+      .add(/task1\/quiz\/0/, () => {
         this.loadSection();
       })
-      .add(/task1\/media\/[0-9]/, () => {
+      .add(/task1\/media\/0/, () => {
         this.loadSection();
       })
 
     this.setNavigationEvents();
     this.router.navigate('task1/slides/0');
-
   }
 
   loadSection() {
-
-    /* this.router = new Router({})
-      .add(/about/, () => {
-        $log('ABOUT')
-      })
-
-    return; */
-
+    $log('loadSection')
+    $log('this.router', this.router)
     const urlPaths = Router.parseRoute(this.router.currentRoute);
 
     let flagForReload = false;
@@ -141,15 +134,12 @@ export default class Ebook {
     } else {
       this.setView();
     }
-
   }
 
   loadHTML() {
+    $log('****** loadHTML ');
     const url = this.task + '-' + this.taskType + '.html',
       selector = '.js-wrapper';
-
-
-
 
     const content_div = qs(selector);
     const xmlHttp = new XMLHttpRequest();
@@ -170,17 +160,36 @@ export default class Ebook {
   }
 
   htmlLoaded() {
+    $log('****** htmlLoaded ');
     if (this.taskType === 'quiz') {
       this.quiz = new Quiz();
       this.quiz.on('initialzeNavigation', this.quizInit.bind(this));
       this.quiz.on('beginQuiz', this.beginQuiz.bind(this));
       this.quiz.on('navigateToPage', this.navigateToPage.bind(this));
       this.quiz.on('navigateToNextPage', this.navigateToNextPage.bind(this));
-
-
       this.quiz.startUp();
     }
+    this.setPageEvents();
+    this.definePages();
+    this.addRoutes();
     this.setView();
+  }
+
+  addRoutes() {
+    $log('****** addRoutes ');
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
+    this.task = urlPaths[0];
+    this.taskType = urlPaths[1];
+
+    for (let i = 0; i < this.slideCount; i++) {
+      let route = this.task + '/' + this.taskType + '/' + i;
+      $log('route ', route)
+      this.router
+        .remove(route)
+        .add(route, () => {
+          this.loadSection();
+        })
+    }
   }
 
   beginQuiz(evt) {
@@ -191,49 +200,8 @@ export default class Ebook {
   }
 
   setView() {
-
-    this.setPageEvents();
     this.setStateValues();
     this.hidePages();
-    this.definePages();
-
-
-    const urlPaths = Router.parseRoute(this.router.currentRoute);
-    this.task = urlPaths[0];
-    this.taskType = urlPaths[1];
-
-    /* for (let i = 0; i < this.slideCount; i++) {
-      this.router.add(/this.task\/slides\/0/, () => {
-        this.loadSection();
-      })
-    }
-    this.router = new Router({})
-      .add(/task1\/slides\/0/, () => {
-        this.loadSection();
-      })
-      .add(/task1\/slides\/1/, () => {
-        this.loadSection();
-      })
-      .add(/task1\/slides\/2/, () => {
-        this.loadSection();
-      })
-      .add(/task1\/quiz\/0/, () => {
-        this.loadSection();
-      })
-      .add(/task1\/quiz\/1/, () => {
-        this.loadSection();
-      })
-      .add(/task1\/quiz\/2/, () => {
-        this.loadSection();
-      })
-      .add(/task1\/media/, () => {
-        $log('task1/media')
-      }) */
-
-
-
-
-
     this.displayPage();
     this.doResize();
     this.resetNavigationStates();
@@ -248,7 +216,6 @@ export default class Ebook {
     });
   }
   setStateValues() {
-
     const urlPaths = Router.parseRoute(this.router.currentRoute);
     this.task = urlPaths[0];
     if (this.taskType !== urlPaths[1]) {
@@ -269,7 +236,7 @@ export default class Ebook {
     });
   }
   definePages() {
-    //$log('****** this.display ', this.display);
+    $log('****** definePages ', this.display);
     const container = this.displayTypes.find(type => type.type === this.display).container;
     [...this.allSlides] = document.querySelectorAll(container);
     this.slideCount = this.allSlides.length;
@@ -480,7 +447,8 @@ export default class Ebook {
   }
 
   getPageNode(page) {
-    //console.log('getPageNode ', page);
+    console.log('getPageNode ', page);
+    console.log('this.display ', this.display);
     const pageNamePrefix = this.displayTypes.find(type => type.type === this.display).selector;
     let node = this.allSlides.find(
       n => n.id === pageNamePrefix + page

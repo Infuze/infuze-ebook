@@ -189,7 +189,7 @@ export default class Router {
             log(`Fetching: /${hash}, not a valid route.`);
         }
 
-        this.navigate('error');
+        this.navigate(this.options.errorPage);
 
         return this;
     }
