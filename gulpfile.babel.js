@@ -140,34 +140,38 @@ gulp.task("html-min", () => {
 /* Fonts
 /* ----------------- */
 gulp.task("fonts", () => {
-    gulp
-        .src(["src/example/css/fonts/**/*"])
-        .pipe(
-            plumber({
-                errorHandler: onError
-            })
-        )
+    let dest = "build/css/fonts";
+    let path1 = gulp.src("src/example/css/fonts/**/*")
         .pipe(changed("build/css/fonts"))
-        .pipe(gulp.dest("build/css/fonts"));
+        .pipe(gulp.dest(dest));
+    let path2 = gulp.src("src/ebook/scss/fonts/**/*")
+        .pipe(changed("build/css/fonts"))
+        .pipe(gulp.dest(dest));
+    let path3 = gulp.src("src/iquiz/scss/fonts/**/*")
+        .pipe(changed("build/css/fonts"))
+        .pipe(gulp.dest(dest));
+    return merge(path1, path2, path3);
 });
 gulp.task("fonts-min", () => {
-    gulp
-        .src(["src/example/css/fonts/**/*"])
-        .pipe(
-            plumber({
-                errorHandler: onError
-            })
-        )
+    let dest = "deploy/css/fonts";
+    let path1 = gulp.src("src/example/css/fonts/**/*")
         .pipe(changed("deploy/css/fonts"))
-        .pipe(gulp.dest("deploy/css/fonts"));
+        .pipe(gulp.dest(dest));
+    let path2 = gulp.src("src/ebook/scss/fonts/**/*")
+        .pipe(changed("deploy/css/fonts"))
+        .pipe(gulp.dest(dest));
+    let path3 = gulp.src("src/iquiz/scss/fonts/**/*")
+        .pipe(changed("deploy/css/fonts"))
+        .pipe(gulp.dest(dest));
+    return merge(path1, path2, path3);
 });
 
 /* ----------------- * /
 /* CSS images
 /* ----------------- */
-gulp.task("css-images", () => {
+gulp.task("ebook-css-images", () => {
     gulp
-        .src(["src/example/css/images/**/*"])
+        .src(["src/ebook/scss/images/**/*"])
         .pipe(
             plumber({
                 errorHandler: onError
@@ -175,9 +179,9 @@ gulp.task("css-images", () => {
         )
         .pipe(gulp.dest("build/css/images"));
 });
-gulp.task("css-images-min", () => {
+gulp.task("ebook-css-images-min", () => {
     gulp
-        .src(["src/example/css/images/**/*"])
+        .src(["src/ebook/scss/images/**/*"])
         .pipe(
             plumber({
                 errorHandler: onError
@@ -424,7 +428,7 @@ gulp.task('clean', function () {
 /* ----------------- */
 /* Taks
 /* ----------------- */
-gulp.task('development', ['scripts', 'sass', 'fonts', 'css-images', 'images', 'html', 'folders', 'iquiz'], () => {
+gulp.task('development', ['scripts', 'sass', 'fonts', 'ebook-css-images', 'images', 'html', 'folders', 'iquiz'], () => {
     browserSync({
         'server': './',
         startPath: "build/index.html#/task1/slides/0",
@@ -445,7 +449,7 @@ gulp.task('development', ['scripts', 'sass', 'fonts', 'css-images', 'images', 'h
 });
 
 gulp.task('default', ['development']);
-gulp.task('deploy', ['scripts-min', 'sass-min', 'fonts-min', 'css-images-min', 'images-min', 'html-min', 'folders-min', 'iquiz-min']);
+gulp.task('deploy', ['scripts-min', 'sass-min', 'fonts-min', 'ebook-css-images-min', 'images-min', 'html-min', 'folders-min', 'iquiz-min']);
 //gulp.task("pack", ["clean", "build-pack"]);
 
 gulp.task('pack', function (callback) {
