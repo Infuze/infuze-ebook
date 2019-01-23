@@ -27,8 +27,8 @@
   </organizations>
 
   <resources>
-    <resource identifier="index_resource" type="webcontent" adlcp:scormType="sco"  href="content/popup.html">
-      <file href="content/popup.html"/>
+    <resource identifier="index_resource" type="webcontent" adlcp:scormType="sco"  href="contents/popup.html">
+      <file href="contents/popup.html"/>
     </resource>
   </resources>
 </manifest>
