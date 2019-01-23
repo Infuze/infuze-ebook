@@ -6687,7 +6687,7 @@ module.exports={
   "_args": [
     [
       "cheerio@1.0.0-rc.2",
-      "/Users/martinwright/_Projects/infuze-ebook"
+      "/Volumes/HD2/_Projects/gitRepos/_infuze/infuze-ebook"
     ]
   ],
   "_from": "cheerio@1.0.0-rc.2",
@@ -6717,7 +6717,7 @@ module.exports={
   ],
   "_resolved": "https://registry.npmjs.org/cheerio/-/cheerio-1.0.0-rc.2.tgz",
   "_spec": "1.0.0-rc.2",
-  "_where": "/Users/martinwright/_Projects/infuze-ebook",
+  "_where": "/Volumes/HD2/_Projects/gitRepos/_infuze/infuze-ebook",
   "author": {
     "name": "Matt Mueller",
     "email": "mattmuelle@gmail.com",
