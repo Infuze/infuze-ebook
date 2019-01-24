@@ -1,10 +1,13 @@
 {
-  "course": "culinary-u4",
+  "course": "Culinary",
   "packs": [
     {
-      "topic": "t1",
-      "unit": "u1",
-      "title": "u4-t1-Key_nutrients_and_dietary_requirements"
+      "folder": "1-Food-Trends-And-Influences",
+      "title": "1. Food Trends &amp; Influences"
+    },
+    {
+      "folder": "2-Knives-and-Equipment",
+      "title": "2. Knives & Equipment"
     }
   ]
 }
