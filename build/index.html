@@ -56,7 +56,7 @@
                             class="img"></span></span>
                     <span class="nav-bar__button-text--right">PREVIOUS</span></button> <button class="nav-bar__button js-next touchevents"><span
                         class="nav-bar__button-text--left">NEXT</span>
-                    <span class="nav-bar__button-circle--right"><span class="img"></span>/span></button>
+                    <span class="nav-bar__button-circle--right"><span class="img"></span></span></button>
             </div>
             <div class="nav-bar__controls hidden">
                 <button class="button__control js-replay">Replay</button>
@@ -69,6 +69,7 @@
             <h1 class="l-header__banner">
                 Culinary Chef
             </h1>
+          <div class="header-menu-icon"><span></span></div>
         </div>
 
         <div class="l-header row2">
@@ -80,18 +81,125 @@
                 <strong>Task 1:</strong> Key nutrients and dietary requirements
             </h1>
         </div>
-
-
-        <!--<h2 class="l-header__banner">-->
-        <!--Culinary Chef | <span>Task 1: Key nutrients and dietary requirements</span>-->
-        <!--</h2>-->
-
     </header>
 
     <div class="l-wrapper js-wrapper hidden">
 
 
 
+    </div>
+
+    <div class="player_overlay">
+    </div>
+
+
+    <div id="mySidenav" class="player_sidenav">
+      <!--CLOSE BUTTON-->
+      <a href="closeSideNav" class="player_closebtn">&times;</a>
+
+      <div class="scrollContainer">
+
+        <!--MENU : INTRO-->
+
+        <div class="menuItem_Container">
+          <a href="intro">Introduction
+            <div style="font-size: 14px">Fish and shellfish</div>
+          </a>
+        </div>
+
+
+        <!--MENU : LESSON 1-->
+
+
+        <div class="menuItem_Container">
+          <div class="menuCol-fluid">
+            <a href="t1">Task 1
+              <div style="font-size: 14px">Quality points in fish and shellfish</div>
+            </a>
+          </div>
+
+          <div class="menuCol-fixed">
+            <a href="sub1"><span><i class="icon-sort-down"></i></span></a>
+          </div>
+        </div>
+
+        <!--MENU : TASK 1-->
+
+        <div id="sub1" class="subMenuItem">
+          <div style="margin: 0 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
+          <a href="t1-p1" style="margin-top: -18px;">Introduction to seafood quality points</a>
+          <a href="t1-p2">Live seafood</a>
+          <a href="t1-p3">Fresh seafood quality indicators</a>
+          <a href="t1-p4">Frozen seafood quality indicators</a>
+          <a href="t1-p5">Crustacean quality indicators</a>
+          <a href="t1-p6">Mollusc quality indicators</a>
+          <a href="t1-p7">Introduction to shellfish species and other seafood</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_media.svg"></div>
+          <a href="t1-p8" style="margin-top: -21px;">VIDEO : Identifying fish, fish cuts & shellfish</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+          <a href="t1-p9" style="margin-top: -21px;">QUIZ</a>
+        </div>
+
+        <!--MENU : TASK 2-->
+
+        <div class="menuItem_Container">
+          <div class="menuCol-fluid">
+            <a href="javascript:void(0)" onclick="goSideNav('Lesson2','Lesson');">Task 2
+              <div style="font-size: 14px">Storage of seafood</div>
+            </a>
+          </div>
+
+          <div class="menuCol-fixed">
+            <a href="javascript:void(0)" onclick="toggleElementDrop('#SubL2');"><span><i class="icon-sort-down"></i></span></a>
+          </div>
+        </div>
+        <div id="SubL2" class="subMenuItem">
+          <div style="margin: 0 0 0 5px;"><img height="22px" src="assets/images/handout_icon_large-01.svg"></div>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson2','Lesson','0');" style="margin-top: -23px;">Seafood
+            storage</a>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson2','Lesson','1');">Fresh seafood storage - points of
+            care</a>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson2','Lesson','2');">Seafood storage - coolrooms and
+            fridges</a>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson2','Lesson','3');">Seafood storage - frozen
+            seafood</a>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson2','Lesson','4');">Seafood frozen storage - points of
+            care</a>
+          <div style="margin: 0 0 0 5px;"><img height="20px" src="assets/images/quiz_icon_large2.svg"></div>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson2','Quiz');" style="margin-top: -21px;">QUIZ</a>
+
+        </div>
+
+        <!--MENU : LESSON 3-->
+
+        <div class="menuItem_Container">
+          <div class="menuCol-fluid">
+            <a href="javascript:void(0)" onclick="goSideNav('Lesson3','Lesson');">Task 3
+              <div style="font-size: 14px">Cooking methods for fish and shellfish</div>
+            </a>
+          </div>
+
+          <div class="menuCol-fixed">
+            <a href="javascript:void(0)" onclick="toggleElementDrop('#SubL3');"><span><i class="icon-sort-down"></i></span></a>
+          </div>
+        </div>
+        <div id="SubL3" class="subMenuItem">
+          <div style="margin: 0 0 0 5px;"><img height="22px" src="assets/images/handout_icon_large-01.svg"></div>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson3','Lesson','0');" style="margin-top: -23px;">Introduction
+            to cooking seafood</a>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson3','Lesson','1');">Cooking seafood</a>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson3','Lesson','2');">Moist heat cookery methods</a>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson3','Lesson','3');">Dry heat cookery methods</a>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson3','Lesson','1');">Fish types and suitable cooking
+            methods</a>
+          <div style="margin: 0 0 0 5px;"><img height="20px" src="assets/images/quiz_icon_large2.svg"></div>
+          <a href="javascript:void(0)" onclick="goSideNav('Lesson3','Quiz');" style="margin-top: -21px;">QUIZ</a>
+
+        </div>
+
+      </div>
     </div>
 
     <script src="./js/bundle.js"></script>

@@ -439,12 +439,13 @@ gulp.task('development', ['scripts', 'sass', 'fonts', 'ebook-css-images', 'image
             }
         }
     });
-    gulp.watch('./src/ebook/scss/**/*.scss', ['styles', browserSync.reload]);
-    gulp.watch('./src/iquiz/scss/**/*.scss', ['styles', browserSync.reload]);
+    gulp.watch('./src/ebook/scss/**/*.scss', ['sass', browserSync.reload]);
+    gulp.watch('./src/iquiz/scss/**/*.scss', ['sass', browserSync.reload]);
     gulp.watch('./src/ebook/js/**/*.js', ['scripts', browserSync.reload]);
+    gulp.watch('./src/ebook/scss/**/*.scss', ['sass', browserSync.reload]);
     gulp.watch('./src/iquiz/js/**/*.js', ['scripts', browserSync.reload]);
     gulp.watch('./src/example/js/**/*.js', ['scripts', browserSync.reload]);
-    gulp.watch('./src/example/css/**/*.scss', ['styles', browserSync.reload]);
+    gulp.watch('./src/example/css/**/*.scss', ['sass', browserSync.reload]);
     gulp.watch('./src/example/*.html', ['html', browserSync.reload]);
 });
 

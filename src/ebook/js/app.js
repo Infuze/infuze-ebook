@@ -269,10 +269,98 @@ export default class Ebook {
     qs(".l-nav-bar").addEventListener("touchmove", this.preventDefault, false);
     qs(".l-header").addEventListener("touchmove", this.preventDefault, false);
 
+    // SIDEMENU
+    qs(".player_sidenav").onclick = e => this.goFromSideMenu(e);
+    qs(".header-menu-icon").onclick = e => this.openSideNav();
+
+    // OVERLAY
+    qs(".player_overlay").onclick = e => this.overlayClicked();
+
     $on(window, "resize", this.debounce(e => {
       this.doResize();
     }, 200));
   }
+
+  goFromSideMenu(e){
+    e.preventDefault();
+    //GET HREF STRING OF SECTION TO LOAD OR JUMP TO
+    console.log(e.target);
+    var hrefString = "";
+
+    var target = e.target || e.srcElement;
+    while (target) {
+      if (target instanceof HTMLAnchorElement) {
+        hrefString = target.getAttribute('href');
+        break;
+      }
+      target = target.parentNode;
+    }
+    console.log('hrefString:', hrefString);
+    if(hrefString.includes('sub')){
+      this.toggleSideMenuSub(hrefString);
+    }
+    if(hrefString.includes('closeSideNav')){
+      this.closeSideNav();
+    }
+
+
+      //alert(e.target.getAttribute('href'));
+  }
+
+  toggleSideMenuSub(section){
+
+    section = '#' + section;
+
+    if(section != '#sub1'){$('#sub1').stop().animate({ height: '0' }, 200)};
+    if(section != '#SubL2'){$('#SubL2').stop().animate({ height: '0' }, 200)};
+    if(section != '#SubL3'){$('#SubL3').stop().animate({ height: '0' }, 200)};
+
+    var animateTime = 200;
+    var section = $(section);
+    //alert(section.height());
+
+
+    if(section.height() === 0){
+      var curHeight = section.height(), // Get Default Height
+        autoHeight = section.css('height', 'auto').height(); // Get Auto Height
+      section.height(curHeight); // Reset to Default Height
+      section.stop().animate({ height: autoHeight }, animateTime); // Animate to Auto Height
+    } else {
+      section.stop().animate({ height: '0' }, animateTime);
+    }
+
+  }
+
+  openSideNav() {
+  // stop scroll on body?
+    this.showOverLay();
+    $( ".player_sidenav" ).animate({ right: "0px" }, 200);
+  }
+
+  closeSideNav() {
+    this.hideOverLay();
+    setTimeout(function () { // delay to allow button transition
+      $( ".player_sidenav" ).animate({ right: "-270px" }, 200, function() {
+        // do stuff after anim finishes
+        // start scroll on body?
+      });
+    }, 0);
+  }
+
+  overlayClicked(){
+    // if sidenav showing
+    this.closeSideNav();
+  }
+
+  showOverLay() {
+    $( ".player_overlay" ).fadeIn( "fast" );
+  }
+
+  hideOverLay() {
+    $( ".player_overlay" ).fadeOut( "fast" );
+  }
+
+
 
   debounce(fn, time) {
     //$log('>>>>>>>>>> DEBOUNCE')

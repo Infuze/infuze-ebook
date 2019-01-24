@@ -36949,8 +36949,8 @@ var Ebook = function () {
 
       xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-          var $ = _cheerio2.default.load(xmlHttp.responseText);
-          var content = $(selector).children().after($(this).contents()).remove();
+          var _$ = _cheerio2.default.load(xmlHttp.responseText);
+          var content = _$(selector).children().after(_$(this).contents()).remove();
           content_div.innerHTML = content;
           cFunction(this);
         }
@@ -37149,9 +37149,114 @@ var Ebook = function () {
       (0, _util.qs)(".l-nav-bar").addEventListener("touchmove", this.preventDefault, false);
       (0, _util.qs)(".l-header").addEventListener("touchmove", this.preventDefault, false);
 
+      // SIDEMENU
+      (0, _util.qs)(".player_sidenav").onclick = function (e) {
+        return _this7.goFromSideMenu(e);
+      };
+      (0, _util.qs)(".header-menu-icon").onclick = function (e) {
+        return _this7.openSideNav();
+      };
+
+      // OVERLAY
+      (0, _util.qs)(".player_overlay").onclick = function (e) {
+        return _this7.overlayClicked();
+      };
+
       (0, _util.$on)(window, "resize", this.debounce(function (e) {
         _this7.doResize();
       }, 200));
+    }
+  }, {
+    key: "goFromSideMenu",
+    value: function goFromSideMenu(e) {
+      e.preventDefault();
+      //GET HREF STRING OF SECTION TO LOAD OR JUMP TO
+      console.log(e.target);
+      var hrefString = "";
+
+      var target = e.target || e.srcElement;
+      while (target) {
+        if (target instanceof HTMLAnchorElement) {
+          hrefString = target.getAttribute('href');
+          break;
+        }
+        target = target.parentNode;
+      }
+      console.log('hrefString:', hrefString);
+      if (hrefString.includes('sub')) {
+        this.toggleSideMenuSub(hrefString);
+      }
+      if (hrefString.includes('closeSideNav')) {
+        this.closeSideNav();
+      }
+
+      //alert(e.target.getAttribute('href'));
+    }
+  }, {
+    key: "toggleSideMenuSub",
+    value: function toggleSideMenuSub(section) {
+
+      section = '#' + section;
+
+      if (section != '#sub1') {
+        $('#sub1').stop().animate({ height: '0' }, 200);
+      };
+      if (section != '#SubL2') {
+        $('#SubL2').stop().animate({ height: '0' }, 200);
+      };
+      if (section != '#SubL3') {
+        $('#SubL3').stop().animate({ height: '0' }, 200);
+      };
+
+      var animateTime = 200;
+      var section = $(section);
+      //alert(section.height());
+
+
+      if (section.height() === 0) {
+        var curHeight = section.height(),
+            // Get Default Height
+        autoHeight = section.css('height', 'auto').height(); // Get Auto Height
+        section.height(curHeight); // Reset to Default Height
+        section.stop().animate({ height: autoHeight }, animateTime); // Animate to Auto Height
+      } else {
+        section.stop().animate({ height: '0' }, animateTime);
+      }
+    }
+  }, {
+    key: "openSideNav",
+    value: function openSideNav() {
+      // stop scroll on body?
+      this.showOverLay();
+      $(".player_sidenav").animate({ right: "0px" }, 200);
+    }
+  }, {
+    key: "closeSideNav",
+    value: function closeSideNav() {
+      this.hideOverLay();
+      setTimeout(function () {
+        // delay to allow button transition
+        $(".player_sidenav").animate({ right: "-270px" }, 200, function () {
+          // do stuff after anim finishes
+          // start scroll on body?
+        });
+      }, 0);
+    }
+  }, {
+    key: "overlayClicked",
+    value: function overlayClicked() {
+      // if sidenav showing
+      this.closeSideNav();
+    }
+  }, {
+    key: "showOverLay",
+    value: function showOverLay() {
+      $(".player_overlay").fadeIn("fast");
+    }
+  }, {
+    key: "hideOverLay",
+    value: function hideOverLay() {
+      $(".player_overlay").fadeOut("fast");
     }
   }, {
     key: "debounce",
