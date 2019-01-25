@@ -2,10 +2,12 @@
   "course": "Culinary",
   "packs": [
     {
+      "number": 1,
       "folder": "1-Food-Trends-And-Influences",
       "title": "1. Food Trends &amp; Influences"
     },
     {
+      "number": 2,
       "folder": "2-Knives-and-Equipment",
       "title": "2. Knives & Equipment"
     }
