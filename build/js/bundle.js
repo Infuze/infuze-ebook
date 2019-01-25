@@ -6687,7 +6687,7 @@ module.exports={
   "_args": [
     [
       "cheerio@1.0.0-rc.2",
-      "/Volumes/HD2/_Projects/gitRepos/_infuze/infuze-ebook"
+      "/Users/martinwright/Projects/infuze-ebook"
     ]
   ],
   "_from": "cheerio@1.0.0-rc.2",
@@ -6717,7 +6717,7 @@ module.exports={
   ],
   "_resolved": "https://registry.npmjs.org/cheerio/-/cheerio-1.0.0-rc.2.tgz",
   "_spec": "1.0.0-rc.2",
-  "_where": "/Volumes/HD2/_Projects/gitRepos/_infuze/infuze-ebook",
+  "_where": "/Users/martinwright/Projects/infuze-ebook",
   "author": {
     "name": "Matt Mueller",
     "email": "mattmuelle@gmail.com",
@@ -36891,13 +36891,24 @@ var Ebook = function () {
     value: function init() {
       var _this = this;
 
-      (0, _util.$log)('init');
-      this.router = new _router2.default({ errorPage: 'task1/slides/0' }).add(/task1\/slides\/0/, function () {
-        _this.loadSection();
-      }).add(/task1\/quiz\/0/, function () {
-        _this.loadSection();
-      }).add(/task1\/media\/0/, function () {
-        _this.loadSection();
+      (0, _util.$log)('init', window.availableRoutes);
+      this.router = new _router2.default({ 'errorPage': 'task1/slides/0' });
+
+      var routesObj = window.availableRoutes;
+      Object.keys(routesObj).forEach(function (e) {
+        var task = e;
+        var taskObj = routesObj[e];
+        Object.keys(taskObj).forEach(function (g) {
+
+          for (var i = 0; i < taskObj[g]; i++) {
+            var path = task + '/' + g + '/' + i + '$',
+                regex = new RegExp(path);
+            console.log('New route added - ' + regex);
+            _this.router.add(path, function () {
+              _this.loadSection();
+            });
+          }
+        });
       });
 
       this.setNavigationEvents();
@@ -36961,6 +36972,8 @@ var Ebook = function () {
   }, {
     key: "htmlLoaded",
     value: function htmlLoaded() {
+      var _this3 = this;
+
       (0, _util.$log)('****** htmlLoaded ');
       if (this.taskType === 'quiz') {
         this.quiz = new _qApp2.default();
@@ -36973,12 +36986,22 @@ var Ebook = function () {
       this.setPageEvents();
       this.definePages();
       this.addRoutes();
+
+      var urlPaths = _router2.default.parseRoute(this.router.currentRoute);
+      this.task = urlPaths[0];
+      this.taskType = urlPaths[1];
+      this.currentPage = urlPaths[2];
+      var thisSectionType = this.displayTypes.find(function (type) {
+        return type.type === _this3.taskType;
+      });
+      this.display = thisSectionType.type;
+
       this.setView();
     }
   }, {
     key: "addRoutes",
     value: function addRoutes() {
-      var _this3 = this;
+      var _this4 = this;
 
       (0, _util.$log)('****** addRoutes ');
       var urlPaths = _router2.default.parseRoute(this.router.currentRoute);
@@ -36989,7 +37012,7 @@ var Ebook = function () {
         var route = this.task + '/' + this.taskType + '/' + i;
         (0, _util.$log)('route ', route);
         this.router.remove(route).add(route, function () {
-          _this3.loadSection();
+          _this4.loadSection();
         });
       }
     }
@@ -37019,18 +37042,18 @@ var Ebook = function () {
   }, {
     key: "setPageEvents",
     value: function setPageEvents() {
-      var _this4 = this;
+      var _this5 = this;
 
       Array.from(document.querySelectorAll(".js-start-quiz")).forEach(function (el) {
         el.onclick = function (e) {
-          return _this4.startQuiz(e);
+          return _this5.startQuiz(e);
         };
       });
     }
   }, {
     key: "setStateValues",
     value: function setStateValues() {
-      var _this5 = this;
+      var _this6 = this;
 
       var urlPaths = _router2.default.parseRoute(this.router.currentRoute);
       this.task = urlPaths[0];
@@ -37041,7 +37064,7 @@ var Ebook = function () {
       this.currentPage = urlPaths[2];
 
       var thisSectionType = this.displayTypes.find(function (type) {
-        return type.type === _this5.taskType;
+        return type.type === _this6.taskType;
       });
       this.display = thisSectionType.type;
       (0, _util.qs)(thisSectionType.button).checked = true;
@@ -37058,11 +37081,11 @@ var Ebook = function () {
   }, {
     key: "definePages",
     value: function definePages() {
-      var _this6 = this;
+      var _this7 = this;
 
       (0, _util.$log)('****** definePages ', this.display);
       var container = this.displayTypes.find(function (type) {
-        return type.type === _this6.display;
+        return type.type === _this7.display;
       }).container;
 
       var _document$querySelect = document.querySelectorAll(container);
@@ -37080,6 +37103,7 @@ var Ebook = function () {
       var currentPageNode = this.getPageNode(currentPageNum);
 
       if (!currentPageNode) {
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$ currentPageNode');
         alert('displayPage - No page nodes!');
         return;
       }
@@ -37127,21 +37151,21 @@ var Ebook = function () {
   }, {
     key: "setNavigationEvents",
     value: function setNavigationEvents() {
-      var _this7 = this;
+      var _this8 = this;
 
       location.hash = location.hash || "#s0";
       (0, _util.qs)(".js-back").onclick = function (e) {
-        return _this7.previousClick();
+        return _this8.previousClick();
       };
       (0, _util.qs)(".js-next").onclick = function (e) {
-        return _this7.nextClick();
+        return _this8.nextClick();
       };
       ///ANIME/// qs(".js-animation input").checked = this.showAnimations;
       ///ANIME/// qs(".js-animation input").onclick = e => this.toggleAnimation(e);
 
       Array.from(this.displayModeBtns).forEach(function (v) {
         return v.addEventListener("change", function (e) {
-          _this7.displayModeChanged(e.currentTarget.value);
+          _this8.displayModeChanged(e.currentTarget.value);
         });
       });
       //$on(window, "hashchange", this.hashChangedHandler.bind(this));
@@ -37151,19 +37175,19 @@ var Ebook = function () {
 
       // SIDEMENU
       (0, _util.qs)(".player_sidenav").onclick = function (e) {
-        return _this7.goFromSideMenu(e);
+        return _this8.goFromSideMenu(e);
       };
       (0, _util.qs)(".header-menu-icon").onclick = function (e) {
-        return _this7.openSideNav();
+        return _this8.openSideNav();
       };
 
       // OVERLAY
       (0, _util.qs)(".player_overlay").onclick = function (e) {
-        return _this7.overlayClicked();
+        return _this8.overlayClicked();
       };
 
       (0, _util.$on)(window, "resize", this.debounce(function (e) {
-        _this7.doResize();
+        _this8.doResize();
       }, 200));
     }
   }, {
@@ -37171,36 +37195,36 @@ var Ebook = function () {
     value: function goFromSideMenu(e) {
       console.log('goFromSideMenu');
       e.preventDefault();
+
       //GET HREF STRING OF SECTION TO LOAD OR JUMP TO
-      console.log(e.target);
-      var hrefString = "";
+      var hrefString = "",
+          actionString = "";
 
       var target = e.target || e.srcElement;
       while (target) {
         if (target instanceof HTMLAnchorElement) {
           hrefString = target.getAttribute('href');
           break;
+        } else if (target instanceof HTMLButtonElement) {
+          actionString = target.getAttribute('value');
         }
         target = target.parentNode;
       }
-      //console.log('hrefString:', hrefString);
-      //console.log('target:', target);
 
-      if (hrefString.includes('sub')) {
-        this.toggleSideMenuSub(target, hrefString);
-      } else if (hrefString.includes('closeSideNav')) {
+      if (hrefString.includes('closeSideNav')) {
         this.closeSideNav();
-      } else {
-        // LOAD OR GOTO PAGE
-        // get numbers from hrefString
-        var hrefArr = hrefString.match(/\d+/g);
-        if (hrefString.includes('vid')) {
-          alert('LOAD TASK:' + hrefArr[0] + " : OPEN VIDEO - PAGE:" + hrefArr[1]);
-        } else if (hrefString.includes('quiz')) {
-          alert('LOAD TASK:' + hrefArr[0] + " : OPEN QUIZ - PAGE:" + hrefArr[1]);
-        } else {
-          alert('LOAD TASK:' + hrefArr[0] + " : OPEN SLIDES - PAGE:" + hrefArr[1]);
-        }
+        return;
+      }
+
+      if (!!actionString) {
+        this.toggleSideMenuSub(target, actionString);
+        return;
+      }
+
+      if (!!hrefString) {
+        this.router.navigate(hrefString);
+        this.closeSideNav();
+        return;
       }
     }
   }, {
@@ -37284,11 +37308,11 @@ var Ebook = function () {
       //$log('>>>>>>>>>> DEBOUNCE')
       var timeout = void 0;
       return function () {
-        var _this8 = this,
+        var _this9 = this,
             _arguments = arguments;
 
         var functionCall = function functionCall() {
-          return fn.apply(_this8, _arguments);
+          return fn.apply(_this9, _arguments);
         };
         clearTimeout(timeout);
         timeout = setTimeout(functionCall, time);
@@ -37346,7 +37370,7 @@ var Ebook = function () {
       this.task = urlPaths[0];
 
       var newURL = this.task + '/' + thisSectionType.type + '/0';
-      (0, _util.$log)('newURL ', newURL);
+      (0, _util.$log)('displayModeChanged ', newURL);
       this.router.navigate(newURL);
     }
   }, {
@@ -37357,7 +37381,7 @@ var Ebook = function () {
       this.task = urlPaths[0];
 
       var newURL = this.task + '/quiz/0';
-      (0, _util.$log)('newURL ', newURL);
+      (0, _util.$log)('startQuiz ', newURL);
       this.router.navigate(newURL);
 
       //location.hash = '#q0';
@@ -37370,14 +37394,12 @@ var Ebook = function () {
       var p = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
       (0, _util.$log)('navigateToNextPage ', p);
-
       p = this.getPageNumber(1);
       var urlPaths = _router2.default.parseRoute(this.router.currentRoute);
       this.task = urlPaths[0];
       this.taskType = urlPaths[1];
-
       var newURL = this.task + '/' + this.taskType + '/' + p;
-      (0, _util.$log)('newURL ', newURL);
+      (0, _util.$log)('navigateToNextPage ', newURL);
       this.router.navigate(newURL);
     }
   }, {
@@ -37386,19 +37408,14 @@ var Ebook = function () {
       var p = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
       (0, _util.$log)('navigateToPage ', p);
-
       var urlPaths = _router2.default.parseRoute(this.router.currentRoute);
       this.task = urlPaths[0];
       this.taskType = urlPaths[1];
-
       var newURL = this.task + '/' + this.taskType + '/' + p;
       (0, _util.$log)('newURL ', newURL);
       this.router.navigate(newURL);
-
-      //const thisSectionType = this.displayTypes.find(type => type.type === this.display);
-      //location.hash = '#' + thisSectionType.prefix + p;
       this.setPageNumber(p);
-      document.querySelector('body').scrollTop = 0;
+      document.querySelector('.js-wrapper').scrollTop = 0;
     }
   }, {
     key: "setPageNumber",
@@ -37410,23 +37427,18 @@ var Ebook = function () {
     value: function getPageNumber() {
       var offset = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
-
       var urlPaths = _router2.default.parseRoute(this.router.currentRoute);
       return +urlPaths[2] + offset;
-
-      /* const pagePrefix = this.displayTypes.find(type => type.type === this.display).prefix;
-      let currentHash = location.hash || "#s0";
-      return +currentHash.replace("#" + pagePrefix, "") + offset; */
     }
   }, {
     key: "getPageNode",
     value: function getPageNode(page) {
-      var _this9 = this;
+      var _this10 = this;
 
-      console.log('getPageNode ', page);
-      console.log('this.display ', this.display);
+      //console.log('getPageNode ', page);
+      //console.log('this.display ', this.display);
       var pageNamePrefix = this.displayTypes.find(function (type) {
-        return type.type === _this9.display;
+        return type.type === _this10.display;
       }).selector;
       var node = this.allSlides.find(function (n) {
         return n.id === pageNamePrefix + page;
@@ -37508,7 +37520,7 @@ var Ebook = function () {
   }, {
     key: "hashChangedHandler",
     value: function hashChangedHandler() {
-      var _this10 = this;
+      var _this11 = this;
 
       // UNUSED
 
@@ -37542,7 +37554,7 @@ var Ebook = function () {
       this.currentPage = urlPaths[2];
 
       var thisSectionType = this.displayTypes.find(function (type) {
-        return type.type === _this10.taskType;
+        return type.type === _this11.taskType;
       });
       this.display = thisSectionType.type;
       (0, _util.qs)(thisSectionType.button).checked = true;
@@ -37718,7 +37730,7 @@ var Ebook = function () {
   }, {
     key: "loadJSON",
     value: function loadJSON() {
-      var _this11 = this;
+      var _this12 = this;
 
       // UNUSED
       function getJsonFileName(loc) {
@@ -37764,10 +37776,10 @@ var Ebook = function () {
       }).then(validateResponse).then(readResponseAsJSON).then(logResult)
       //.then(setAminProps)
       .then(function (res) {
-        return _this11.continueStartUp(res);
+        return _this12.continueStartUp(res);
       }).catch(function (err) {
         logError(err);
-        _this11.continueStartUp({});
+        _this12.continueStartUp({});
       });
     }
   }, {
@@ -37935,6 +37947,7 @@ var Router = function () {
             }
 
             if (!hasMatch) {
+                console.log('$$$$$$$$$$$$$$$$$$$$$$$$$ navigateError');
                 this.navigateError(hash);
             }
 

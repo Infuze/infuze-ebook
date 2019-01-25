@@ -60,6 +60,15 @@
   color: #b3b3b3;
   transition: 0.3s;
 }
+.player_sidenav .menuItem_Container button {
+  text-decoration: none;
+  color: #b3b3b3;
+  transition: 0.3s;
+  background-color: black;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
 
 .player_sidenav .menuCol-fluid {
   flex: 1;
