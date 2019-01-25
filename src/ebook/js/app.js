@@ -281,7 +281,10 @@ export default class Ebook {
     }, 200));
   }
 
+
+
   goFromSideMenu(e){
+    console.log('goFromSideMenu');
     e.preventDefault();
     //GET HREF STRING OF SECTION TO LOAD OR JUMP TO
     console.log(e.target);
@@ -295,38 +298,62 @@ export default class Ebook {
       }
       target = target.parentNode;
     }
-    console.log('hrefString:', hrefString);
-    if(hrefString.includes('sub')){
-      this.toggleSideMenuSub(hrefString);
-    }
-    if(hrefString.includes('closeSideNav')){
+    //console.log('hrefString:', hrefString);
+    //console.log('target:', target);
+
+    if(hrefString.includes('sub')) {
+      this.toggleSideMenuSub(target, hrefString);
+    } else if (hrefString.includes('closeSideNav')) {
       this.closeSideNav();
+    }else{
+      // LOAD OR GOTO PAGE
+      // get numbers from hrefString
+      var hrefArr = hrefString.match(/\d+/g);
+      if(hrefString.includes('vid')) {
+        alert('LOAD TASK:'+hrefArr[0]+" : OPEN VIDEO - PAGE:"+hrefArr[1]);
+      } else if (hrefString.includes('quiz')) {
+        alert('LOAD TASK:'+hrefArr[0]+" : OPEN QUIZ - PAGE:"+hrefArr[1]);
+      }else{
+        alert('LOAD TASK:'+hrefArr[0]+" : OPEN SLIDES - PAGE:"+hrefArr[1]);
+      }
     }
-
-
-      //alert(e.target.getAttribute('href'));
   }
 
-  toggleSideMenuSub(section){
+  toggleSideMenuSub(target, sub){
+    console.log('toggleSideMenuSub');
 
-    section = '#' + section;
-
-    if(section != '#sub1'){$('#sub1').stop().animate({ height: '0' }, 200)};
-    if(section != '#SubL2'){$('#SubL2').stop().animate({ height: '0' }, 200)};
-    if(section != '#SubL3'){$('#SubL3').stop().animate({ height: '0' }, 200)};
-
+    var section = $('#' + sub);
     var animateTime = 200;
-    var section = $(section);
+
+    //console.log('section', section);
+
+    // CLOSE ALL SUBMENUS UNLESS SELECTED ONE IS ALREADY OPEN
+    Array.from(document.querySelectorAll(".player_sidenav .subMenuItem")).forEach(el => {
+      if(sub != el.id) {
+        $(el).animate({ height: '0' }, animateTime);
+      }
+    });
+    // RESET ARROWS UNLESS SELECTED ONE IS ALREADY OPEN
+    Array.from(document.querySelectorAll(".player_sidenav .menuCol-fixed a .open")).forEach(el => {
+      console.log(el);
+      $(el).removeClass( "open" );
+    });
+
+
     //alert(section.height());
 
 
-    if(section.height() === 0){
+    if(section.height() === 0){ //CLOSED SO OPEN SUBNAV
       var curHeight = section.height(), // Get Default Height
         autoHeight = section.css('height', 'auto').height(); // Get Auto Height
       section.height(curHeight); // Reset to Default Height
       section.stop().animate({ height: autoHeight }, animateTime); // Animate to Auto Height
+      //
+      // ROTATE ARROW ICON
+      $('div', target).addClass( "open" );
     } else {
       section.stop().animate({ height: '0' }, animateTime);
+      $('div', target).removeClass( "open" );
     }
 
   }

@@ -37169,6 +37169,7 @@ var Ebook = function () {
   }, {
     key: "goFromSideMenu",
     value: function goFromSideMenu(e) {
+      console.log('goFromSideMenu');
       e.preventDefault();
       //GET HREF STRING OF SECTION TO LOAD OR JUMP TO
       console.log(e.target);
@@ -37182,45 +37183,64 @@ var Ebook = function () {
         }
         target = target.parentNode;
       }
-      console.log('hrefString:', hrefString);
-      if (hrefString.includes('sub')) {
-        this.toggleSideMenuSub(hrefString);
-      }
-      if (hrefString.includes('closeSideNav')) {
-        this.closeSideNav();
-      }
+      //console.log('hrefString:', hrefString);
+      //console.log('target:', target);
 
-      //alert(e.target.getAttribute('href'));
+      if (hrefString.includes('sub')) {
+        this.toggleSideMenuSub(target, hrefString);
+      } else if (hrefString.includes('closeSideNav')) {
+        this.closeSideNav();
+      } else {
+        // LOAD OR GOTO PAGE
+        // get numbers from hrefString
+        var hrefArr = hrefString.match(/\d+/g);
+        if (hrefString.includes('vid')) {
+          alert('LOAD TASK:' + hrefArr[0] + " : OPEN VIDEO - PAGE:" + hrefArr[1]);
+        } else if (hrefString.includes('quiz')) {
+          alert('LOAD TASK:' + hrefArr[0] + " : OPEN QUIZ - PAGE:" + hrefArr[1]);
+        } else {
+          alert('LOAD TASK:' + hrefArr[0] + " : OPEN SLIDES - PAGE:" + hrefArr[1]);
+        }
+      }
     }
   }, {
     key: "toggleSideMenuSub",
-    value: function toggleSideMenuSub(section) {
+    value: function toggleSideMenuSub(target, sub) {
+      console.log('toggleSideMenuSub');
 
-      section = '#' + section;
-
-      if (section != '#sub1') {
-        $('#sub1').stop().animate({ height: '0' }, 200);
-      };
-      if (section != '#SubL2') {
-        $('#SubL2').stop().animate({ height: '0' }, 200);
-      };
-      if (section != '#SubL3') {
-        $('#SubL3').stop().animate({ height: '0' }, 200);
-      };
-
+      var section = $('#' + sub);
       var animateTime = 200;
-      var section = $(section);
+
+      //console.log('section', section);
+
+      // CLOSE ALL SUBMENUS UNLESS SELECTED ONE IS ALREADY OPEN
+      Array.from(document.querySelectorAll(".player_sidenav .subMenuItem")).forEach(function (el) {
+        if (sub != el.id) {
+          $(el).animate({ height: '0' }, animateTime);
+        }
+      });
+      // RESET ARROWS UNLESS SELECTED ONE IS ALREADY OPEN
+      Array.from(document.querySelectorAll(".player_sidenav .menuCol-fixed a .open")).forEach(function (el) {
+        console.log(el);
+        $(el).removeClass("open");
+      });
+
       //alert(section.height());
 
 
       if (section.height() === 0) {
+        //CLOSED SO OPEN SUBNAV
         var curHeight = section.height(),
             // Get Default Height
         autoHeight = section.css('height', 'auto').height(); // Get Auto Height
         section.height(curHeight); // Reset to Default Height
         section.stop().animate({ height: autoHeight }, animateTime); // Animate to Auto Height
+        //
+        // ROTATE ARROW ICON
+        $('div', target).addClass("open");
       } else {
         section.stop().animate({ height: '0' }, animateTime);
+        $('div', target).removeClass("open");
       }
     }
   }, {
@@ -39020,7 +39040,7 @@ exports.default = App;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -39037,279 +39057,312 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var QuizFT = function (_EventEmitter) {
-    _inherits(QuizFT, _EventEmitter);
+  _inherits(QuizFT, _EventEmitter);
 
-    function QuizFT(el, data) {
-        _classCallCheck(this, QuizFT);
+  function QuizFT(el, data) {
+    _classCallCheck(this, QuizFT);
 
-        var _this = _possibleConstructorReturn(this, (QuizFT.__proto__ || Object.getPrototypeOf(QuizFT)).call(this));
+    var _this = _possibleConstructorReturn(this, (QuizFT.__proto__ || Object.getPrototypeOf(QuizFT)).call(this));
 
-        _this.qData = data;
-        _this.node = el;
-        _this.sel = "[data-iquiz=\"" + _this.qData.number + "\"]";
-        _this.txtBoxStartHeight = "45px";
-        // this.resetBtnActiveFlag = false;
-        // $log("qData:", this.qData);
-        return _this;
+    _this.qData = data;
+    _this.node = el;
+    _this.sel = "[data-iquiz=\"" + _this.qData.number + "\"]";
+    _this.txtBoxStartHeight = "45px";
+    // this.resetBtnActiveFlag = false;
+    // $log("qData:", this.qData);
+    return _this;
+  }
+
+  _createClass(QuizFT, [{
+    key: "startUp",
+    value: function startUp() {
+      this.initQuizNav();
+      this.initQuiz();
+      // this.reState(true);
+    }
+  }, {
+    key: "initQuizNav",
+    value: function initQuizNav() {
+      var _this2 = this;
+
+      console.log("FT-initQuizNav");
+      //console.log("fixedUserAnswers:"+this.qData.params.fixedUserAnswers);
+      //
+      // ADD EVENTS
+      //
+      this.node.querySelector(".js-reveal").onclick = function (e) {
+        return _this2.doSubmit(e);
+      };
+      this.node.querySelector(".js-reset").onclick = function (e) {
+        return _this2.initQuiz(e);
+      };
+      this.node.querySelector(".js-user-answers").oninput = function (e) {
+        return _this2.doOnInput(e);
+      };
+      this.node.querySelector(".js-user-answers").onclick = function (e) {
+        return _this2.removeEditable(e);
+      };
+      // console.log(!!this.node.querySelector(".js-add-ans"));
+      if (!!this.node.querySelector(".js-add-ans")) {
+        // ONLY APPLY EVENT IF ELEMENT EXISTS
+        this.node.querySelector(".js-add-ans").onclick = function (e) {
+          return _this2.addNewEditable(e);
+        };
+      }
+
+      //this.node.querySelector(".js-remove-ans").onclick = e => this.removeEditable(e);
+    }
+  }, {
+    key: "initQuiz",
+    value: function initQuiz(e) {
+      var _this3 = this;
+
+      console.log("FT-initQuiz:" + e);
+
+      if (e === undefined || !this.node.querySelector(".js-reset").classList.contains("disabled")) {
+        //ONLY INIT IF STARTUP (e=undefined) OR REVEAL BTN ACTIVE
+
+        // CLOSE ANSWER BOXES IF OPEN
+        if (getComputedStyle(this.node.querySelector(".js-ans-container"), null).display != 'none') {
+          $('.js-ans-container').slideUp("fast", function (e) {
+            // Animation complete
+            _this3.node.querySelector(".js-reveal").innerText = 'REVEAL';
+            // this.resetBtnActiveFlag = true;
+          });
+        }
+
+        // RESET TEXTAREAS
+        var ftArr = this.node.querySelectorAll(".js-textarea-container");
+        // console.log("ftArr:"+ftArr.length);
+
+        var _loop = function _loop(i) {
+          //IF TEXTBOXES ARE FIXED NUMBER - ie IN TABLE
+          if (_this3.qData.params.fixedUserAnswers == true || _this3.qData.params.fixedUserAnswers === "true") {
+            // Clear TEXTAREA
+            ftArr[i].querySelector(".js-textarea").value = '';
+            ftArr[i].querySelector(".js-textarea").style.height = _this3.txtBoxStartHeight;
+            // WHEN LAST BOX CLEAR SET BUTTON STATES
+            if (i == ftArr.length - 1) {
+              console.log('aaa');
+              _this3.shouldRevealBeActive();
+              // this.shouldResetBeActive();
+            }
+          } else {
+            //IF TEXTBOXES ARE FLEXIBLE NUMBER - ie USER ADDS UNLIMITED
+            if (i == 0) {
+              // Clear first TEXTAREA only : don't delete it as we need 1
+              ftArr[i].querySelector(".js-textarea").value = '';
+              ftArr[i].querySelector(".js-textarea").style.height = _this3.txtBoxStartHeight;
+              // SET BUTTON STATES
+              _this3.shouldRevealBeActive();
+              // this.shouldResetBeActive();
+            } else {
+              // Remove all other TEXTAREA's
+              $(ftArr[i]).slideUp("fast", function (e) {
+                // Animation complete
+                _this3.node.querySelector(".js-user-answers").removeChild(ftArr[i]);
+                // IF LAST TEXT AREA
+                if (i == ftArr.length - 1) {
+                  // SET button states
+                  _this3.shouldRevealBeActive();
+                  // this.shouldResetBeActive();
+                  _this3.checkRemoveBtnDisabled();
+                }
+              });
+            }
+          }
+        };
+
+        for (var i = 0; i < ftArr.length; i++) {
+          _loop(i);
+        }
+
+        // SET FOCUS TO FIRST TEXTAREA INPUT BOX
+        ftArr[0].querySelector('textarea').focus();
+      }
+    }
+  }, {
+    key: "doOnInput",
+    value: function doOnInput(e) {
+      console.log("FT-doOnInput:", e);
+      // console.log("FT-doOnInput:", e.target);
+      // console.log("FT-doOnInput:", e.key);
+      e.target.style.height = this.txtBoxStartHeight;
+      e.target.style.height = e.target.scrollHeight + "px";
+      // console.log("e.target.style.height:", e.target.style.height);
+      //
+      // SET SUBMIT BTN to active if user data in any textarea
+      //
+      this.shouldRevealBeActive();
+      // this.shouldResetBeActive();
+    }
+  }, {
+    key: "doOnKeyUp",
+    value: function doOnKeyUp(e) {
+      // console.log("FT-doOnKeyUp:", e);
+      console.log("FT-doOnKeyUp:", e.key);
+      if (e.key === 'Enter') {
+        console.log("Enter pressed: ", e.key);
+        console.log("e.innerHTML: ", e.target.innerHTML);
+      }
+    }
+  }, {
+    key: "addNewEditable",
+    value: function addNewEditable(e) {
+      var _this4 = this;
+
+      console.log("addNewEditable: ");
+      var div = document.createElement('div');
+      div.setAttribute('style', 'display: none');
+      div.setAttribute('class', 'iquiz-textarea-container with-btn js-textarea-container');
+      div.innerHTML = "<textarea class='iquiz-ft-freetext js-textarea'></textarea><button class='iquiz-btn-remove js-remove-ans'>&times;</button>";
+
+      $(div).appendTo(this.node.querySelector(".js-user-answers")).slideDown("fast", function (e) {
+        // Animation complete
+
+        _this4.checkRemoveBtnDisabled();
+        _this4.shouldRevealBeActive();
+        div.querySelector('textarea').focus();
+      });
+    }
+  }, {
+    key: "removeEditable",
+    value: function removeEditable(e) {
+      var _this5 = this;
+
+      console.log("FT-removeEditable:", e.target);
+      var divToRemove = e.target.parentNode; // e.target is BUTTON : we need parent DIV
+      if (e.target.classList.contains('js-remove-ans') && !e.target.classList.contains('disabled')) {
+        // console.log('js-remove-ans : Remove me');
+        // console.log(e.target.parentNode);
+        $(divToRemove).slideUp("fast", function (e) {
+          // Animation complete
+          _this5.node.querySelector(".js-user-answers").removeChild(divToRemove);
+          _this5.checkRemoveBtnDisabled();
+        });
+      }
+    }
+  }, {
+    key: "checkRemoveBtnDisabled",
+    value: function checkRemoveBtnDisabled() {
+      var count = this.node.querySelector(".js-user-answers").getElementsByTagName('div').length;
+      // console.log('.js-textarea-container : ' + count);
+      if (count > 1) {
+        Array.from(this.node.querySelectorAll(".js-textarea-container")).forEach(function (el) {
+          el.querySelector(".js-remove-ans").classList.remove("disabled");
+          // console.log(el);
+        });
+      } else {
+        this.node.querySelector(".js-remove-ans").classList.add("disabled");
+      }
+    }
+  }, {
+    key: "countTextAreasWithContent",
+    value: function countTextAreasWithContent() {
+      var rCount = 0;
+      var arrCount = this.node.querySelectorAll(".js-textarea").length;
+      Array.from(this.node.querySelectorAll(".js-textarea")).forEach(function (el) {
+        if (el.value != '') {
+          rCount++;
+        }
+        console.log("rCount:", rCount);
+      });
+      return [rCount, arrCount];
+    }
+  }, {
+    key: "shouldRevealBeActive",
+    value: function shouldRevealBeActive() {
+      console.log("FT-shouldRevealBeActive:");
+      //
+      // REVEAL
+      //
+      // Count textfields have values
+      var getCount = this.countTextAreasWithContent();
+      var showReveal = false;
+      var showReset = false;
+      //
+      if (this.qData.params.fixedUserAnswers == true || this.qData.params.fixedUserAnswers === "true") {
+        //IF TEXTBOXES ARE FIXED NUMBER (ie IN TABLE) ALL NEED USER DATA BEFORE REVEAL ACTIVE
+        console.log("fixedUserAnswers:");
+        if (getCount[0] == getCount[1]) {
+          showReveal = true;
+        }
+        if (getCount[0] > 0) {
+          showReset = true;
+        }
+      } else {
+        //IF TEXTBOXES ARE FLEXIBLE NUMBER ONLY MAKE SURE AT LEAST 1 HAS USER DATA BEFORE REVEAL ACTIVE
+        if (getCount[0] > 0) {
+          showReveal = true;
+          showReset = true;
+        }
+      }
+      //
+      if (showReveal === true) {
+        this.node.querySelector(".js-reveal").classList.remove("disabled");
+      } else {
+        this.node.querySelector(".js-reveal").classList.add("disabled");
+      }
+      //
+      // RESET
+      //
+      if (showReset === true) {
+        this.node.querySelector(".js-reset").classList.remove("disabled");
+      } else {
+        this.node.querySelector(".js-reset").classList.add("disabled");
+      }
     }
 
-    _createClass(QuizFT, [{
-        key: "startUp",
-        value: function startUp() {
-            this.initQuizNav();
-            this.initQuiz();
-            // this.reState(true);
+    // shouldResetBeActive() {
+    //     console.log("FT-shouldResetBeActive:");
+    //     // CHECK IF ANSWER BOX IF OPEN
+    //     var btnFlag = false;
+    //     if(!this.node.querySelector(".js-reveal").classList.contains("disabled")){
+    //         btnFlag = true;
+    //     }
+    //     //
+    //     if (this.qData.params.fixedUserAnswers == true || this.qData.params.fixedUserAnswers === "true") {
+    //
+    //     }
+    //     // if(this.node.querySelectorAll(".js-textarea-container").length > 1){
+    //     //     btnFlag = true;
+    //     // }
+    //     //
+    //     if(btnFlag == true) {
+    //         this.node.querySelector(".js-reset").classList.remove("disabled");
+    //     }else{
+    //         this.node.querySelector(".js-reset").classList.add("disabled");
+    //     }
+    // }
+
+  }, {
+    key: "doSubmit",
+    value: function doSubmit(e) {
+      var _this6 = this;
+
+      console.log("FT-doSubmit:", e);
+      // FIRST CHECK REVEAL BTN IS ACTIVE AND NOT DISABLED
+      if (!this.node.querySelector(".js-reveal").classList.contains("disabled")) {
+        if (getComputedStyle(this.node.querySelector(".js-ans-container"), null).display === 'none') {
+          //console.log("NONE");
+          //
+          // $('.js-ans-container').slideDown("fast", e => {
+
+          $(this.node.querySelectorAll('.js-ans-container')).slideDown("fast", function (e) {
+            // Animation complete
+            _this6.node.querySelector(".js-reveal").innerText = 'HIDE';
+          });
+        } else {
+          $(this.node.querySelectorAll('.js-ans-container')).slideUp("fast", function (e) {
+            // Animation complete
+            _this6.node.querySelector(".js-reveal").innerText = 'REVEAL';
+          });
         }
-    }, {
-        key: "initQuizNav",
-        value: function initQuizNav() {
-            var _this2 = this;
+      }
+    }
+  }]);
 
-            console.log("FT-initQuizNav");
-            //console.log("fixedUserAnswers:"+this.qData.params.fixedUserAnswers);
-            //
-            // ADD EVENTS
-            //
-            this.node.querySelector(".js-reveal").onclick = function (e) {
-                return _this2.doSubmit(e);
-            };
-            this.node.querySelector(".js-reset").onclick = function (e) {
-                return _this2.initQuiz();
-            };
-            this.node.querySelector(".js-user-answers").oninput = function (e) {
-                return _this2.doOnInput(e);
-            };
-            this.node.querySelector(".js-user-answers").onclick = function (e) {
-                return _this2.removeEditable(e);
-            };
-            // console.log(!!this.node.querySelector(".js-add-ans"));
-            if (!!this.node.querySelector(".js-add-ans")) {
-                // ONLY APPLY EVENT IF ELEMENT EXISTS
-                this.node.querySelector(".js-add-ans").onclick = function (e) {
-                    return _this2.addNewEditable(e);
-                };
-            }
-
-            //this.node.querySelector(".js-remove-ans").onclick = e => this.removeEditable(e);
-        }
-    }, {
-        key: "initQuiz",
-        value: function initQuiz() {
-            var _this3 = this;
-
-            console.log("FT-initQuiz");
-
-            // CLOSE ANSWER BOXES IF OPEN
-            if (getComputedStyle(this.node.querySelector(".js-ans-container"), null).display != 'none') {
-                $('.js-ans-container').slideUp("fast", function (e) {
-                    // Animation complete
-                    _this3.node.querySelector(".js-reveal").innerText = 'REVEAL';
-                    // this.resetBtnActiveFlag = true;
-                });
-            }
-
-            // RESET TEXTAREAS
-            var ftArr = this.node.querySelectorAll(".js-textarea-container");
-            // console.log("ftArr:"+ftArr.length);
-
-            var _loop = function _loop(i) {
-                //IF TEXTBOXES ARE FIXED NUMBER - ie IN TABLE
-                if (_this3.qData.params.fixedUserAnswers == true || _this3.qData.params.fixedUserAnswers === "true") {
-                    // Clear TEXTAREA
-                    ftArr[i].querySelector(".js-textarea").value = '';
-                    ftArr[i].querySelector(".js-textarea").style.height = _this3.txtBoxStartHeight;
-                    // WHEN LAST BOX CLEAR SET BUTTON STATES
-                    if (i == ftArr.length - 1) {
-                        _this3.shouldRevealBeActive();
-                        _this3.shouldResetBeActive();
-                    }
-                } else {
-                    //IF TEXTBOXES ARE FLEXIBLE NUMBER - ie USER ADDS UNLIMITED
-                    if (i == 0) {
-                        // Clear first TEXTAREA only : don't delete it as we need 1
-                        ftArr[i].querySelector(".js-textarea").value = '';
-                        ftArr[i].querySelector(".js-textarea").style.height = _this3.txtBoxStartHeight;
-                        // SET BUTTON STATES
-                        _this3.shouldRevealBeActive();
-                        _this3.shouldResetBeActive();
-                    } else {
-                        // Remove all other TEXTAREA's
-                        $(ftArr[i]).slideUp("fast", function (e) {
-                            // Animation complete
-                            _this3.node.querySelector(".js-user-answers").removeChild(ftArr[i]);
-                            // IF LAST TEXT AREA
-                            if (i == ftArr.length - 1) {
-                                // SET button states
-                                _this3.shouldRevealBeActive();
-                                _this3.shouldResetBeActive();
-                                _this3.checkRemoveBtnDisabled();
-                            }
-                        });
-                    }
-                }
-
-                //console.log('index:', i, 'element:', ftArr[i].querySelector(".js-textarea").value);
-            };
-
-            for (var i = 0; i < ftArr.length; i++) {
-                _loop(i);
-            }
-
-            // SET FOCUS TO FIRST TEXTAREA INPUT BOX
-            ftArr[0].querySelector('textarea').focus();
-        }
-    }, {
-        key: "doOnInput",
-        value: function doOnInput(e) {
-            console.log("FT-doOnInput:", e);
-            // console.log("FT-doOnInput:", e.target);
-            // console.log("FT-doOnInput:", e.key);
-            e.target.style.height = this.txtBoxStartHeight;
-            e.target.style.height = e.target.scrollHeight + "px";
-            // console.log("e.target.style.height:", e.target.style.height);
-            //
-            // SET SUBMIT BTN to active if user data in any textarea
-            //
-            this.shouldRevealBeActive();
-            this.shouldResetBeActive();
-        }
-    }, {
-        key: "doOnKeyUp",
-        value: function doOnKeyUp(e) {
-            // console.log("FT-doOnKeyUp:", e);
-            console.log("FT-doOnKeyUp:", e.key);
-            if (e.key === 'Enter') {
-                console.log("Enter pressed: ", e.key);
-                console.log("e.innerHTML: ", e.target.innerHTML);
-            }
-        }
-    }, {
-        key: "addNewEditable",
-        value: function addNewEditable(e) {
-            var _this4 = this;
-
-            console.log("addNewEditable: ");
-            var div = document.createElement('div');
-            div.setAttribute('style', 'display: none');
-            div.setAttribute('class', 'iquiz-textarea-container with-btn js-textarea-container');
-            div.innerHTML = "<textarea class='iquiz-ft-freetext js-textarea'></textarea><button class='iquiz-btn-remove js-remove-ans'>&times;</button>";
-
-            $(div).appendTo(this.node.querySelector(".js-user-answers")).slideDown("fast", function (e) {
-                // Animation complete
-
-                _this4.checkRemoveBtnDisabled();
-                _this4.shouldResetBeActive();
-                div.querySelector('textarea').focus();
-            });
-        }
-    }, {
-        key: "removeEditable",
-        value: function removeEditable(e) {
-            var _this5 = this;
-
-            console.log("FT-removeEditable:", e.target);
-            var divToRemove = e.target.parentNode; // e.target is BUTTON : we need parent DIV
-            if (e.target.classList.contains('js-remove-ans') && !e.target.classList.contains('disabled')) {
-                // console.log('js-remove-ans : Remove me');
-                // console.log(e.target.parentNode);
-                $(divToRemove).slideUp("fast", function (e) {
-                    // Animation complete
-                    _this5.node.querySelector(".js-user-answers").removeChild(divToRemove);
-                    _this5.checkRemoveBtnDisabled();
-                });
-            }
-        }
-    }, {
-        key: "checkRemoveBtnDisabled",
-        value: function checkRemoveBtnDisabled() {
-            var count = this.node.querySelector(".js-user-answers").getElementsByTagName('div').length;
-            // console.log('.js-textarea-container : ' + count);
-            if (count > 1) {
-                Array.from(this.node.querySelectorAll(".js-textarea-container")).forEach(function (el) {
-                    el.querySelector(".js-remove-ans").classList.remove("disabled");
-                    // console.log(el);
-                });
-            } else {
-                this.node.querySelector(".js-remove-ans").classList.add("disabled");
-            }
-        }
-    }, {
-        key: "shouldRevealBeActive",
-        value: function shouldRevealBeActive() {
-            var _this6 = this;
-
-            console.log("FT-shouldRevealBeActive:");
-            // Count textfields have values
-            var rCount = 0;
-            var arrCount = this.node.querySelectorAll(".js-textarea").length;
-            var show = false;
-            Array.from(this.node.querySelectorAll(".js-textarea")).forEach(function (el) {
-                // arrCount++;
-                if (el.value != '') {
-                    rCount++;
-                }
-                //console.log("rCount:", rCount);
-
-                if (_this6.qData.params.fixedUserAnswers == true || _this6.qData.params.fixedUserAnswers === "true") {
-                    //IF TEXTBOXES ARE FIXED NUMBER (ie IN TABLE) ALL NEED USER DATA BEFORE REVEAL ACTIVE
-                    if (rCount == arrCount) {
-                        show = true;
-                    }
-                } else {
-                    //IF TEXTBOXES ARE FLEXIBLE NUMBER ONLY MAKE SURE AT LEAST 1 HAS USER DATA BEFORE REVEAL ACTIVE
-                    if (rCount > 0) {
-                        show = true;
-                    }
-                }
-                if (show === true) {
-                    _this6.node.querySelector(".js-reveal").classList.remove("disabled");
-                } else {
-                    _this6.node.querySelector(".js-reveal").classList.add("disabled");
-                }
-            });
-        }
-    }, {
-        key: "shouldResetBeActive",
-        value: function shouldResetBeActive() {
-            // CHECK IF ANSWER BOX IF OPEN
-            var btnFlag = false;
-            if (!this.node.querySelector(".js-reveal").classList.contains("disabled")) {
-                btnFlag = true;
-            }
-            //
-            if (this.node.querySelectorAll(".js-textarea-container").length > 1) {
-                btnFlag = true;
-            }
-            //
-            if (btnFlag == true) {
-                this.node.querySelector(".js-reset").classList.remove("disabled");
-            } else {
-                this.node.querySelector(".js-reset").classList.add("disabled");
-            }
-        }
-    }, {
-        key: "doSubmit",
-        value: function doSubmit(e) {
-            var _this7 = this;
-
-            console.log("FT-doSubmit:", e);
-            //console.log(getComputedStyle(this.node.querySelector(".js-ans-container"), null).display);
-            if (getComputedStyle(this.node.querySelector(".js-ans-container"), null).display === 'none') {
-                //console.log("NONE");
-                $('.js-ans-container').slideDown("fast", function (e) {
-                    // Animation complete
-                    _this7.node.querySelector(".js-reveal").innerText = 'HIDE';
-                });
-            } else {
-                $('.js-ans-container').slideUp("fast", function (e) {
-                    // Animation complete
-                    _this7.node.querySelector(".js-reveal").innerText = 'REVEAL';
-                });
-            }
-        }
-    }]);
-
-    return QuizFT;
+  return QuizFT;
 }(_helpers.EventEmitter);
 
 exports.default = QuizFT;
