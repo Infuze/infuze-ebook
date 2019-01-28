@@ -10,6 +10,16 @@
       "number": 2,
       "folder": "2-Knives-and-Equipment",
       "title": "2. Knives & Equipment"
+    },
+    {
+      "number": 3,
+      "folder": "3-Food-Preparation",
+      "title": "3. Food Preparation"
+    },
+    {
+      "number": 4,
+      "folder": "4-Nutrition-and-Dietary-Requirements",
+      "title": "4. Nutrition & Dietary Requirements"
     }
   ]
 }
