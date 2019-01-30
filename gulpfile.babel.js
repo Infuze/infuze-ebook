@@ -19,19 +19,59 @@ const htmlmin = require('gulp-htmlmin');
 const cleanCSS = require('gulp-clean-css');
 const uglify = require("gulp-uglify");
 var runSequence = require('run-sequence');
-
+var rename = require("gulp-rename");
+var gzip = require('gulp-gzip');
 var minimist = require('minimist');
 const packConfig = require("./pack-config.json");
+const del = require('del');
+
 const packs = packConfig.packs;
-let pack, bookNumber, bookArr, bookTitle, bookFolder, filteredPack;
+let filteredPack;
 
-var knownOptions = {
-    string: 'book',
-    default: { env: process.env.NODE_ENV || 'production' }
-};
-//
+/**
+ * Default task commands
+ * gulp --book 1 (builds book 1 into deploy folder)
+ * gulp --book 1,2,4 (builds books 1, 2 & 4 into deploy folder)
+ * gulp --book all (builds all books into deploy folder)
+ */
+gulp.task('default', () => {
+    const args = process.argv.slice(2);
+    const options = minimist(args, {
+        string: 'book',
+        default: { env: process.env.NODE_ENV || 'production' }
+    });
 
-//gulp.task('dev', ['scripts', 'sass', 'fonts', 'ebook-css-images', 'images', 'html', 'folders', 'iquiz'], () => {
+    // ERROR with gulp command
+    if (!options.book) {
+        console.log('Gulp must contain --book arg. For example, Gulp --book 1,2');
+        return;
+    }
+
+    const bookNumbers = options.book.split(',');
+
+    if (bookNumbers.length === 1 && bookNumbers[0] === 'all') {
+        // ALL packs
+        filteredPack = packs;
+    } else {
+        // Filtered packs
+        filteredPack = packs.filter(
+            function (pack) {
+                return this.indexOf(String(pack.number)) >= 0;
+            },
+            bookNumbers
+        );
+    }
+
+    if (filteredPack.length) {
+        gulp.start('deploy-seq');
+    }
+});
+
+gulp.task('deploy-seq', function (callback) {
+    //runSequence('clean-book', callback);
+    runSequence('clean-book', 'copy-book-folder', 'copy-common-folder', 'update-html', callback);
+});
+
 gulp.task('dev', ['scripts', 'sass', 'fonts', 'ebook-css-images', 'images', 'html', 'folders', 'iquiz'], () => {
     //browserSync({
     browserSync({
@@ -59,6 +99,7 @@ gulp.task('scripts', () => {
     return browserify({
         'entries': ['./src/example/js/index.js'],
         'debug': true,
+        'sourceMaps': true,
         'transform': [
             babelify.configure({
                 'presets': ['es2015']
@@ -68,17 +109,19 @@ gulp.task('scripts', () => {
         .bundle()
         .on('error', function () {
             var args = Array.prototype.slice.call(arguments);
-
             plugins().notify.onError({
                 'title': 'Compile Error',
                 'message': '<%= error.message %>'
             }).apply(this, args);
-
             this.emit('end');
         })
-        .pipe(source('bundle.js'))
+        .pipe(plumber({ errorHandler: onError }))
+        .pipe(source('bundle.min.js'))
         .pipe(buffer())
         .pipe(plugins().sourcemaps.init({ 'loadMaps': true }))
+        .pipe(uglify().on('error', function (e) {
+            console.log(e);
+        }))
         .pipe(plugins().sourcemaps.write('.'))
         .pipe(gulp.dest('./books/_common/js/'))
         .pipe(browserSync.stream());
@@ -88,11 +131,25 @@ gulp.task('scripts', () => {
 /* ----------------- */
 gulp.task('sass', () => {
     return gulp.src('./src/example/css/styles.scss')
+        .pipe(plumber({ errorHandler: onError }))
         .pipe(plugins().sourcemaps.init())
-        .pipe(sass().on('error', sass.logError))
-        .pipe(concat('styles.css'))
-        .pipe(autoprefixer())
+        .pipe(sass({ // Compile Sass using LibSass.
+            errLogToConsole: true,
+            outputStyle: "expanded" // Options: nested, expanded, compact, compressed
+        }).on('error', sass.logError))
         .pipe(plugins().sourcemaps.write())
+        .pipe(gulp.dest('./books/_common/css/'))
+        .pipe(sass({ // Compile Sass using LibSass.
+            errLogToConsole: true,
+            outputStyle: "compressed" // Options: nested, expanded, compact, compressed
+        }))
+        .pipe(rename({ suffix: '.min' })) // Append our suffix to the name
+        //.pipe(concat('styles.css'))
+        .pipe(autoprefixer({
+            browsers: 'last 2 versions'
+        }))
+        .pipe(cleanCSS())
+        .pipe(gzip())
         .pipe(gulp.dest('./books/_common/css/'))
         .pipe(browserSync.stream());
 });
@@ -193,51 +250,19 @@ var onError = function (err) {
 
 
 
-gulp.task('default', () => {
-    const args = process.argv.slice(2);
-    const options = minimist(args, knownOptions);
-    console.log('options ', options);
-    if (!options.book) {
-        console.log('Gulp must contain --book arg. For example, Gulp --book 1,2');
-        return;
-    }
 
-    const bookNumbers = options.book.split(',');
-    console.log('bookNumbers ', bookNumbers);
-    console.log('bookNumbers ', bookNumbers.length);
+gulp.task('clean-book', function () {
 
-    if (bookNumbers.length === 1 && bookNumbers[0] === 'all') {
-        filteredPack = packs;
-    } else {
-        filteredPack = packs.filter(
-            function (pack) {
-                return this.indexOf(String(pack.number)) >= 0;
-            },
-            bookNumbers
-        );
-    }
+    filteredPack.map(pack => {
+        console.log('pack >>>>>>>>>>>>>>>>>>', pack);
+        // set pack folder name
 
-    console.log('filteredPack ', filteredPack);
-
-    if (filteredPack.length) {
-        gulp.start('deploy-seq');
-        //runSequence('deploy-book', callback);
-    }
+        let delDest = 'deploy/' + pack.folder + '/**';
+        console.log('delDest >>>>>>>>>>>>>>>>>>', delDest);
+        del.sync([delDest, '!deploy'])
+    })
 });
-
-
-
-/* gulp.task('deploy-book', function (callback) {
-    runSequence('deploy-seq'', 'copy-pack', 'copy-content', 'create-zip', callback);
-}); */
-
-
-
-
-
-
-
-gulp.task('deploy-seq', () => {
+gulp.task('copy-book-folder', () => {
     console.log('build-book ');
 
     let jsBundleStreams = [];
@@ -246,93 +271,98 @@ gulp.task('deploy-seq', () => {
         console.log('pack:', pack);
         // set pack folder name
 
-
-        let title = pack.title;
-        //title = title.replace(/,/g, "");
-        //title = title.replace(/\s/g, "-");
-        let folder = pack.folder;
-        let src = 'books/' + folder + '/**';
-        let dest = 'deploy/' + folder;
-
         jsBundleStreams.push(
             gulp
-                .src(src)
-                .pipe(newer(dest))
+                .src('books/' + pack.folder + '/**')
+                .pipe(newer('deploy/' + pack.folder))
                 .pipe(plumber({ errorHandler: onError }))
-                .pipe(gulp.dest(dest))
+                .pipe(gulp.dest('deploy/' + pack.folder))
         );
-        jsBundleStreams.push(
-            gulp
-                .src(['books/_common/**', '!books/_common/js/*'])
-                .pipe(newer('deploy/' + folder + '/assets'))
-                .pipe(plumber({ errorHandler: onError }))
-                .pipe(gulp.dest('deploy/' + folder + '/assets'))
-        );
-        jsBundleStreams.push(
-            gulp
-                .src('deploy/' + folder + '/index.html', { base: "./" })
-                .pipe(replace(/_common/g, 'assets'))
-                //.pipe(replace(/bundle.js/g, 'bundle.min.js'))
-                //.pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
-                //.pipe(plumber({ errorHandler: onError }))
-                .pipe(gulp.dest('./'))
-        );
-        //jsBundleStreams.push(
-        //  gulp
-        //    .src('deploy/' + folder + '/*.html', { base: "./" })
-        //  .pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
-        //.pipe(plumber({ errorHandler: onError }))
-        //.pipe(gulp.dest('./'))
-        //);
-        jsBundleStreams.push(
-            gulp
-                .src('deploy/' + folder + '/assets/css/*.css', { base: "./" })
-                .pipe(cleanCSS())
-                .pipe(plumber({ errorHandler: onError }))
-                .pipe(gulp.dest('./'))
-        );
-        jsBundleStreams.push(
-            browserify({
-                'entries': ['./src/example/js/index.js'],
-                'debug': false,
-                'transform': [
-                    babelify.configure({
-                        'presets': ['es2015']
-                    })
-                ]
-            })
-                .bundle()
-                .on('error', function () {
-                    var args = Array.prototype.slice.call(arguments);
-
-                    plugins().notify.onError({
-                        'title': 'Compile Error',
-                        'message': '<%= error.message %>'
-                    }).apply(this, args);
-
-                    this.emit('end');
-                })
-                .pipe(source('bundle.min.js'))
-                .pipe(buffer())
-                .pipe(uglify({
-                    mangle: true,
-                    compress: true,
-                    beautify: false
-                }))
-                .pipe(gulp.dest('deploy/' + folder + '/assets/js'))
-        );
-
     })
+    return merge(jsBundleStreams);
+});
+gulp.task('copy-common-folder', () => {
+    console.log('build-book ');
 
-    runSequence(jsBundleStreams);
-    //return merge(jsBundleStreams);
+    let jsBundleStreams = [];
 
+    filteredPack.map(pack => {
+        console.log('pack:', pack);
+        // set pack folder name
+
+        jsBundleStreams.push(
+            gulp
+                .src(['books/_common/**', '!books/_common/js/bundle.min.js.map', '!books/_common/css/styles.min.css', '!books/_common/css/styles.css'])
+                .pipe(newer('deploy/' + pack.folder + '/assets'))
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(gulp.dest('deploy/' + pack.folder + '/assets'))
+        );
+    })
+    return merge(jsBundleStreams);
+});
+gulp.task('update-html', () => {
+    console.log('build-book ');
+
+    let jsBundleStreams = [];
+
+    filteredPack.map(pack => {
+        console.log('pack:', pack);
+        // set pack folder name
+
+        jsBundleStreams.push(
+            gulp
+                .src('deploy/' + pack.folder + '/index.html', { base: "./" })
+                .pipe(replace('../_common', './assets'))
+                .pipe(replace('./assets/css/styles.css', './assets/css/styles.min.css'))
+                .pipe(htmlmin({ collapseWhitespace: false, removeComments: true }))
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(gulp.dest('./'))
+        );
+    })
+    return merge(jsBundleStreams);
 });
 
+
+
+
+/* ----------------- */
+/* Build Pack
+/* ----------------- */
+gulp.task('pack', function (callback) {
+    runSequence('clean', 'copy-pack', 'copy-content', 'create-zip', callback);
+});
+gulp.task('clean', function () {
+    del.sync(['pack/**', '!pack'])
+});
+
+gulp.task("copy-pack", () => {
+
+    if (!fs.existsSync('pack'))
+        fs.mkdirSync('pack'), console.log("📁  folder created:", 'pack');
+
+    let jsBundleStreams = [];
+    // Create pack folder and Contents folder
+    if (!fs.existsSync(packDir))
+        fs.mkdirSync(packDir), console.log("📁  folder created:", packDir);
+
+    // Add content pack files
+    let packSrc = `src/imsmanifest/**`,
+        packDest = `${packDir}`;
+    jsBundleStreams.push(
+        gulp
+            .src(packSrc)
+            .pipe(newer(packDest))
+            .pipe(plumber({ errorHandler: onError }))
+            .pipe(gulp.dest(packDest))
+    );
+    return merge(jsBundleStreams);
+})
+
+
+
+
+
 gulp.task("build-pack", () => {
-
-
-
 
     packConfig.packs.map(pack => {
         // set pack folder name
