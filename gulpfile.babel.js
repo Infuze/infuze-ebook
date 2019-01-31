@@ -2,40 +2,96 @@
 import gulp from 'gulp';
 import fs from 'fs';
 import plumber from "gulp-plumber";
-import replace from 'gulp-replace';
-
-const newer = require("gulp-newer");
-const merge = require("merge-stream");
-const zip = require('gulp-zip');
-const del = require('del');
-const packConfig = require("./pack-config.json");
-const sass = require('gulp-sass');
-sass.compiler = require('node-sass');
-const uglify = require("gulp-uglify");
-const concat = require('gulp-concat');
-import autoprefixer from 'gulp-autoprefixer';
-const imagemin = require('gulp-imagemin');
-const changed = require('gulp-changed');
-
-import critical from 'critical';
-import babelify from 'babelify';
 import browserSync from 'browser-sync';
 import browserify from 'browserify';
+const babel = require('gulp-babel');
+import babelify from 'babelify';
+import source from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
 import plugins from 'gulp-load-plugins';
-import source from 'vinyl-source-stream';
-import rename from 'gulp-rename';
-var runSequence = require('run-sequence');
+const sass = require('gulp-sass');
+const concat = require('gulp-concat');
+import autoprefixer from 'gulp-autoprefixer';
+const newer = require("gulp-newer");
+const merge = require("merge-stream");
+import replace from 'gulp-replace';
 const htmlmin = require('gulp-htmlmin');
+const cleanCSS = require('gulp-clean-css');
+const uglify = require("gulp-uglify");
+var runSequence = require('run-sequence');
+var rename = require("gulp-rename");
+var gzip = require('gulp-gzip');
+var minimist = require('minimist');
+const packConfig = require("./pack-config.json");
+const del = require('del');
 
-let title = packConfig.packs[0].title;
-console.log('title ', title)
-title = title.replace(/,/g, "");
-title = title.replace(/\s/g, "-");
-let packDir = "pack/" + title;
+const packs = packConfig.packs;
+let filteredPack;
 
+/**
+ * Default task commands
+ * gulp --book 1 (builds book 1 into deploy folder)
+ * gulp --book 1,2,4 (builds books 1, 2 & 4 into deploy folder)
+ * gulp --book all (builds all books into deploy folder)
+ */
+gulp.task('default', () => {
+    const args = process.argv.slice(2);
+    const options = minimist(args, {
+        string: 'book',
+        default: { env: process.env.NODE_ENV || 'production' }
+    });
 
+    // ERROR with gulp command
+    if (!options.book) {
+        console.log('Gulp must contain --book arg. For example, Gulp --book 1,2');
+        return;
+    }
 
+    const bookNumbers = options.book.split(',');
+
+    if (bookNumbers.length === 1 && bookNumbers[0] === 'all') {
+        // ALL packs
+        filteredPack = packs;
+    } else {
+        // Filtered packs
+        filteredPack = packs.filter(
+            function (pack) {
+                return this.indexOf(String(pack.number)) >= 0;
+            },
+            bookNumbers
+        );
+    }
+
+    if (filteredPack.length) {
+        gulp.start('deploy-seq');
+    }
+});
+
+gulp.task('deploy-seq', function (callback) {
+    //runSequence('clean-book', callback);
+    runSequence('clean-book', 'copy-book-folder', 'copy-common-folder', 'update-html', callback);
+});
+
+gulp.task('dev', ['scripts', 'sass', 'fonts', 'ebook-css-images', 'images', 'html', 'folders', 'iquiz'], () => {
+    //browserSync({
+    browserSync({
+        'server': './',
+        startPath: "books/0-example/index.html#/task1/slides/0",
+        'snippetOptions': {
+            'rule': {
+                'match': /<\/body>/i,
+                'fn': (snippet) => snippet
+            }
+        }
+    });
+    gulp.watch('./src/ebook/scss/**/*.scss', ['styles', browserSync.reload]);
+    gulp.watch('./src/ebook/js/**/*.js', ['scripts', browserSync.reload]);
+    gulp.watch('./src/iquiz/scss/**/*.scss', ['styles', browserSync.reload]);
+    gulp.watch('./src/iquiz/js/**/*.js', ['scripts', browserSync.reload]);
+    gulp.watch('./src/example/js/**/*.js', ['scripts', browserSync.reload]);
+    gulp.watch('./src/example/css/**/*.scss', ['styles', browserSync.reload]);
+    gulp.watch('./src/example/*.html', ['html', browserSync.reload]);
+});
 /* ----------------- */
 /* Scripts
 /* ----------------- */
@@ -43,6 +99,7 @@ gulp.task('scripts', () => {
     return browserify({
         'entries': ['./src/example/js/index.js'],
         'debug': true,
+        'sourceMaps': true,
         'transform': [
             babelify.configure({
                 'presets': ['es2015']
@@ -52,120 +109,66 @@ gulp.task('scripts', () => {
         .bundle()
         .on('error', function () {
             var args = Array.prototype.slice.call(arguments);
-
             plugins().notify.onError({
                 'title': 'Compile Error',
                 'message': '<%= error.message %>'
             }).apply(this, args);
-
             this.emit('end');
         })
-        .pipe(source('bundle.js'))
+        .pipe(plumber({ errorHandler: onError }))
+        .pipe(source('bundle.min.js'))
         .pipe(buffer())
         .pipe(plugins().sourcemaps.init({ 'loadMaps': true }))
+        .pipe(uglify().on('error', function (e) {
+            console.log(e);
+        }))
         .pipe(plugins().sourcemaps.write('.'))
-        .pipe(gulp.dest('./build/js/'))
+        .pipe(gulp.dest('./books/_common/js/'))
         .pipe(browserSync.stream());
 });
-gulp.task('scripts-min', () => {
-    return browserify({
-        'entries': ['./src/example/js/index.js'],
-        'debug': false,
-        'transform': [
-            babelify.configure({
-                'presets': ['es2015']
-            })
-        ]
-    })
-        .bundle()
-        .on('error', function () {
-            var args = Array.prototype.slice.call(arguments);
-
-            plugins().notify.onError({
-                'title': 'Compile Error',
-                'message': '<%= error.message %>'
-            }).apply(this, args);
-
-            this.emit('end');
-        })
-        .pipe(source('bundle.js'))
-        .pipe(buffer())
-        .pipe(uglify())
-        .pipe(gulp.dest('./deploy/js/'))
-});
-
-
 /* ----------------- */
 /* SASS
 /* ----------------- */
 gulp.task('sass', () => {
     return gulp.src('./src/example/css/styles.scss')
+        .pipe(plumber({ errorHandler: onError }))
         .pipe(plugins().sourcemaps.init())
-        .pipe(sass().on('error', sass.logError))
-        .pipe(concat('styles.css'))
-        .pipe(autoprefixer())
+        .pipe(sass({ // Compile Sass using LibSass.
+            errLogToConsole: true,
+            outputStyle: "expanded" // Options: nested, expanded, compact, compressed
+        }).on('error', sass.logError))
         .pipe(plugins().sourcemaps.write())
-        .pipe(gulp.dest('./build/css/'))
+        .pipe(gulp.dest('./books/_common/css/'))
+        .pipe(sass({ // Compile Sass using LibSass.
+            errLogToConsole: true,
+            outputStyle: "compressed" // Options: nested, expanded, compact, compressed
+        }))
+        .pipe(rename({ suffix: '.min' })) // Append our suffix to the name
+        //.pipe(concat('styles.css'))
+        .pipe(autoprefixer({
+            browsers: 'last 2 versions'
+        }))
+        .pipe(cleanCSS())
+        .pipe(gzip())
+        .pipe(gulp.dest('./books/_common/css/'))
         .pipe(browserSync.stream());
 });
-gulp.task('sass-min', () => {
-    return gulp.src('./src/example/css/styles.scss')
-        .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-        .pipe(concat('styles.css'))
-        .pipe(autoprefixer())
-        .pipe(gulp.dest('./deploy/css/'))
-});
-
-
-
-/* ----------------- */
-/* HTML
-/* ----------------- */
-gulp.task("html", () => {
-    return gulp
-        .src("src/example/*.html")
-        .pipe(newer("build"))
-        .pipe(gulp.dest("build"))
-        .pipe(browserSync.stream());
-});
-gulp.task("html-min", () => {
-    return gulp
-        .src("src/example/*.html")
-        .pipe(htmlmin({ collapseWhitespace: true, removeComments: true }))
-        .pipe(gulp.dest("deploy"))
-        .pipe(browserSync.stream())
-});
-
 /* ----------------- * /
 /* Fonts
 /* ----------------- */
 gulp.task("fonts", () => {
-    let dest = "build/css/fonts";
+    let dest = "books/_common/css/fonts";
     let path1 = gulp.src("src/example/css/fonts/**/*")
-        .pipe(changed("build/css/fonts"))
+        .pipe(newer(dest))
         .pipe(gulp.dest(dest));
     let path2 = gulp.src("src/ebook/scss/fonts/**/*")
-        .pipe(changed("build/css/fonts"))
+        .pipe(newer(dest))
         .pipe(gulp.dest(dest));
     let path3 = gulp.src("src/iquiz/scss/fonts/**/*")
-        .pipe(changed("build/css/fonts"))
+        .pipe(newer(dest))
         .pipe(gulp.dest(dest));
     return merge(path1, path2, path3);
 });
-gulp.task("fonts-min", () => {
-    let dest = "deploy/css/fonts";
-    let path1 = gulp.src("src/example/css/fonts/**/*")
-        .pipe(changed("deploy/css/fonts"))
-        .pipe(gulp.dest(dest));
-    let path2 = gulp.src("src/ebook/scss/fonts/**/*")
-        .pipe(changed("deploy/css/fonts"))
-        .pipe(gulp.dest(dest));
-    let path3 = gulp.src("src/iquiz/scss/fonts/**/*")
-        .pipe(changed("deploy/css/fonts"))
-        .pipe(gulp.dest(dest));
-    return merge(path1, path2, path3);
-});
-
 /* ----------------- * /
 /* CSS images
 /* ----------------- */
@@ -177,20 +180,36 @@ gulp.task("ebook-css-images", () => {
                 errorHandler: onError
             })
         )
-        .pipe(gulp.dest("build/css/images"));
+        .pipe(gulp.dest("books/_common/css/images"));
 });
-gulp.task("ebook-css-images-min", () => {
-    gulp
-        .src(["src/ebook/scss/images/**/*"])
-        .pipe(
-            plumber({
-                errorHandler: onError
-            })
-        )
-        .pipe(gulp.dest("deploy/css/images"));
+/* ----------------- */
+/* Images
+/* ----------------- */
+gulp.task("images", () => {
+    var imgSrc = ["./src/example/images/**/*"],
+        imgDst = "./books/0-example/images";
+    return (
+        gulp
+            .src(imgSrc)
+            .pipe(newer(imgDst))
+            .pipe(
+                plumber({
+                    errorHandler: onError
+                })
+            )
+            .pipe(gulp.dest(imgDst))
+    );
 });
-
-
+/* ----------------- */
+/* HTML
+/* ----------------- */
+gulp.task("html", () => {
+    return gulp
+        .src("src/example/*.html")
+        .pipe(newer("books/0-example"))
+        .pipe(gulp.dest("books/0-example"))
+        .pipe(browserSync.stream());
+});
 /* ----------------- * /
 /* Other root folders
 /* ----------------- */
@@ -202,25 +221,14 @@ gulp.task("folders", () => {
                 errorHandler: onError
             })
         )
-        .pipe(gulp.dest("build/libs"));
+        .pipe(gulp.dest("books/_common/libs"));
 });
-gulp.task("folders-min", () => {
-    gulp
-        .src(["src/example/libs/**/*"])
-        .pipe(
-            plumber({
-                errorHandler: onError
-            })
-        )
-        .pipe(gulp.dest("deploy/libs"));
-});
-
 /* ----------------- */
 /* IQuiz assets
 /* ----------------- */
 gulp.task("iquiz", () => {
     var imgSrc = ["./src/example/iquiz_assets/**/*"],
-        imgDst = "./build/iquiz_assets";
+        imgDst = "./books/0-example/iquiz_assets";
     return (
         gulp
             .src(imgSrc)
@@ -230,72 +238,103 @@ gulp.task("iquiz", () => {
                     errorHandler: onError
                 })
             )
-            .pipe(changed(imgDst))
             .pipe(gulp.dest(imgDst))
     );
 });
-gulp.task("iquiz-min", () => {
-    var imgSrc = ["./src/example/iquiz_assets/**/*"],
-        imgDst = "./deploy/iquiz_assets";
-    return (
-        gulp
-            .src(imgSrc)
-            .pipe(newer(imgDst))
-            .pipe(
-                plumber({
-                    errorHandler: onError
-                })
-            )
-            .pipe(changed(imgDst))
-            .pipe(imagemin())
-            .pipe(gulp.dest(imgDst))
-        //.pipe(notify({ message: "Images task complete" }))
-    );
+// Gulp plumber error handler
+var onError = function (err) {
+    console.log(err);
+};
+
+
+
+
+
+
+gulp.task('clean-book', function () {
+
+    filteredPack.map(pack => {
+        console.log('pack >>>>>>>>>>>>>>>>>>', pack);
+        // set pack folder name
+
+        let delDest = 'deploy/' + pack.folder + '/**';
+        console.log('delDest >>>>>>>>>>>>>>>>>>', delDest);
+        del.sync([delDest, '!deploy'])
+    })
+});
+gulp.task('copy-book-folder', () => {
+    console.log('build-book ');
+
+    let jsBundleStreams = [];
+
+    filteredPack.map(pack => {
+        console.log('pack:', pack);
+        // set pack folder name
+
+        jsBundleStreams.push(
+            gulp
+                .src('books/' + pack.folder + '/**')
+                .pipe(newer('deploy/' + pack.folder))
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(gulp.dest('deploy/' + pack.folder))
+        );
+    })
+    return merge(jsBundleStreams);
+});
+gulp.task('copy-common-folder', () => {
+    console.log('build-book ');
+
+    let jsBundleStreams = [];
+
+    filteredPack.map(pack => {
+        console.log('pack:', pack);
+        // set pack folder name
+
+        jsBundleStreams.push(
+            gulp
+                .src(['books/_common/**', '!books/_common/js/bundle.min.js.map', '!books/_common/css/styles.min.css.gz', '!books/_common/css/styles.css'])
+                .pipe(newer('deploy/' + pack.folder + '/assets'))
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(gulp.dest('deploy/' + pack.folder + '/assets'))
+        );
+    })
+    return merge(jsBundleStreams);
+});
+gulp.task('update-html', () => {
+    console.log('build-book ');
+
+    let jsBundleStreams = [];
+
+    filteredPack.map(pack => {
+        console.log('pack:', pack);
+        // set pack folder name
+
+        jsBundleStreams.push(
+            gulp
+                .src('deploy/' + pack.folder + '/index.html', { base: "./" })
+                .pipe(replace('../_common', './assets'))
+                .pipe(replace('./assets/css/styles.css', './assets/css/styles.min.css'))
+                .pipe(htmlmin({ collapseWhitespace: false, removeComments: true }))
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(gulp.dest('./'))
+        );
+    })
+    return merge(jsBundleStreams);
 });
 
 
-/* ----------------- */
-/* Images
-/* ----------------- */
-gulp.task("images", () => {
-    var imgSrc = ["./src/example/images/**/*"],
-        imgDst = "./build/images";
-    return (
-        gulp
-            .src(imgSrc)
-            .pipe(newer(imgDst))
-            .pipe(
-                plumber({
-                    errorHandler: onError
-                })
-            )
-            .pipe(changed(imgDst))
-            .pipe(gulp.dest(imgDst))
-    );
-});
-gulp.task("images-min", () => {
-    var imgSrc = ["./src/example/images/**/*"],
-        imgDst = "./deploy/images";
-    return (
-        gulp
-            .src(imgSrc)
-            .pipe(newer(imgDst))
-            .pipe(
-                plumber({
-                    errorHandler: onError
-                })
-            )
-            .pipe(changed(imgDst))
-            .pipe(imagemin())
-            .pipe(gulp.dest(imgDst))
-        //.pipe(notify({ message: "Images task complete" }))
-    );
-});
 
 
 /* ----------------- */
 /* Build Pack
 /* ----------------- */
+gulp.task('pack', function (callback) {
+    runSequence('clean', 'copy-pack', 'copy-content', 'create-zip', callback);
+});
+gulp.task('clean', function () {
+    del.sync(['pack/**', '!pack'])
+});
+
 gulp.task("copy-pack", () => {
 
     if (!fs.existsSync('pack'))
@@ -318,40 +357,12 @@ gulp.task("copy-pack", () => {
     );
     return merge(jsBundleStreams);
 })
-gulp.task("copy-content", () => {
-    let jsBundleStreams = [];
-    let contentDir = packDir + "/contents";
-    if (!fs.existsSync(contentDir))
-        fs.mkdirSync(contentDir), console.log("📁  folder created:", contentDir);
 
-    // Add dest files to Content folder
-    let filesSrc = `deploy/**`,
-        filesDist = `${contentDir}`;
-    jsBundleStreams.push(
-        gulp
-            .src(filesSrc)
-            //.pipe(newer(filesDist))
-            .pipe(plumber({ errorHandler: onError }))
-            .pipe(gulp.dest(filesDist))
-    );
-    return merge(jsBundleStreams);
-})
-gulp.task("create-zip", () => {
-    let jsBundleStreams = [];
-    jsBundleStreams.push(
-        gulp.src(`${packDir}/**`)
-            .pipe(zip(`${packDir}.zip`))
-            .pipe(gulp.dest('./'))
-    )
-    return merge(jsBundleStreams);
-})
+
+
+
 
 gulp.task("build-pack", () => {
-
-    if (!fs.existsSync("pack"))
-        fs.mkdirSync("pack"), console.log("📁  folder created:", "pack");
-
-    let jsBundleStreams = [];
 
     packConfig.packs.map(pack => {
         // set pack folder name
@@ -414,44 +425,7 @@ gulp.task("build-pack", () => {
     return merge(jsBundleStreams);
 });
 
-// Gulp plumber error handler
-var onError = function (err) {
-    console.log(err);
-};
-
-gulp.task('clean', function () {
-    del.sync(['pack/**', '!pack'])
-});
 
 
 
-/* ----------------- */
-/* Taks
-/* ----------------- */
-gulp.task('development', ['scripts', 'sass', 'fonts', 'ebook-css-images', 'images', 'html', 'folders', 'iquiz'], () => {
-    browserSync({
-        'server': './',
-        startPath: "build/index.html#/task1/slides/0",
-        'snippetOptions': {
-            'rule': {
-                'match': /<\/body>/i,
-                'fn': (snippet) => snippet
-            }
-        }
-    });
-    gulp.watch('./src/ebook/scss/**/*.scss', ['styles', browserSync.reload]);
-    gulp.watch('./src/iquiz/scss/**/*.scss', ['styles', browserSync.reload]);
-    gulp.watch('./src/ebook/js/**/*.js', ['scripts', browserSync.reload]);
-    gulp.watch('./src/iquiz/js/**/*.js', ['scripts', browserSync.reload]);
-    gulp.watch('./src/example/js/**/*.js', ['scripts', browserSync.reload]);
-    gulp.watch('./src/example/css/**/*.scss', ['styles', browserSync.reload]);
-    gulp.watch('./src/example/*.html', ['html', browserSync.reload]);
-});
 
-gulp.task('default', ['development']);
-gulp.task('deploy', ['scripts-min', 'sass-min', 'fonts-min', 'ebook-css-images-min', 'images-min', 'html-min', 'folders-min', 'iquiz-min']);
-//gulp.task("pack", ["clean", "build-pack"]);
-
-gulp.task('pack', function (callback) {
-    runSequence('clean', 'copy-pack', 'copy-content', 'create-zip', callback);
-});
