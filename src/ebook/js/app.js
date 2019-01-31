@@ -53,17 +53,25 @@ export default class Ebook {
   }
 
   init() {
-    $log('init')
-    this.router = new Router({ errorPage: 'task1/slides/0' })
-      .add(/task1\/slides\/0/, () => {
-        this.loadSection();
+    $log('init', window.availableRoutes)
+    this.router = new Router({ 'errorPage': 'task1/slides/0' });
+
+    const routesObj = window.availableRoutes;
+    Object.keys(routesObj).forEach(e => {
+      let task = e;
+      let taskObj = routesObj[e];
+      Object.keys(taskObj).forEach(g => {
+
+        for (let i = 0; i < taskObj[g]; i++) {
+          const path = task + '/' + g + '/' + i + '$',
+            regex = new RegExp(path)
+          console.log('New route added - ' + regex);
+          this.router.add(path, () => {
+            this.loadSection();
+          })
+        }
       })
-      .add(/task1\/quiz\/0/, () => {
-        this.loadSection();
-      })
-      .add(/task1\/media\/0/, () => {
-        this.loadSection();
-      })
+    })
 
     this.setNavigationEvents();
     $on(window, "onbeforeunload", SCORM.quit);
@@ -133,6 +141,14 @@ export default class Ebook {
     this.setPageEvents();
     this.definePages();
     this.addRoutes();
+
+    const urlPaths = Router.parseRoute(this.router.currentRoute);
+    this.task = urlPaths[0];
+    this.taskType = urlPaths[1];
+    this.currentPage = urlPaths[2];
+    const thisSectionType = this.displayTypes.find(type => type.type === this.taskType);
+    this.display = thisSectionType.type;
+
     this.setView();
   }
 
@@ -207,6 +223,7 @@ export default class Ebook {
     const currentPageNode = this.getPageNode(currentPageNum);
 
     if (!currentPageNode) {
+      console.log('$$$$$$$$$$$$$$$$$$$$$$$$$ currentPageNode')
       alert('displayPage - No page nodes!');
       return;
     }
@@ -269,10 +286,125 @@ export default class Ebook {
     qs(".l-nav-bar").addEventListener("touchmove", this.preventDefault, false);
     qs(".l-header").addEventListener("touchmove", this.preventDefault, false);
 
+    // SIDEMENU
+    qs(".player_sidenav").onclick = e => this.goFromSideMenu(e);
+    qs(".header-menu-icon").onclick = e => this.openSideNav();
+
+    // OVERLAY
+    qs(".player_overlay").onclick = e => this.overlayClicked();
+
     $on(window, "resize", this.debounce(e => {
       this.doResize();
     }, 200));
   }
+
+
+
+  goFromSideMenu(e) {
+    console.log('goFromSideMenu');
+    e.preventDefault();
+
+    //GET HREF STRING OF SECTION TO LOAD OR JUMP TO
+    var hrefString = "",
+      actionString = "";
+
+    var target = e.target || e.srcElement;
+    while (target) {
+      if (target instanceof HTMLAnchorElement) {
+        hrefString = target.getAttribute('href');
+        break;
+      } else if (target instanceof HTMLButtonElement) {
+        actionString = target.getAttribute('value');
+      }
+      target = target.parentNode;
+    }
+
+    if (hrefString.includes('closeSideNav')) {
+      this.closeSideNav();
+      return;
+    }
+
+    if (!!actionString) {
+      this.toggleSideMenuSub(target, actionString);
+      return;
+    }
+
+    if (!!hrefString) {
+      this.router.navigate(hrefString);
+      this.closeSideNav();
+      return;
+    }
+  }
+
+  toggleSideMenuSub(target, sub) {
+    console.log('toggleSideMenuSub');
+
+    var section = $('#' + sub);
+    var animateTime = 200;
+
+    //console.log('section', section);
+
+    // CLOSE ALL SUBMENUS UNLESS SELECTED ONE IS ALREADY OPEN
+    Array.from(document.querySelectorAll(".player_sidenav .subMenuItem")).forEach(el => {
+      if (sub != el.id) {
+        $(el).animate({ height: '0' }, animateTime);
+      }
+    });
+    // RESET ARROWS UNLESS SELECTED ONE IS ALREADY OPEN
+    Array.from(document.querySelectorAll(".player_sidenav .menuCol-fixed a .open")).forEach(el => {
+      console.log(el);
+      $(el).removeClass("open");
+    });
+
+
+    //alert(section.height());
+
+
+    if (section.height() === 0) { //CLOSED SO OPEN SUBNAV
+      var curHeight = section.height(), // Get Default Height
+        autoHeight = section.css('height', 'auto').height(); // Get Auto Height
+      section.height(curHeight); // Reset to Default Height
+      section.stop().animate({ height: autoHeight }, animateTime); // Animate to Auto Height
+      //
+      // ROTATE ARROW ICON
+      $('div', target).addClass("open");
+    } else {
+      section.stop().animate({ height: '0' }, animateTime);
+      $('div', target).removeClass("open");
+    }
+
+  }
+
+  openSideNav() {
+    // stop scroll on body?
+    this.showOverLay();
+    $(".player_sidenav").animate({ right: "0px" }, 200);
+  }
+
+  closeSideNav() {
+    this.hideOverLay();
+    setTimeout(function () { // delay to allow button transition
+      $(".player_sidenav").animate({ right: "-270px" }, 200, function () {
+        // do stuff after anim finishes
+        // start scroll on body?
+      });
+    }, 0);
+  }
+
+  overlayClicked() {
+    // if sidenav showing
+    this.closeSideNav();
+  }
+
+  showOverLay() {
+    $(".player_overlay").fadeIn("fast");
+  }
+
+  hideOverLay() {
+    $(".player_overlay").fadeOut("fast");
+  }
+
+
 
   debounce(fn, time) {
     //$log('>>>>>>>>>> DEBOUNCE')
@@ -344,7 +476,7 @@ export default class Ebook {
     this.task = urlPaths[0];
 
     const newURL = this.task + '/' + thisSectionType.type + '/0';
-    $log('newURL ', newURL)
+    $log('displayModeChanged ', newURL)
     this.router.navigate(newURL);
   }
 
@@ -354,7 +486,7 @@ export default class Ebook {
     this.task = urlPaths[0];
 
     const newURL = this.task + '/quiz/0';
-    $log('newURL ', newURL)
+    $log('startQuiz ', newURL)
     this.router.navigate(newURL);
 
 
@@ -364,32 +496,24 @@ export default class Ebook {
   }
   navigateToNextPage(p = 0) {
     $log('navigateToNextPage ', p)
-
     p = this.getPageNumber(1);
     const urlPaths = Router.parseRoute(this.router.currentRoute);
     this.task = urlPaths[0];
     this.taskType = urlPaths[1];
-
     const newURL = this.task + '/' + this.taskType + '/' + p;
-    $log('newURL ', newURL)
+    $log('navigateToNextPage ', newURL)
     this.router.navigate(newURL);
   }
   navigateToPage(p = 0) {
     $log('navigateToPage ', p)
-
     const urlPaths = Router.parseRoute(this.router.currentRoute);
     this.task = urlPaths[0];
     this.taskType = urlPaths[1];
-
     const newURL = this.task + '/' + this.taskType + '/' + p;
     $log('newURL ', newURL)
     this.router.navigate(newURL);
-
-
-    //const thisSectionType = this.displayTypes.find(type => type.type === this.display);
-    //location.hash = '#' + thisSectionType.prefix + p;
     this.setPageNumber(p);
-    document.querySelector('body').scrollTop = 0;
+    document.querySelector('.js-wrapper').scrollTop = 0;
   }
 
   setPageNumber(page) {
@@ -397,19 +521,13 @@ export default class Ebook {
   }
 
   getPageNumber(offset = 0) {
-
     const urlPaths = Router.parseRoute(this.router.currentRoute);
     return +urlPaths[2] + offset;
-
-
-    /* const pagePrefix = this.displayTypes.find(type => type.type === this.display).prefix;
-    let currentHash = location.hash || "#s0";
-    return +currentHash.replace("#" + pagePrefix, "") + offset; */
   }
 
   getPageNode(page) {
-    console.log('getPageNode ', page);
-    console.log('this.display ', this.display);
+    //console.log('getPageNode ', page);
+    //console.log('this.display ', this.display);
     const pageNamePrefix = this.displayTypes.find(type => type.type === this.display).selector;
     let node = this.allSlides.find(
       n => n.id === pageNamePrefix + page

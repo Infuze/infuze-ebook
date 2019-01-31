@@ -112,6 +112,7 @@ export default class Router {
         }
 
         if (!hasMatch) {
+            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$ navigateError')
             this.navigateError(hash);
         }
 

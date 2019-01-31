@@ -13,7 +13,11 @@
     <script type="text/javascript" src="./libs/anime/anime.min.js"></script>
     <script type="text/javascript" src="./libs/iquiz/js/iquiz.js"></script>
     link rel="stylesheet" href="./libs/iquiz/css/iquiz.css"> &ndash;&gt;-->
+<<<<<<< HEAD:books/0-example/task1-slides.html
     <link rel="stylesheet" href="../">
+=======
+  <link rel="stylesheet" href="../../build/css/styles.css">
+>>>>>>> kg-nav-menu:build/task1-slides.html
 
 </head>
 
@@ -86,20 +90,101 @@
             </article>
         </div> -->
 
+      <style>
+        .scale-media-ratio{
+          /*background-color: yellow;*/
+          position: absolute;
+          height: calc(100% - 20px);
+          width: calc(100% - 20px);
+        }
+
+        .scale-media-ratio.with-title{
+          height: calc(100% - 80px);
+        }
+        .scale-media-ratio .img-container{
+          height: 100%;
+          width: 100%;
+          min-height: 100px;
+          background-color: blue;
+          text-align: center;
+        }
+        .scale-media-ratio .img-container img{
+          max-width: 100%;
+          max-height: 100%;
+        }
+        .scale-media-ratio .title{
+          background-color: #00cc99;
+          height: 60px;
+        }
+
+        .scale-media-ratio .title .page-h1{
+          margin: 0 0 10px 0;
+        }
+      </style>
+
+
         <div class="container--layout-1 hidden" id="page-0">
             <article class="article">
+
                 <section>
-                    <div class="kg-block">
 
-                        <div class="kg-centered">
-                            <img src="images/CandG_Logo_Group.png" style="width: 30%; min-width: 160px; max-width: 260px; padding-bottom: 20px;">
-                            <!--<h1 class="page-general-h1">Task 1</h1>-->
-                            <h1 class="page-general-h2">Task 1 : Key nutrients and dietary requirements</h1>
-                            <p>Further instructions here to be confirmed.</p>
-                            <!--<button type="button" onclick="alert(window.innerHeight);">Click Me!</button>-->
-                        </div>
-
+                  <!--IMAGE ONLY RATIO SCALE-->
+                  <div class="scale-media-ratio">
+                    <div class="img-container">
+                      <img src="images/image11.jpeg">
                     </div>
+                  </div>
+
+                  <!--IMAGE AND TITLE RATIO SCALE-->
+                  <div class="scale-media-ratio with-title">
+                    <div class="title"><h1 class="page-h1">The Eatwell guide</h1></div>
+                    <div class="img-container">
+                      <img src="images/image11.jpeg">
+                      <!--<iframe src="https://player.vimeo.com/video/145049057" style="width:100%;height:100%;background-color: black;"-->
+                              <!--frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>-->
+                    </div>
+                  </div>
+
+
+                  <!--<div style="background-color: yellow; position: absolute; height: calc(100% - 80px); width: calc(100% - 20px);">-->
+                    <!--<div style="background-color: #00cc99; height: 60px;">aaaa<br>bbbb</div>-->
+                    <!--<div style="height: 100%; width: 100%; min-height: 100px; background-color: blue; text-align: center;">-->
+                      <!--<img style=" max-width: 100%; max-height: 100%;" src="images/image11.jpeg">-->
+                    <!--</div>-->
+                  <!--</div>-->
+
+                  <!--<div style="background-color: yellow; position: absolute; height: calc(100% - 20px); width: calc(100% - 20px);">-->
+                    <!--<div style="background-color: #00cc99">aaaa<br>bbbbcccc</div>-->
+                    <!--<div style="height: 100%; width: 100%; background-color: blue">-->
+                      <!--<img style=" max-width: 100%; max-height: 100%;" src="images/CandG_Logo_Group.png">-->
+                    <!--</div>-->
+                  <!--</div>-->
+
+
+                  <!--<div style="height: 400px;width: 300px;background-color: #00b5e2">-->
+                    <!--<img style=" max-width: 100%; max-height: 100%;" src="images/CandG_Logo_Group.png">-->
+                  <!--</div>-->
+
+                  <!--<div style="display: table; background-color:yellow; position:absolute; height: calc(100% - 20px); width: calc(100% - 20px);">-->
+                    <!--<div style="background-color: #00b5e2; display: table-row; height: 1px">title<br>line2</div>-->
+                    <!--<div style="background-color: #00cc99; display: table-row;position: absolute;height: calc(100% - 30px); width: 100%">-->
+                      <!--<div style="height: 100%; width: 100%; background-color: #00b5e2">-->
+                      <!--<img style=" max-width: 100%; max-height: 100%;" src="images/CandG_Logo_Group.png">-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+
+                    <!--<div class="kg-block">-->
+
+                        <!--<div class="kg-centered">-->
+                            <!--<img src="images/CandG_Logo_Group.png" style="width: 30%; min-width: 160px; max-width: 260px; padding-bottom: 20px;">-->
+                            <!--&lt;!&ndash;<h1 class="page-h1">Task 1</h1>&ndash;&gt;-->
+                            <!--<h1 class="page-h2">Task 1 : Key nutrients and dietary requirements</h1>-->
+                            <!--<p>Further instructions here to be confirmed.</p>-->
+                            <!--&lt;!&ndash;<button type="button" onclick="alert(window.innerHeight);">Click Me!</button>&ndash;&gt;-->
+                        <!--</div>-->
+
+                    <!--</div>-->
                 </section>
             </article>
         </div>
@@ -109,8 +194,8 @@
         <div class="container--layout-1 hidden" id="page-1">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Introduction to nutrients and dietary requirements</h1>
-                    <div class="page-2col-flexbox">
+                    <h1 class="page-h1">Introduction to nutrients and dietary requirements</h1>
+                    <div class="page-2col">
 
                         <div class="page-col-2-1">
                             <p>In today’s modern society, chefs are required to provide customers with a varied choice
@@ -135,8 +220,8 @@
         <div class="container--layout-1 hidden" id="page-2">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Customers</h1>
-                    <div class="page-col-1">
+                    <h1 class="page-h1">Customers</h1>
+                    <div class="page-1col">
                         <p>Chefs must be able to identify various types of customers and their needs. Certain groups
                             may have
                             specific nutritional requirements.</p>
@@ -167,13 +252,13 @@
         <div class="container--layout-1 hidden" id="page-3">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Key nutrients</h1>
-                    <!--<div class="page-col-1">-->
+                    <h1 class="page-h1">Key nutrients</h1>
+                    <!--<div class="page-1col">-->
                     <!--<p><strong>Recommended quantities of key nutrients to ensure a balanced diet</strong></p>-->
                     <!--</div>-->
                     <p><strong>Recommended quantities of key nutrients to ensure a balanced diet</strong></p>
 
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
 
                         <div class="page-col-2-1">
                             <p><strong>Macro nutrients</strong> are needed in large amounts, measured in grams (g).</p>
@@ -197,7 +282,7 @@
                         </div>
                     </div>
 
-                    <!--<div class="page-col-1">-->
+                    <!--<div class="page-1col">-->
                     <!--<p><strong>Macro nutrients</strong> are needed in large amounts, measured in grams (g).</p>-->
                     <!--<div class="page-u-list">-->
                     <!--<ul>-->
@@ -218,8 +303,8 @@
         <div class="container--layout-1 hidden" id="page-4">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Sources of nutrients</h1>
-                    <div class="page-2col-flexbox">
+                    <h1 class="page-h1">Sources of nutrients</h1>
+                    <div class="page-2col">
 
                         <div class="page-col-2-1" style="flex: 1">
                             <p>The main sources of nutrients include:</p>
@@ -248,9 +333,9 @@
         <div class="container--layout-1 hidden" id="page-5">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Sources of nutrients</h1>
+                    <h1 class="page-h1">Sources of nutrients</h1>
 
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -268,7 +353,7 @@
                         </div>
                     </div>
 
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -293,7 +378,7 @@
         <div class="container--layout-1 hidden" id="page-6">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Sources of nutrients</h1>
+                    <h1 class="page-h1">Sources of nutrients</h1>
                     <table class="page-table-base">
                         <tr>
                             <th style="width: 30%">Vitamin or mineral</th>
@@ -362,9 +447,9 @@
         <div class="container--layout-1 hidden" id="page-7">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Sources of nutrients</h1>
+                    <h1 class="page-h1">Sources of nutrients</h1>
 
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -383,7 +468,7 @@
                         </div>
                     </div>
 
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -411,11 +496,11 @@
         <div class="container--layout-1 hidden" id="page-8">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">A balanced diet</h1>
+                    <h1 class="page-h1">A balanced diet</h1>
                     <p>A balanced diet is one that provides a body with the nutrients it needs to grow, repair and
                         produce the
                         necessary energy. A balanced diet will include all the main food groups:</p>
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
 
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
@@ -440,14 +525,14 @@
         <div class="container--layout-1 hidden" id="page-9">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">A healthy diet</h1>
+                    <h1 class="page-h1">A healthy diet</h1>
                     <p>Many consumers today are interested in nutrition and, thanks in part to the internet, have the
                         knowledge
                         to provide themselves with a balanced and healthy diet.</p>
                     <p>Those who work in the food service industry have a moral obligation to provide appropriate
                         choices to
                         their customers. Chefs should:</p>
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -474,7 +559,7 @@
             <article class="article">
                 <section>
                     <div class="page-center-scale-container">
-                        <h1 class="page-general-h1">The Eatwell guide</h1>
+                        <h1 class="page-h1">The Eatwell guide</h1>
                         <div class="page-center-scale-container">
                             <div style="text-align: center"><img src="images/image11.jpeg" style="width: 90%"></div>
                         </div>
@@ -487,11 +572,11 @@
         <div class="container--layout-1 hidden" id="page-11">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Fruit and vegetables</h1>
+                    <h1 class="page-h1">Fruit and vegetables</h1>
                     <p>The UK government recommends that everyone should eat five portions of fruit or vegetables every
                         day.
                         One portion for an average adult is approximately 80g. Fruit and vegetables are:</p>
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -515,9 +600,9 @@
         <div class="container--layout-1 hidden" id="page-12">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Starches</h1>
+                    <h1 class="page-h1">Starches</h1>
                     <p>Starches, or carbohydrates, include potatoes, breads, pasta and cereals.</p>
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -546,9 +631,9 @@
         <div class="container--layout-1 hidden" id="page-13">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Dairy products</h1>
+                    <h1 class="page-h1">Dairy products</h1>
                     <p>Dairy is a major source of calcium and protein and includes:</p>
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -581,9 +666,9 @@
         <div class="container--layout-1 hidden" id="page-14">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Meat, fish, eggs and pulses</h1>
+                    <h1 class="page-h1">Meat, fish, eggs and pulses</h1>
                     <p>This group is considered to be the main source of protein in the diet.</p>
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -616,8 +701,8 @@
         <div class="container--layout-1 hidden" id="page-15">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Meat, fish, eggs and pulses</h1>
-                    <div class="page-2col-flexbox">
+                    <h1 class="page-h1">Meat, fish, eggs and pulses</h1>
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -651,10 +736,10 @@
         <div class="container--layout-1 hidden" id="page-16">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Current UK nutritional guidelines</h1>
+                    <h1 class="page-h1">Current UK nutritional guidelines</h1>
                     <p>The UK government provides nutritional guidelines for the public, including the following
                         points:</p>
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -682,10 +767,10 @@
         <div class="container--layout-1 hidden" id="page-17">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Special dietary requirements</h1>
+                    <h1 class="page-h1">Special dietary requirements</h1>
                     <p>Some consumers require specific dietary requirements. This may be for a number of reasons,
                         including:</p>
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -714,8 +799,8 @@
         <div class="container--layout-1 hidden" id="page-18">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Food intolerances and allergies</h1>
-                    <div class="page-2col-flexbox">
+                    <h1 class="page-h1">Food intolerances and allergies</h1>
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -747,11 +832,11 @@
         <div class="container--layout-1 hidden" id="page-19">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Health and lifestyle choices</h1>
+                    <h1 class="page-h1">Health and lifestyle choices</h1>
                     <p>Many consumers follow a particular lifestyle and diet for their own reasons, even if they have
                         no
                         medical need to do so. This may include:</p>
-                    <div class="page-2col-flexbox">
+                    <div class="page-2col">
                         <div class="page-col-2-1" style="flex: 1">
                             <div class="page-u-list">
                                 <ul>
@@ -780,7 +865,7 @@
         <div class="container--layout-1 hidden" id="page-20">
             <article class="article">
                 <section>
-                    <h1 class="page-general-h1">Medical reasons for specific diets</h1>
+                    <h1 class="page-h1">Medical reasons for specific diets</h1>
                     <p>In some cases there is a medical reason for a customer’s diet. Some examples of this are:</p>
                     <div class="page-u-list">
                         <ul>
