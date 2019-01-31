@@ -224,7 +224,7 @@ export default class Ebook {
 
     if (!currentPageNode) {
       console.log('$$$$$$$$$$$$$$$$$$$$$$$$$ currentPageNode')
-      alert('displayPage - No page nodes!');
+      // alert('displayPage - No page nodes!');
       return;
     }
 

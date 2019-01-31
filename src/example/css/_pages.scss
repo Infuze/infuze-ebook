@@ -81,8 +81,10 @@ body.slides-template {
 
 /* PAGE STYLES */
 
-//HEADINGS
+
 .container--layout-1, .container--iquiz, .container--media {
+
+  //HEADINGS
   .page-2col h1, .page-h1 {
     //margin: 0.4em 0 0.1em 0;
     margin: 5px 0 10px 0;
@@ -97,40 +99,47 @@ body.slides-template {
     margin: 5px 0 10px 0;
     color: $heading-color;
   }
+
+  //START SCREENS
+
+  .page-startscreen {
+    text-align: center;
+    background: #c0c0c0;
+    position: absolute;
+    height: 70vh;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);;
+    /*margin: 20px;*/
+  }
+
+  .page-startscreen:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+
+  .page-startscreen .float-center {
+    //border: #a0a0a0 solid 1px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 90%;
+  }
+
+  .page-startscreen .page-logo{
+    width: 30%;
+    min-width:200px;
+    padding-bottom: 20px;
+  }
+}
+
+.container--iquiz .page-startscreen{
+  //QUIZ DOESNT HAVE PADDING BECAUSE OF OVERLAY
+  margin: 10px 10px;
 }
 
 
-//START SCREENS
 
-.page-startscreen {
-  text-align: center;
-  //background: #c0c0c0;
-  position: absolute;
-  height: 70vh;
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);;
-  /*margin: 20px;*/
-}
-
-.page-startscreen:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-}
-
-.page-startscreen .float-center {
-  //border: #a0a0a0 solid 1px;
-  display: inline-block;
-  vertical-align: middle;
-  width: 90%;
-}
-
-.page-startscreen .page-logo{
-  width: 30%;
-  min-width:200px;
-  padding-bottom: 20px;
-}
 
 
 
