@@ -292,7 +292,7 @@ gulp.task('copy-common-folder', () => {
 
         jsBundleStreams.push(
             gulp
-                .src(['books/_common/**', '!books/_common/js/bundle.min.js.map', '!books/_common/css/styles.min.css', '!books/_common/css/styles.css'])
+                .src(['books/_common/**', '!books/_common/js/bundle.min.js.map', '!books/_common/css/styles.min.css.gz', '!books/_common/css/styles.css'])
                 .pipe(newer('deploy/' + pack.folder + '/assets'))
                 .pipe(plumber({ errorHandler: onError }))
                 .pipe(gulp.dest('deploy/' + pack.folder + '/assets'))
