@@ -37,7 +37,7 @@ body.slides-template {
   //
     display: flex;
     justify-content: normal;
-    max-width: 1200px !important;
+    //max-width: 1200px !important;
     padding: 0 !important;
     height: calc(100% - 96px);
     overflow-y: auto;
@@ -202,8 +202,8 @@ body.slides-template {
 
 
 
-  /*  GO FULL WIDTH AT LESS THAN 540 PIXELS */
-  @media only screen and (max-width: 540px) {
+  /*  GO FULL WIDTH AT LESS THAN 600 PIXELS */
+  @media only screen and (max-width: 600px) {
 
     //p {
     //  font-size: 1.1em;
