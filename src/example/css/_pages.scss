@@ -95,7 +95,7 @@ body.slides-template {
   }
 
   .page-h2 {
-    font-size: 1.4em;
+    font-size: 1.3em;
     margin: 5px 0 10px 0;
     color: $heading-color;
   }
@@ -179,6 +179,8 @@ body.slides-template {
   .page-col-2-2 img {
     width: 100%;
     height: auto;
+    max-width: 600px;
+    margin: 0 auto;
     display: block;
   }
   .page-col-2-2 img + img {
@@ -191,7 +193,7 @@ body.slides-template {
     //width: 90%;
     //font-size: 1.1em;
     line-height: 1.6em;
-    margin:5px 0 0 -15px;
+    //margin:5px 0 5px -15px;
   }
   .page-u-list ul li {
     padding: 3px 0;
