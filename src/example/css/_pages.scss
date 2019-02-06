@@ -104,6 +104,12 @@ section {
     color: $heading-color;
   }
 
+  .page-h3 {
+    font-size: 1.1em;
+    margin: 5px 0 5px 0;
+    color: $heading-color;
+  }
+
   //START SCREENS
 
   .page-startscreen {
@@ -183,7 +189,8 @@ section {
   .page-col-2-2 img {
     width: 100%;
     height: auto;
-    max-width: 600px;
+    max-width: 500px;
+    //max-height: 600px;
     margin: 0 auto;
     display: block;
   }
