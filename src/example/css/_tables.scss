@@ -1,10 +1,11 @@
 /* TABLES */
 
 .page-table-overflow {
-  overflow: hidden;
+  overflow-x: hidden;
   overflow-x: auto;
   border: blue solid 5px;
-  width: 100%;
+  position: relative;
+  overflow-y: auto;
 }
 
 .page-table-base {
