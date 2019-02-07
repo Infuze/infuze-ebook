@@ -173,7 +173,7 @@
 }
 
 .stv-radio-buttons-wrapper div {
-  /*border: 10px solid green;*/
+  //border: 2px solid green;
   width: calc(33% - 1px);
   float: left;
   margin-right: 1px;
@@ -200,9 +200,21 @@
   vertical-align: middle;
 }
 
-.stv-radio-buttons-wrapper .r1 {
+//.stv-radio-buttons-wrapper .r1 {
+//  border-radius: 20px 0 0 20px;
+//}
+
+//ROUNDED CORNERS IF ONLY 1 BUTTON
+.stv-radio-buttons-wrapper div:first-of-type .rSpan {
   border-radius: 20px 0 0 20px;
+  //border-radius: 20px;
 }
+
+//ROUNDED CORNERS ON LEFT OF FIRST BUTTON IF FOLLOWED BY ANOTHER BUTTON
+//.stv-radio-buttons-wrapper div:first-of-type .rSpan {
+//  border-radius: 20px 0 0 20px;
+//}
+
 .stv-radio-buttons-wrapper span.img {
   display: inline-block;
   height: 22px;
@@ -221,11 +233,19 @@
   vertical-align: text-top;
 }
 
-.stv-radio-buttons-wrapper .r2 {
+//.stv-radio-buttons-wrapper .r2 {
+//  border-radius: 0;
+//}
+
+.stv-radio-buttons-wrapper div:nth-child(2) .rSpan {
   border-radius: 0;
 }
 
-.stv-radio-buttons-wrapper .r3 {
+//.stv-radio-buttons-wrapper .r3 {
+//  border-radius: 0 20px 20px 0;
+//}
+
+.stv-radio-buttons-wrapper div:last-of-type .rSpan {
   border-radius: 0 20px 20px 0;
 }
 
@@ -261,10 +281,19 @@
   transition: 0s;
 }
 
-.stv-radio-buttons-wrapper input[type="radio"]:not(:checked):hover + span {
+.stv-radio-buttons-wrapper input[type="radio"]:not(:checked):not(:disabled):hover + span {
   //background-color: #fe5000;
   background-color: #ffa300;
   transition: 0.3s;
+}
+
+   //DISABLED
+.stv-radio-buttons-wrapper input[type="radio"]:disabled + span {
+  opacity: .3;
+  //background: #464646;
+  //border-color: #464646;
+  
+  cursor: default;
 }
 
 /* TOGGLE switch - the box around the slider */
