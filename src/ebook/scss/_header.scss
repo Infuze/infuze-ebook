@@ -26,9 +26,9 @@
   font-size: 24px;
   //font-weight: normal;
   color: white;
-  span {
-    font-weight: 600;
-  }
+  //span {
+  //  font-weight: 600;
+  //}
 }
 
 .l-header__banner.row2 {
@@ -36,8 +36,8 @@
   padding-left: 10px;
   font-size: 14px;
   font-weight: normal;
-  span {
-    font-weight: 600;
+  span:first-of-type {
+    font-weight: bold;
   }
 }
 

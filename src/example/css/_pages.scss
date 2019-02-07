@@ -36,22 +36,22 @@ section {
 }
 
 
-.l-wrapper{
-  //background-color: yellow;
-  //
-    display: flex;
-    justify-content: normal;
-    //max-width: 1200px !important;
-    padding: 0 !important;
-    height: calc(100% - 96px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    position: absolute;
-    margin: 0;
-    top: 36px;
-    width: 100%;
-}
+//.l-wrapper{
+//  //background-color: yellow;
+//  //
+//    display: flex;
+//    justify-content: normal;
+//    //max-width: 1200px !important;
+//    padding: 0 !important;
+//    height: calc(100% - 96px);
+//    overflow-y: auto;
+//    overflow-x: hidden;
+//    -webkit-overflow-scrolling: touch;
+//    position: absolute;
+//    margin: 0;
+//    top: 36px;
+//    width: 100%;
+//}
 
 //GENERAL PAGE CONTENT
 .container--layout-1, .container--media {
@@ -81,12 +81,35 @@ section {
     margin-bottom: 0;
     margin-bottom: 0;
   }
+
+  //Selects all <p> elements that are placed immediately after <.page-h2> elements
+  .page-h2 + p, .page-h3 + p{
+    margin-top: 0;
+    padding-top: 0;
+  }
 }
 
 /* PAGE STYLES */
 
 
 .container--layout-1, .container--iquiz, .container--media {
+
+  .page-scroll-x-container{
+    //border: blue solid 1px;
+    //box-sizing: border-box;
+    overflow-x: auto;
+    //opacity: .3;
+    img{
+      width:100%;
+    }
+  }
+
+  p ~ .page-scroll-x-container{
+    //Selects every <.page-scroll-x-container> element that are preceded by a <p> element
+    margin-top: 10px;
+  }
+
+  
 
   //HEADINGS
   .page-2col h1, .page-h1 {
@@ -100,7 +123,7 @@ section {
 
   .page-h2 {
     font-size: 1.3em;
-    margin: 5px 0 10px 0;
+    margin: 5px 0 5px 0;
     color: $heading-color;
   }
 
@@ -178,24 +201,25 @@ section {
 
   .page-col-2-1 {
     flex: 1;
-    padding: 20px 20px 0 0;
+    padding: 0 20px 0 0;
     //background-color: yellow;
   }
 
   .page-col-2-2 {
     flex: 1;
-    padding: 20px 0 0 0;
-  }
-  .page-col-2-2 img {
-    width: 100%;
-    height: auto;
-    max-width: 500px;
-    //max-height: 600px;
-    margin: 0 auto;
-    display: block;
-  }
-  .page-col-2-2 img + img {
-    margin-top: 5px;
+    //padding: 20px 0 0 0;
+    img {
+      width: 100%;
+      height: auto;
+      max-width: 500px;
+      //max-height: 600px;
+      margin: 0 auto;
+      padding-top: 10px;
+      display: block;
+    }
+    img + img {
+      margin-top: 5px;
+    }
   }
 
 
@@ -204,6 +228,7 @@ section {
     //width: 90%;
     //font-size: 1.1em;
     line-height: 1.6em;
+    margin: 10px 0;
     //margin:5px 0 5px -15px;
   }
   .page-u-list ul li {
@@ -226,10 +251,13 @@ section {
       display: block;
     }
     .page-col-2-1 {
-      padding: 10px 0 0 0;
+      padding: 0;
     }
     .page-col-2-2 {
-      //padding: 0 5px 20px 5px;
+      padding: 10px 0;
+      img {
+        padding-top: 0px;
+      }
     }
 
   }

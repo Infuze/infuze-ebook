@@ -1,11 +1,8 @@
 /* TABLES */
 
-.page-table-overflow {
-  overflow-x: hidden;
-  overflow-x: auto;
-  border: blue solid 5px;
-  position: relative;
-  overflow-y: auto;
+p ~ .page-table-base{
+  //Selects every <.page-table-base> element that are preceded by a <p> element
+   margin-top: 10px;
 }
 
 .page-table-base {

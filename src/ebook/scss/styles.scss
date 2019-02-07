@@ -30,14 +30,14 @@ body {
 }
 
 .l-wrapper {
-  display: flex;
-  justify-content: normal;
+  //display: flex;
+  //justify-content: normal;
   //max-width: 1800px;
   padding: 0;
   margin: 0;
   height: calc(100% - 120px);
   overflow-y: auto;
-  overflow-x: hidden;
+  //overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   position: absolute;
   top: 62px;
@@ -46,10 +46,11 @@ body {
 }
 
 .container--layout-1 {
-  height: auto;
-  flex-grow: 1;
-  flex-basis: 0;
-  width: 100%;
+  //height: auto;
+  //flex-grow: 1;
+  //flex-basis: 0;
+  //width: 100%;
+  //background-color: yellow;
 }
 
 .hidden {

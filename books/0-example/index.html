@@ -13,6 +13,31 @@
     <link rel="stylesheet" href="../_common/css/styles.css">
   <script>
 
+    var bookObj = {
+      'bookTitle': 'my book title',
+      'bookSubTitle': 'my book sub-title',
+      'bookTasks': {
+        'task1': {
+          'taskName': 'Task 1',
+          'taskDesc': 'abc task description',
+          'routes': {
+            'slides': 14,
+            'quiz': 4,
+            'media': 2
+          }
+        },
+        'task2': {
+          'taskName': 'Task 2',
+          'taskDesc': 'def task description',
+          'routes': {
+            'slides': 12,
+            'quiz': 2,
+            'media': 1
+          }
+        }
+      }
+    }
+
     var availableRoutes = {
       'task1': {
         'slides': 14,
@@ -91,7 +116,7 @@
       <!--</h1>-->
 
       <h1 class="l-header__banner row2">
-        <strong>Task 1:</strong> Key nutrients and dietary requirements
+        <span>Task 1</span>: <span>Key nutrients and dietary requirements</span>
       </h1>
     </div>
   </header>

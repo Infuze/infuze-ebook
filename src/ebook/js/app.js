@@ -19,6 +19,7 @@ export default class Ebook {
     this.currentNodeSelection;
     this.display;
     this.router;
+    this.bookObj;
     this.quiz;
     this.slidesCurrentPage = 0;
     this.slideCount = 0;
@@ -53,7 +54,8 @@ export default class Ebook {
   }
 
   init() {
-    $log('init', window.availableRoutes)
+    $log('init', window.availableRoutes);
+    this.bookObj = window.bookObj;
     this.router = new Router({ 'errorPage': 'task1/slides/0' });
 
     const routesObj = window.availableRoutes;
@@ -182,6 +184,7 @@ export default class Ebook {
     this.displayPage();
     this.doResize();
     this.resetNavigationStates();
+    this.updateTitlesNav();
 
     SCORM.init();
     ///ANIME/// this.createAnimationTimelines();
@@ -334,6 +337,15 @@ export default class Ebook {
       this.closeSideNav();
       return;
     }
+  }
+
+  updateTitlesNav() {
+    $log('****** updateTitlesNav');
+    $log('%%%%%%%%% this.bookObj', this.bookObj.bookTasks.task1.taskName);
+    
+    // UPDATE TITLE
+    document.querySelector('.l-header__banner.row2 span:first-of-type').innerHTML = this.bookObj.bookTasks[this.task].taskName;
+    document.querySelector('.l-header__banner.row2 span:last-of-type').innerHTML = this.bookObj.bookTasks[this.task].taskDesc;
   }
 
   toggleSideMenuSub(target, sub) {
