@@ -341,11 +341,35 @@ export default class Ebook {
 
   updateTitlesNav() {
     $log('****** updateTitlesNav');
-    $log('%%%%%%%%% this.bookObj', this.bookObj.bookTasks.task1.taskName);
+    $log('%%%%%%%%% this.bookObj', this.bookObj.bookTasks[this.task].routes.slides);
     
     // UPDATE TITLE
     document.querySelector('.l-header__banner.row2 span:first-of-type').innerHTML = this.bookObj.bookTasks[this.task].taskName;
     document.querySelector('.l-header__banner.row2 span:last-of-type').innerHTML = this.bookObj.bookTasks[this.task].taskDesc;
+
+    
+    // UPDATE SECTION BTNS
+
+    // SLIDES
+    if(this.bookObj.bookTasks[this.task].routes.slides == 0) {
+      document.querySelector('.stv-radio-buttons-wrapper [id=slidesRadio]').setAttribute("disabled", "");
+    }else{
+      document.querySelector('.stv-radio-buttons-wrapper [id=slidesRadio]').removeAttribute("disabled", "");
+    }
+
+    // MEDIA
+    if(this.bookObj.bookTasks[this.task].routes.media == 0) {
+      document.querySelector('.stv-radio-buttons-wrapper [id=mediaRadio]').setAttribute("disabled", "");
+    }else{
+      document.querySelector('.stv-radio-buttons-wrapper [id=mediaRadio]').removeAttribute("disabled", "");
+    }
+
+    // QUIZ
+    if(this.bookObj.bookTasks[this.task].routes.quiz == 0) {
+      document.querySelector('.stv-radio-buttons-wrapper [id=quizRadio]').setAttribute("disabled", "");
+    }else{
+      document.querySelector('.stv-radio-buttons-wrapper [id=quizRadio]').removeAttribute("disabled", "");
+    }
   }
 
   toggleSideMenuSub(target, sub) {

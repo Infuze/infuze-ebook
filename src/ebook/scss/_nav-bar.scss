@@ -249,7 +249,8 @@
   border-radius: 0 20px 20px 0;
 }
 
-.stv-radio-buttons-wrapper label {
+.stv-radio-buttons-wrapper input[type="radio"], label {
+  //border: 2px solid green;
   display: inline-block;
   cursor: pointer;
   width: 100%;
@@ -290,11 +291,14 @@
    //DISABLED
 .stv-radio-buttons-wrapper input[type="radio"]:disabled + span {
   opacity: .3;
-  //background: #464646;
-  //border-color: #464646;
-  
+  label{
   cursor: default;
+  }
 }
+
+//.stv-radio-buttons-wrapper input[type="radio"]:disabled, label {
+//  cursor: default;
+//}
 
 /* TOGGLE switch - the box around the slider */
 
