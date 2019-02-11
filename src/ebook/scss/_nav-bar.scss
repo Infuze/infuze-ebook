@@ -142,17 +142,19 @@
 }
 
 .nav-bar__button:disabled {
-  background: #434447;
-  border-color: #434447;
+  //background: #434447;
+  //border-color: #434447;
+  opacity: .4;
   cursor: default;
 }
 
-.nav-bar__button:disabled > %nav-bar__button-text {
-   color: rgba(255,255,255,.3);
- }
-
+//.nav-bar__button:disabled > %nav-bar__button-text {
+//   color: rgba(255,255,255,.3);
+// }
+//
 .nav-bar__button:disabled > %nav-bar__button-circle {
-  background: #5f5f5f;
+  //background: #5f5f5f;
+  background: #b9b9b9;
 }
 
 /*Radio Buttons NAV */
@@ -258,7 +260,7 @@
   //border: 2px solid green;
   display: inline-block;
   cursor: pointer;
-  width: 100%;
+  //width: 100%;
 }
 
 .stv-radio-buttons-wrapper .rSpan .button-text {

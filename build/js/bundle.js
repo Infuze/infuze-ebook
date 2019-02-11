@@ -6687,7 +6687,7 @@ module.exports={
   "_args": [
     [
       "cheerio@1.0.0-rc.2",
-      "/Users/martinwright/Projects/infuze-ebook"
+      "/Volumes/HD2/_Projects/gitRepos/_infuze/infuze-ebook"
     ]
   ],
   "_from": "cheerio@1.0.0-rc.2",
@@ -6717,7 +6717,7 @@ module.exports={
   ],
   "_resolved": "https://registry.npmjs.org/cheerio/-/cheerio-1.0.0-rc.2.tgz",
   "_spec": "1.0.0-rc.2",
-  "_where": "/Users/martinwright/Projects/infuze-ebook",
+  "_where": "/Volumes/HD2/_Projects/gitRepos/_infuze/infuze-ebook",
   "author": {
     "name": "Matt Mueller",
     "email": "mattmuelle@gmail.com",
@@ -36857,6 +36857,7 @@ var Ebook = function () {
     this.currentNodeSelection;
     this.display;
     this.router;
+    this.bookObj;
     this.quiz;
     this.slidesCurrentPage = 0;
     this.slideCount = 0;
@@ -36892,6 +36893,7 @@ var Ebook = function () {
       var _this = this;
 
       (0, _util.$log)('init', window.availableRoutes);
+      this.bookObj = window.bookObj;
       this.router = new _router2.default({ 'errorPage': 'task1/slides/0' });
 
       var routesObj = window.availableRoutes;
@@ -37034,6 +37036,7 @@ var Ebook = function () {
       this.displayPage();
       this.doResize();
       this.resetNavigationStates();
+      this.updateTitlesNav();
 
       _pipwerksScormApiWrapper.SCORM.init();
       ///ANIME/// this.createAnimationTimelines();
@@ -37104,7 +37107,7 @@ var Ebook = function () {
 
       if (!currentPageNode) {
         console.log('$$$$$$$$$$$$$$$$$$$$$$$$$ currentPageNode');
-        alert('displayPage - No page nodes!');
+        // alert('displayPage - No page nodes!');
         return;
       }
 
@@ -37207,9 +37210,12 @@ var Ebook = function () {
           break;
         } else if (target instanceof HTMLButtonElement) {
           actionString = target.getAttribute('value');
+          console.log('button', actionString);
         }
         target = target.parentNode;
       }
+
+      console.log('target', target);
 
       if (hrefString.includes('closeSideNav')) {
         this.closeSideNav();
@@ -37228,14 +37234,47 @@ var Ebook = function () {
       }
     }
   }, {
+    key: "updateTitlesNav",
+    value: function updateTitlesNav() {
+      (0, _util.$log)('****** updateTitlesNav');
+      // $log('%%%%%%%%% this.bookObj', this.bookObj.bookTasks[this.task].routes.slides);
+
+      // UPDATE TITLE
+      document.querySelector('.l-header__banner.row2 span:first-of-type').innerHTML = this.bookObj.bookTasks[this.task].taskName;
+      document.querySelector('.l-header__banner.row2 span:last-of-type').innerHTML = this.bookObj.bookTasks[this.task].taskDesc;
+
+      // UPDATE SECTION BTNS
+
+      // SLIDES
+      if (this.bookObj.bookTasks[this.task].routes.slides == 0) {
+        document.querySelector('.stv-radio-buttons-wrapper [id=slidesRadio]').setAttribute("disabled", "");
+      } else {
+        document.querySelector('.stv-radio-buttons-wrapper [id=slidesRadio]').removeAttribute("disabled", "");
+      }
+
+      // MEDIA
+      if (this.bookObj.bookTasks[this.task].routes.media == 0) {
+        document.querySelector('.stv-radio-buttons-wrapper [id=mediaRadio]').setAttribute("disabled", "");
+      } else {
+        document.querySelector('.stv-radio-buttons-wrapper [id=mediaRadio]').removeAttribute("disabled", "");
+      }
+
+      // QUIZ
+      if (this.bookObj.bookTasks[this.task].routes.quiz == 0) {
+        document.querySelector('.stv-radio-buttons-wrapper [id=quizRadio]').setAttribute("disabled", "");
+      } else {
+        document.querySelector('.stv-radio-buttons-wrapper [id=quizRadio]').removeAttribute("disabled", "");
+      }
+    }
+  }, {
     key: "toggleSideMenuSub",
     value: function toggleSideMenuSub(target, sub) {
-      console.log('toggleSideMenuSub');
+      console.log('toggleSideMenuSub', target, sub);
 
       var section = $('#' + sub);
       var animateTime = 200;
 
-      //console.log('section', section);
+      console.log('section', section);
 
       // CLOSE ALL SUBMENUS UNLESS SELECTED ONE IS ALREADY OPEN
       Array.from(document.querySelectorAll(".player_sidenav .subMenuItem")).forEach(function (el) {
@@ -37244,10 +37283,11 @@ var Ebook = function () {
         }
       });
       // RESET ARROWS UNLESS SELECTED ONE IS ALREADY OPEN
-      Array.from(document.querySelectorAll(".player_sidenav .menuCol-fixed a .open")).forEach(function (el) {
-        console.log(el);
-        $(el).removeClass("open");
-      });
+      // Array.from(document.querySelectorAll(".player_sidenav .menuCol-fixed button .open")).forEach(el => {
+      //   console.log(el);
+      //   $(el).removeClass("open");
+      // });
+
 
       //alert(section.height());
 

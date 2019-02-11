@@ -304,7 +304,7 @@ export default class Ebook {
 
 
   goFromSideMenu(e) {
-    console.log('goFromSideMenu');
+    $log('goFromSideMenu');
     e.preventDefault();
 
     //GET HREF STRING OF SECTION TO LOAD OR JUMP TO
@@ -318,12 +318,10 @@ export default class Ebook {
         break;
       } else if (target instanceof HTMLButtonElement) {
         actionString = target.getAttribute('value');
-        console.log('button', actionString);
+        break;
       }
       target = target.parentNode;
     }
-
-    console.log('target', target);
 
     if (hrefString.includes('closeSideNav')) {
       this.closeSideNav();
@@ -376,12 +374,10 @@ export default class Ebook {
   }
 
   toggleSideMenuSub(target, sub) {
-    console.log('toggleSideMenuSub', target, sub);
+    $log('toggleSideMenuSub', target, sub);
 
     var section = $('#' + sub);
     var animateTime = 200;
-
-    console.log('section', section);
 
     // CLOSE ALL SUBMENUS UNLESS SELECTED ONE IS ALREADY OPEN
     Array.from(document.querySelectorAll(".player_sidenav .subMenuItem")).forEach(el => {
@@ -390,10 +386,9 @@ export default class Ebook {
       }
     });
     // RESET ARROWS UNLESS SELECTED ONE IS ALREADY OPEN
-    // Array.from(document.querySelectorAll(".player_sidenav .menuCol-fixed button .open")).forEach(el => {
-    //   console.log(el);
-    //   $(el).removeClass("open");
-    // });
+    Array.from(document.querySelectorAll(".player_sidenav .menuCol-fixed button .open")).forEach(el => {
+      $(el).removeClass("open");
+    });
 
 
     //alert(section.height());
