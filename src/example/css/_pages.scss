@@ -164,6 +164,16 @@ section {
     min-width:200px;
     padding-bottom: 20px;
   }
+
+  //.page-startscreen .page-h2{
+  //  margin-top: 0;
+  //  padding-top: 0;
+  //}
+  .page-startscreen .page-h2 + p, .page-h3 + p{
+    margin-top: 0;
+    padding-top: 0;
+  }
+
 }
 
 .container--iquiz .page-startscreen{
