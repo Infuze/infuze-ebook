@@ -82,29 +82,41 @@
 }
 
 .player_sidenav .menuCol-fixed {
-   width: 40px;
-   padding-right: 10px;
-   text-align: right;
+  width: 40px;
+  padding-right: 10px;
+  text-align: right;
   position: relative;
-   /*border:1px solid #d3d3d3;*/
+  border:1px solid #d3d3d3;
    /*border-left: 1px solid white;*/
  }
 
-.player_sidenav .menuCol-fixed a div {
-   position: absolute;
-   right: 0px;
-   top: 0;
+.player_sidenav .menuCol-fixed button div {
+   //position: absolute;
+   //right: 0px;
+   //top: -10;
  }
-
-.player_sidenav .menuCol-fixed a .open{
-  transform: rotate(180deg);
-  top: 10px;
-}
+//
+//.player_sidenav .menuCol-fixed a .open{
+//  transform: rotate(180deg);
+//  top: 10px;
+//}
 
 //.player_sidenav .menuCol-fixed span {
 //  /*position: absolute;*/
 //  margin: -2px -10px;
 //}
+
+.player_sidenav .menuCol-fixed button{
+  background-color: grey;
+  margin: 0;
+  padding: 0;
+}
+
+.player_sidenav .menuCol-fixed button .open{
+  transform: rotate(180deg);
+  margin-top: 8px;
+}
+
 
 .player_sidenav .subMenuItem{
   overflow:hidden;

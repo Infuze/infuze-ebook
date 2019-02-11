@@ -318,9 +318,12 @@ export default class Ebook {
         break;
       } else if (target instanceof HTMLButtonElement) {
         actionString = target.getAttribute('value');
+        console.log('button', actionString);
       }
       target = target.parentNode;
     }
+
+    console.log('target', target);
 
     if (hrefString.includes('closeSideNav')) {
       this.closeSideNav();
@@ -341,7 +344,7 @@ export default class Ebook {
 
   updateTitlesNav() {
     $log('****** updateTitlesNav');
-    $log('%%%%%%%%% this.bookObj', this.bookObj.bookTasks[this.task].routes.slides);
+    // $log('%%%%%%%%% this.bookObj', this.bookObj.bookTasks[this.task].routes.slides);
     
     // UPDATE TITLE
     document.querySelector('.l-header__banner.row2 span:first-of-type').innerHTML = this.bookObj.bookTasks[this.task].taskName;
@@ -373,12 +376,12 @@ export default class Ebook {
   }
 
   toggleSideMenuSub(target, sub) {
-    console.log('toggleSideMenuSub');
+    console.log('toggleSideMenuSub', target, sub);
 
     var section = $('#' + sub);
     var animateTime = 200;
 
-    //console.log('section', section);
+    console.log('section', section);
 
     // CLOSE ALL SUBMENUS UNLESS SELECTED ONE IS ALREADY OPEN
     Array.from(document.querySelectorAll(".player_sidenav .subMenuItem")).forEach(el => {
@@ -387,10 +390,10 @@ export default class Ebook {
       }
     });
     // RESET ARROWS UNLESS SELECTED ONE IS ALREADY OPEN
-    Array.from(document.querySelectorAll(".player_sidenav .menuCol-fixed a .open")).forEach(el => {
-      console.log(el);
-      $(el).removeClass("open");
-    });
+    // Array.from(document.querySelectorAll(".player_sidenav .menuCol-fixed button .open")).forEach(el => {
+    //   console.log(el);
+    //   $(el).removeClass("open");
+    // });
 
 
     //alert(section.height());

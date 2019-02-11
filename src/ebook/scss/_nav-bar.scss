@@ -142,13 +142,13 @@
 }
 
 .nav-bar__button:disabled {
-  background: #464646;
-  border-color: #464646;
+  background: #434447;
+  border-color: #434447;
   cursor: default;
 }
 
 .nav-bar__button:disabled > %nav-bar__button-text {
-   color: rgba(255,255,255,.2);
+   color: rgba(255,255,255,.3);
  }
 
 .nav-bar__button:disabled > %nav-bar__button-circle {
@@ -295,7 +295,7 @@
 
    //DISABLED
 .stv-radio-buttons-wrapper input[type="radio"]:disabled + span {
-  opacity: .3;
+  opacity: .4;
   label{
   cursor: default;
   }
