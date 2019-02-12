@@ -52,14 +52,16 @@
   }
 
   .iquiz_questionText h1 {
-    margin: 20px 0 0 0;
+    margin: 0;
+    padding: 10px 0 0 0;
     font-weight: bold;
     /*font-size: 1.5em;*/
     font-size: 22px;
   }
 
   .iquiz_questionText h2 {
-    margin: 15px 0 0 0;
+    margin: 0;
+    padding: 15px 0 0 0;
     font-weight: normal;
     /*background-color: yellow;*/
     font-size: 22px;
@@ -67,7 +69,8 @@
   }
 
   .iquiz_questionText h3 {
-    margin: 6px 0 6px 0;
+    margin: 0;
+    padding: 10px 0 6px 0;
     font-weight: normal;
     font-size: 18px;
     line-height: 24px;
@@ -102,7 +105,8 @@
   }
 
   .iquiz-textarea-container.with-btn{
-    width:calc(100% - 30px);
+    //width:calc(100% - 30px);
+    width:100%;
   }
 
   .iquiz-textarea-container button.disabled{
@@ -156,10 +160,11 @@
 
   .iquiz-btn-remove, .iquiz-btn-add{
     position: absolute;
+    right: 0;
     border:1px solid rgba(1, 1, 1, .6);
     /*border: none;*/
     background-color:rgba(255, 255, 255, 1);
-    margin: 0 0 0 5px;
+    //margin: 0 0 0 5px;
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -289,87 +294,87 @@
 
   /*QUIZ INTRO SCREEN*/
 
-  .iquiz-lesson-intro-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    align-content: flex-start;
-    height: 80px;
-    margin: 40px auto;
-    /*max-width: 700px;*/
-  }
-  .iquiz-lesson-intro-logo {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    padding: 0 20px 0 0;
-    height: inherit;
-  }
-  .iquiz-lesson-intro-logo img {
-    height: 100%;
-    width: auto;
-  }
-  .iquiz-lesson-intro-heading {
-    flex: 2;
-    padding: 0 0 0 20px;
-    border-left: solid 2px red;
-    height: inherit;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .iquiz-lesson-intro-heading h1,
-  .iquiz-lesson-intro-heading h2 {
-    padding: 4px 0;
-    margin: 0;
-    font-weight: 600;
-  }
-
-  .iquiz-intro-info-panel {
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .iquiz-intro-info-panel p {
-    font-size: 18px;
-    line-height: 30px;
-    padding: 8px 0;
-    margin-bottom: 60px;
-  }
-
-  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
-    .iquiz-lesson-intro-container {
-      display: block;
-      height: auto;
-      margin: 40px 0;
-    }
-    .iquiz-lesson-intro-logo {
-      display: block;
-      height: 90px;
-      text-align: center;
-    }
-    .iquiz-lesson-intro-heading {
-      display: block;
-      padding: 10px 0;
-      border-left: none;
-      border-bottom: red 2px solid;
-      text-align: center;
-    }
-  }
-
-  @media only screen and (max-width: 710px) {
-    .iquiz-lesson-intro-container {
-      margin: 40px 0;
-    }
-    .iquiz-intro-info-panel p {
-      margin-bottom: 20px;
-    }
-    .iquiz-lesson-intro-heading h1 {
-      font-size: 25px;
-    }
-  }
+  //.iquiz-lesson-intro-container {
+  //  display: flex;
+  //  flex-direction: row;
+  //  flex-wrap: nowrap;
+  //  justify-content: flex-start;
+  //  align-items: flex-start;
+  //  align-content: flex-start;
+  //  height: 80px;
+  //  margin: 40px auto;
+  //  /*max-width: 700px;*/
+  //}
+  //.iquiz-lesson-intro-logo {
+  //  flex: 1;
+  //  display: flex;
+  //  justify-content: flex-end;
+  //  padding: 0 20px 0 0;
+  //  height: inherit;
+  //}
+  //.iquiz-lesson-intro-logo img {
+  //  height: 100%;
+  //  width: auto;
+  //}
+  //.iquiz-lesson-intro-heading {
+  //  flex: 2;
+  //  padding: 0 0 0 20px;
+  //  border-left: solid 2px red;
+  //  height: inherit;
+  //  display: flex;
+  //  flex-direction: column;
+  //  justify-content: center;
+  //}
+  //.iquiz-lesson-intro-heading h1,
+  //.iquiz-lesson-intro-heading h2 {
+  //  padding: 4px 0;
+  //  margin: 0;
+  //  font-weight: 600;
+  //}
+  //
+  //.iquiz-intro-info-panel {
+  //  margin: 0 auto;
+  //  text-align: center;
+  //}
+  //
+  //.iquiz-intro-info-panel p {
+  //  font-size: 18px;
+  //  line-height: 30px;
+  //  padding: 8px 0;
+  //  margin-bottom: 60px;
+  //}
+  //
+  //@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+  //  .iquiz-lesson-intro-container {
+  //    display: block;
+  //    height: auto;
+  //    margin: 40px 0;
+  //  }
+  //  .iquiz-lesson-intro-logo {
+  //    display: block;
+  //    height: 90px;
+  //    text-align: center;
+  //  }
+  //  .iquiz-lesson-intro-heading {
+  //    display: block;
+  //    padding: 10px 0;
+  //    border-left: none;
+  //    border-bottom: red 2px solid;
+  //    text-align: center;
+  //  }
+  //}
+  //
+  //@media only screen and (max-width: 710px) {
+  //  .iquiz-lesson-intro-container {
+  //    margin: 40px 0;
+  //  }
+  //  .iquiz-intro-info-panel p {
+  //    margin-bottom: 20px;
+  //  }
+  //  .iquiz-lesson-intro-heading h1 {
+  //    font-size: 25px;
+  //  }
+  //}
 
   .noselect {
     -webkit-touch-callout: none; /* iOS Safari */
