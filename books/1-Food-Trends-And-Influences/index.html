@@ -13,6 +13,49 @@
   <link rel="stylesheet" href="../_common/css/styles.css">
   <script>
 
+    var bookObj = {
+      'bookTitle': 'Professional Chef',
+      'bookSubTitle': 'Food Trends & Influences',
+      'bookTasks': {
+        'task1': {
+          'taskName': 'Task 1',
+          'taskDesc': 'Historical and Current Influnces on Eating & Drinking',
+          'routes': {
+            'slides': 17,
+            'media': 0,
+            'quiz': 3
+          }
+        },
+        'task2': {
+          'taskName': 'Task 2',
+          'taskDesc': 'Effects of Science and Technology',
+          'routes': {
+            'slides': 10,
+            'media': 0,
+            'quiz': 4
+          }
+        },
+        'task3': {
+          'taskName': 'Task 3',
+          'taskDesc': 'Types of Dining Experiences',
+          'routes': {
+            'slides': 14,
+            'media': 0,
+            'quiz': 0
+          }
+        },
+        'task4': {
+          'taskName': 'Task 4',
+          'taskDesc': 'Pairing Food and Beverage',
+          'routes': {
+            'slides': 7,
+            'media': 0,
+            'quiz': 4
+          }
+        }
+      }
+    }
+
     var availableRoutes = {
       'task1': {
         'slides': 18,
@@ -22,7 +65,7 @@
       'task2': {
         'slides': 10,
         'quiz': 4,
-        'media': 1
+        'media': 0
       },
       'task3': {
         'slides': 14,
@@ -75,32 +118,49 @@
               </div>
           </div> -->
     <div class="nav-bar_leftRight_wrapper">
-      <button class="nav-bar__button js-back touchevents"><span class="nav-bar__button-circle--left"><span class="img"></span></span>
-        <span class="nav-bar__button-text--right">PREVIOUS</span></button> <button class="nav-bar__button js-next touchevents"><span
-      class="nav-bar__button-text--left">NEXT</span>
-      <span class="nav-bar__button-circle--right"><span class="img"></span></span></button>
+
+      <button class="nav-bar__button js-back touchevents">
+          <span class="nav-bar__button-circle--left">
+             <img src="../_common/css/images/arrow-left-solid.svg" />
+          </span>
+        <span class="nav-bar__button-text--right">PREVIOUS</span>
+      </button>
+
+      <button class="nav-bar__button js-next touchevents"><span
+        class="nav-bar__button-text--left">NEXT</span>
+        <span class="nav-bar__button-circle--right">
+              <img src="../_common/css/images/arrow-right-solid.svg" />
+          </span>
+      </button>
+
     </div>
+    
     <div class="nav-bar__controls hidden">
       <button class="button__control js-replay">Replay</button>
     </div>
   </div>
 </nav>
 <header class="true-header">
+  <div>
+    <div class="l-header">
+      <h1 class="l-header__banner">
+        Professional Chef
+      </h1>
+      <div class="header-menu-icon"><span></span></div>
+    </div>
 
-  <div class="l-header">
-    <h1 class="l-header__banner">
-      Professional Chef
-    </h1>
-    <div class="header-menu-icon"><span></span></div>
-  </div>
+    <div class="l-header row2">
+      <!--<h1 class="l-header__banner row2">-->
+      <!--Nutrition & Dietary Requirements | <span>Task 1: Key nutrients and dietary requirements</span>-->
+      <!--</h1>-->
 
-  <div class="l-header row2">
-
-    <h1 class="l-header__banner row2">
-      <strong>Food Trends &amp; Influences</strong> | Task 1
-    </h1>
+      <h1 class="l-header__banner row2">
+        <span>Task 1</span>: <span>Key nutrients and dietary requirements</span>
+      </h1>
+    </div>
   </div>
 </header>
+
 
 <div class="l-wrapper js-wrapper hidden">
 
@@ -123,7 +183,7 @@
 
     <div class="menuItem_Container">
       <a href="intro">Introduction
-        <div style="font-size: 14px"> Food Trends &amp; Influences</div>
+        <div style="font-size: 14px">Food Trends and Influences</div>
       </a>
     </div>
 
@@ -147,7 +207,7 @@
     <!--TASK 1 : SUBMENU -->
 
     <div id="t1-sub" class="subMenuItem">
-      <div style="margin: 0 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
+      <div style="margin: 0 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
       <a href="task1/slides/1" style="margin-top: -18px;">Introduction to influences</a>
       <a href="task1/slides/2">Historical influences</a>
       <a href="task1/slides/3">Cooking techniques</a>
@@ -156,15 +216,11 @@
       <a href="task1/slides/7">Cultures</a>
       <a href="task1/slides/8">Current influences</a>
       <a href="task1/slides/9">Geography</a>
-      <a href="task1/slides/11">Choices</a>
-      <a href="task1/slides/12">People’s choices</a>
+      <a href="task1/slides/11">People’s choices</a>
 
-      <a href="task1/slides/18">Religion and diets</a>
+      <a href="task1/slides/17">Religion and diets</a>
 
-      <!--<div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_media.svg"></div>-->
-      <!--<a href="task1/media/0" style="margin-top: -21px;">VIDEO : Identifying fish, fish cuts & shellfish</a>-->
-
-      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
       <a href="task1/quiz/0" style="margin-top: -21px;">QUIZ</a>
     </div>
 
@@ -187,19 +243,13 @@
     <!--TASK 2 : SUBMENU -->
 
     <div id="t2-sub" class="subMenuItem">
-      <div style="margin: 0 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
-      <a href="task2/slides/2" style="margin-top: -18px;">Introduction to seafood quality points</a>
-      <a href="task2/slides/4">Live seafood</a>
-      <a href="task2/slides/5">Fresh seafood quality indicators</a>
-      <a href="task2/slides/6">Frozen seafood quality indicators</a>
-      <a href="task2/slides/7">Crustacean quality indicators</a>
-      <a href="task2/slides/8">Mollusc quality indicators</a>
-      <a href="task2/slides/10">Introduction to shellfish species and other seafood</a>
+      <div style="margin: 0 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+      <a href="task2/slides/1" style="margin-top: -18px;">Introduction to science and technology</a>
+      <a href="task2/slides/2">Equipment</a>
+      <a href="task2/slides/5">Food processing management</a>
+      <a href="task2/slides/9">Molecular gastronomy</a>
 
-      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_media.svg"></div>
-      <a href="task2/media/0" style="margin-top: -21px;">VIDEO : Identifying fish, fish cuts & shellfish</a>
-
-      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
       <a href="task2/quiz/0" style="margin-top: -21px;">QUIZ</a>
     </div>
 
@@ -222,15 +272,12 @@
     <!--TASK 3 : SUBMENU -->
 
     <div id="t3-sub" class="subMenuItem">
-      <div style="margin: 0 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
-      <a href="task3/slides/0" style="margin-top: -18px;">xxx</a>
-      <a href="task3/slides/1">xxx</a>
-      <a href="task3/slides/2">xxx</a>
+      <div style="margin: 0 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+      <a href="task3/slides/1" style="margin-top: -18px;">Introduction to types of dining experiences</a>
+      <a href="task3/slides/2">Types of dining experience</a>
+      <a href="task3/slides/13">Michelin stars</a>
 
-      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_media.svg"></div>
-      <a href="task3/media/0" style="margin-top: -21px;">VIDEO : xxx</a>
-
-      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
       <a href="task3/quiz/0" style="margin-top: -21px;">QUIZ</a>
     </div>
 
@@ -255,15 +302,13 @@
     <!--TASK 3 : SUBMENU -->
 
     <div id="t4-sub" class="subMenuItem">
-      <div style="margin: 0 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
-      <a href="task4/slides/0" style="margin-top: -18px;">xxx</a>
-      <a href="task4/slides/1">xxx</a>
-      <a href="task4/slides/2">xxx</a>
+      <div style="margin: 0 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+      <a href="task4/slides/1" style="margin-top: -18px;">Introduction to pairing food and beverages</a>
+      <a href="task4/slides/2">Wines</a>
+      <a href="task4/slides/6">Pairing food and beverages grid</a>
+      
 
-      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_media.svg"></div>
-      <a href="task4/media/0" style="margin-top: -21px;">VIDEO : xxx</a>
-
-      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
       <a href="task4/quiz/0" style="margin-top: -21px;">QUIZ</a>
     </div>
 

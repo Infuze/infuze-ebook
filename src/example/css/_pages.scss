@@ -165,7 +165,7 @@ section {
 
   .page-startscreen {
     text-align: center;
-    background: #c0c0c0;
+    //background: #c0c0c0;
     position: absolute;
     //height: 70vh;
     width: calc(100% - 20px);
@@ -208,7 +208,7 @@ section {
     margin-bottom: 0;
   }
   
-  .page-startscreen .page-h2 + p, .page-h3 + p{
+  .page-startscreen .page-h2 + p, .page-startscreen .page-h3 + p{
     margin-top: 0;
     padding-top: 0;
     padding-bottom: 20%;
@@ -261,9 +261,10 @@ section {
     img {
       width: 100%;
       height: auto;
-      max-width: 500px;
+      //max-width: 500px;
       //max-height: 600px;
-      margin: 0 auto;
+      //margin: 0 auto;
+      margin-left: auto;
       padding-top: 10px;
       display: block;
     }
@@ -307,6 +308,7 @@ section {
       padding: 10px 0;
       img {
         padding-top: 0px;
+        margin: 0 auto;
       }
     }
 
