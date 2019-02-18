@@ -28,6 +28,8 @@ const del = require('del');
 const packs = packConfig.packs;
 let filteredPack;
 
+const zip = require('gulp-zip');
+
 /**
  * Default task commands
  * gulp --book 1 (builds book 1 into deploy folder)
@@ -71,6 +73,77 @@ gulp.task('deploy-seq', function (callback) {
     //runSequence('clean-book', callback);
     runSequence('clean-book', 'copy-book-folder', 'copy-common-folder', 'update-html', callback);
 });
+gulp.task('clean-book', function () {
+
+    filteredPack.map(pack => {
+        console.log('pack >>>>>>>>>>>>>>>>>>', pack);
+        // set pack folder name
+
+        let delDest = 'deploy/' + pack.folder + '/**';
+        console.log('delDest >>>>>>>>>>>>>>>>>>', delDest);
+        del.sync([delDest, '!deploy'])
+    })
+});
+gulp.task('copy-book-folder', () => {
+    console.log('build-book ');
+
+    let jsBundleStreams = [];
+
+    filteredPack.map(pack => {
+        console.log('pack:', pack);
+        // set pack folder name
+
+        jsBundleStreams.push(
+            gulp
+                .src('books/' + pack.folder + '/**')
+                .pipe(newer('deploy/' + pack.folder))
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(gulp.dest('deploy/' + pack.folder))
+        );
+    })
+    return merge(jsBundleStreams);
+});
+gulp.task('copy-common-folder', () => {
+    console.log('build-book ');
+
+    let jsBundleStreams = [];
+
+    filteredPack.map(pack => {
+        console.log('pack:', pack);
+        // set pack folder name
+
+        jsBundleStreams.push(
+            gulp
+                .src(['books/_common/**', '!books/_common/js/bundle.min.js.map', '!books/_common/css/styles.min.css.gz', '!books/_common/css/styles.css'])
+                .pipe(newer('deploy/' + pack.folder + '/assets'))
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(gulp.dest('deploy/' + pack.folder + '/assets'))
+        );
+    })
+    return merge(jsBundleStreams);
+});
+gulp.task('update-html', () => {
+    console.log('build-book ');
+
+    let jsBundleStreams = [];
+
+    filteredPack.map(pack => {
+        console.log('pack:', pack);
+        // set pack folder name
+
+        jsBundleStreams.push(
+            gulp
+                .src('deploy/' + pack.folder + '/index.html', { base: "./" })
+                .pipe(replace('../_common', './assets'))
+                .pipe(replace('./assets/css/styles.css', './assets/css/styles.min.css'))
+                .pipe(htmlmin({ collapseWhitespace: false, removeComments: true }))
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(gulp.dest('./'))
+        );
+    })
+    return merge(jsBundleStreams);
+});
+
 
 gulp.task('dev', ['scripts', 'sass', 'fonts', 'ebook-css-images', 'images', 'html', 'folders', 'iquiz'], () => {
     //browserSync({
@@ -149,7 +222,7 @@ gulp.task('sass', () => {
             browsers: 'last 2 versions'
         }))
         .pipe(cleanCSS())
-        .pipe(gzip())
+        //.pipe(gzip())
         .pipe(gulp.dest('./books/_common/css/'))
         .pipe(browserSync.stream());
 });
@@ -249,181 +322,126 @@ var onError = function (err) {
 
 
 
-
-
-gulp.task('clean-book', function () {
-
-    filteredPack.map(pack => {
-        console.log('pack >>>>>>>>>>>>>>>>>>', pack);
-        // set pack folder name
-
-        let delDest = 'deploy/' + pack.folder + '/**';
-        console.log('delDest >>>>>>>>>>>>>>>>>>', delDest);
-        del.sync([delDest, '!deploy'])
-    })
-});
-gulp.task('copy-book-folder', () => {
-    console.log('build-book ');
-
-    let jsBundleStreams = [];
-
-    filteredPack.map(pack => {
-        console.log('pack:', pack);
-        // set pack folder name
-
-        jsBundleStreams.push(
-            gulp
-                .src('books/' + pack.folder + '/**')
-                .pipe(newer('deploy/' + pack.folder))
-                .pipe(plumber({ errorHandler: onError }))
-                .pipe(gulp.dest('deploy/' + pack.folder))
-        );
-    })
-    return merge(jsBundleStreams);
-});
-gulp.task('copy-common-folder', () => {
-    console.log('build-book ');
-
-    let jsBundleStreams = [];
-
-    filteredPack.map(pack => {
-        console.log('pack:', pack);
-        // set pack folder name
-
-        jsBundleStreams.push(
-            gulp
-                .src(['books/_common/**', '!books/_common/js/bundle.min.js.map', '!books/_common/css/styles.min.css.gz', '!books/_common/css/styles.css'])
-                .pipe(newer('deploy/' + pack.folder + '/assets'))
-                .pipe(plumber({ errorHandler: onError }))
-                .pipe(gulp.dest('deploy/' + pack.folder + '/assets'))
-        );
-    })
-    return merge(jsBundleStreams);
-});
-gulp.task('update-html', () => {
-    console.log('build-book ');
-
-    let jsBundleStreams = [];
-
-    filteredPack.map(pack => {
-        console.log('pack:', pack);
-        // set pack folder name
-
-        jsBundleStreams.push(
-            gulp
-                .src('deploy/' + pack.folder + '/index.html', { base: "./" })
-                .pipe(replace('../_common', './assets'))
-                .pipe(replace('./assets/css/styles.css', './assets/css/styles.min.css'))
-                .pipe(htmlmin({ collapseWhitespace: false, removeComments: true }))
-                .pipe(plumber({ errorHandler: onError }))
-                .pipe(gulp.dest('./'))
-        );
-    })
-    return merge(jsBundleStreams);
-});
-
-
-
-
 /* ----------------- */
 /* Build Pack
 /* ----------------- */
-gulp.task('pack', function (callback) {
-    runSequence('clean', 'copy-pack', 'copy-content', 'create-zip', callback);
+/**
+ * Pack task commands
+ * gulp pack --book 1 (packs & zips book 1 into pack folder)
+ * gulp pack --book 1,2,4 (packs & zips books 1, 2 & 4 into pack folder)
+ * gulp pack --book all (packs & zips all books into pack folder)
+ */
+gulp.task('pack', () => {
+    const args = process.argv.slice(2);
+    const options = minimist(args, {
+        string: 'book',
+        default: { env: process.env.NODE_ENV || 'production' }
+    });
+
+    // ERROR with gulp command
+    if (!options.book) {
+        console.log('Gulp must contain pack --book arg. For example, Gulp pack --book 1,2');
+        return;
+    }
+
+    const bookNumbers = options.book.split(',');
+
+    if (bookNumbers.length === 1 && bookNumbers[0] === 'all') {
+        // ALL packs
+        filteredPack = packs;
+    } else {
+        // Filtered packs
+        filteredPack = packs.filter(
+            function (pack) {
+                return this.indexOf(String(pack.number)) >= 0;
+            },
+            bookNumbers
+        );
+    }
+    if (filteredPack.length) {
+        gulp.start('pack-seq');
+    }
+});
+gulp.task('pack-seq', function (callback) {
+    runSequence('clean', 'copy-pack', 'copy-content', 'move-manifest', 'create-zip', callback);
 });
 gulp.task('clean', function () {
     del.sync(['pack/**', '!pack'])
 });
-
 gulp.task("copy-pack", () => {
 
     if (!fs.existsSync('pack'))
         fs.mkdirSync('pack'), console.log("📁  folder created:", 'pack');
 
     let jsBundleStreams = [];
-    // Create pack folder and Contents folder
-    if (!fs.existsSync(packDir))
-        fs.mkdirSync(packDir), console.log("📁  folder created:", packDir);
+    filteredPack.map(pack => {
 
-    // Add content pack files
-    let packSrc = `src/imsmanifest/**`,
-        packDest = `${packDir}`;
-    jsBundleStreams.push(
-        gulp
-            .src(packSrc)
-            .pipe(newer(packDest))
-            .pipe(plumber({ errorHandler: onError }))
-            .pipe(gulp.dest(packDest))
-    );
-    return merge(jsBundleStreams);
-})
+        let title = pack.title;
+        let packDir = "pack/" + pack.folder;
 
+        if (!fs.existsSync(packDir))
+            fs.mkdirSync(packDir), console.log("📁  folder created:", packDir);
 
-
-
-
-gulp.task("build-pack", () => {
-
-    packConfig.packs.map(pack => {
-        // set pack folder name
-        let title = pack.title.toLowerCase();
-        title = title.replace(/,/g, "");
-        title = title.replace(/\s/g, "-");
-        let folder = title;
-        let dir = "pack/" + folder;
-        //console.log('📁  dir:', dir);
-
-        // Create pack folder and Contents folder
-        if (!fs.existsSync(dir))
-            fs.mkdirSync(dir), console.log("📁  folder created:", dir);
-
-        // Add content pack files
-        let packSrc = `src/imsmanifest/**`,
-            packDest = `${dir}`;
+        let packSrc = `src/imsmanifest/**`;
         jsBundleStreams.push(
             gulp
                 .src(packSrc)
-                .pipe(newer(packDest))
+                .pipe(newer(packDir))
                 .pipe(plumber({ errorHandler: onError }))
-                .pipe(gulp.dest(packDest))
+                .pipe(gulp.dest(packDir))
         );
-
-        // Add imsmanifest
-        /* let manifestSrc = `src/imsmanifest.xml`,
-            manifestDest = `${dir}`;
-        jsBundleStreams.push(
-            gulp
-                .src(manifestSrc)
-                .pipe(newer(manifestDest))
-                .pipe(plumber({ errorHandler: onError }))
-                .pipe(gulp.dest(manifestDest))
-        ); */
-
-        let contentDir = dir + "/contents";
-        if (!fs.existsSync(contentDir))
-            fs.mkdirSync(contentDir), console.log("📁  folder created:", contentDir);
-
-        // Add dest files to Content folder
-        let filesSrc = `deploy/**`,
-            filesDist = `${contentDir}`;
-        jsBundleStreams.push(
-            gulp
-                .src(filesSrc)
-                .pipe(newer(filesDist))
-                .pipe(plumber({ errorHandler: onError }))
-                .pipe(gulp.dest(filesDist))
-        );
-
-
-        jsBundleStreams.push(
-            gulp.src(`${dir}/*`)
-                .pipe(zip(`${folder}.zip`))
-                .pipe(gulp.dest('pack'))
-        )
-    });
-
+    })
     return merge(jsBundleStreams);
-});
+})
+
+gulp.task("copy-content", () => {
+    let jsBundleStreams = [];
+    filteredPack.map(pack => {
+        console.log('pack:', pack);
+
+        let packSrc = "deploy/" + pack.folder + "/**",
+            packDir = "pack/" + pack.folder + "/contents";
+        jsBundleStreams.push(
+            gulp
+                .src(packSrc)
+                .pipe(newer(packDir))
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(gulp.dest(packDir))
+        );
+    })
+    return merge(jsBundleStreams);
+})
+
+gulp.task("move-manifest", () => {
+    let jsBundleStreams = [];
+    filteredPack.map(pack => {
+        let src = "pack/" + pack.folder + "/contents/imsmanifest.xml",
+            dest = "pack/" + pack.folder;
+        jsBundleStreams.push(
+            gulp
+                .src(src)
+                .pipe(newer(dest))
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(gulp.dest(dest))
+        );
+    })
+    return merge(jsBundleStreams);
+})
+
+gulp.task("create-zip", () => {
+    let jsBundleStreams = [];
+    filteredPack.map(pack => {
+        let src = "pack/" + pack.folder + "/**/*",
+            dest = pack.folder + '.zip';
+        jsBundleStreams.push(
+            gulp.src(src)
+                .pipe(plumber({ errorHandler: onError }))
+                .pipe(zip(dest))
+                .pipe(gulp.dest('./pack/zips'))
+        );
+    })
+    return merge(jsBundleStreams);
+})
 
 
 
