@@ -25,6 +25,8 @@ export default class Ebook {
     this.slideCount = 0;
     this.displayModeBtns = document.getElementsByName("displayMode");
 
+    this.htmlObj = {};
+
     this.displayTypes = [
       {
         type: 'intro',
@@ -127,6 +129,107 @@ export default class Ebook {
   }
 
   loadHTML() {
+    $log('****** loadHTML ');
+    var filesToLoad = [];
+    var filesToLoadCount = 0;
+    this.htmlObj = {'intro':{'url':null, 'request':null, 'data':null}, 'slides':{'url':null, 'request':null, 'data':null}};
+    //filesToLoad.push('course-intro.html');
+    this.htmlObj.intro.url = 'course-intro.html';
+    if (this.taskType != 'intro'){
+      this.htmlObj.slides.url = this.task + '-slides.html';
+      // filesToLoad.push(this.task + '-slides.html');
+      // filesToLoad.push(this.task + '-quiz.html');
+    }
+
+    // Object.keys(this.htmlObj).forEach(function (item) {
+    //   console.log(item); // key
+    //   //console.log(lunch[item]); // value
+    // });
+
+    for (var key in this.htmlObj) {
+      console.log(this.htmlObj[key].url);
+      if (this.htmlObj[key].url != null){
+        filesToLoadCount++;
+      }
+    }
+
+    $log('****** Number of FilesToLoad ', filesToLoadCount);
+    $log('****** filesToLoad ', filesToLoad);
+
+    // filesToLoad.push(this.task + '-' + this.taskType + '.html');
+    //const url = this.task + '-' + this.taskType + '.html';
+    // const selector = '.js-wrapper';
+    //
+    // const content_div = qs(selector);
+    //const xmlHttp = new XMLHttpRequest();
+    // let cFunction = this.htmlLoaded.bind(this);
+    let cFunction = this.htmlLoadedKG.bind(this);
+    let loadCount = 0;
+
+    // var res = document.createElement( 'div' );
+
+
+    //const requests=new Array(filesToLoad.length);
+    //for (let i = 0; i < filesToLoad.length; i++) {
+    for (var key in this.htmlObj) {
+      if (this.htmlObj[key].url != null){
+        const url = this.htmlObj[key].url;
+        $log('****** url toLoad ', url);
+        this.htmlObj[key].request = new XMLHttpRequest();
+        this.htmlObj[key].request.open("GET", url, true);
+        this.htmlObj[key].request.onload = function() {
+          //res.innerHTML = requests[i].responseText;
+          $log('****** fileLoaded ', key + ' : ' + url);
+          loadCount++;
+          // $log('loadCount', loadCount);
+          if(loadCount == filesToLoadCount){
+            cFunction(this);
+          }
+
+          // $log('****** requests[i].responseText ', requests[i].responseText);
+        }
+        this.htmlObj[key].request.send();
+      }
+    }
+
+    // var res = document.createElement( 'div' );
+    // res.innerHTML = requests[0].responseText;
+    // $log('@@requests[0].responseText ', requests[0].responseText);
+    //content_div.innerHTML = res.querySelector(".js-wrapper").innerHTML;
+
+
+    // xmlHttp.onreadystatechange = function () {
+    //   if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+    //
+    //     res.innerHTML = xmlHttp.responseText;
+    //     loadedHTML.intro = res.querySelector(".js-wrapper").innerHTML;
+    //     //$log(loadedHTML.intro);
+    //     content_div.innerHTML = loadedHTML.intro;
+    //     cFunction(this);
+    //   }
+    // };
+    //
+    // xmlHttp.open("GET", filesToLoad[0], true);
+    // xmlHttp.send(null);
+  }
+
+  htmlLoadedKG(e) {
+    $log('****** htmlLoadedKG ');
+    $log('****** all loaded ');
+
+    const selector = '.js-wrapper';
+    const content_div = qs(selector);
+
+    var tempDiv = document.createElement( 'div' );
+    tempDiv.innerHTML = this.htmlObj.slides.request.responseText;
+    // $log('@@requests[0].responseText ', requests[0].responseText);
+    content_div.innerHTML = tempDiv.querySelector(".js-wrapper").innerHTML;
+
+    this.htmlLoaded();
+  }
+
+
+  xloadHTML() {
     $log('****** loadHTML ');
     const url = this.task + '-' + this.taskType + '.html',
       selector = '.js-wrapper';
