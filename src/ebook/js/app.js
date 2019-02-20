@@ -4,7 +4,7 @@ import DocReady from "./windowLoaded";
 import Timeline from "./timeline";
 import { SCORM } from "pipwerks-scorm-api-wrapper";
 //import '../scss/styles.scss'
-import Cheerio from 'cheerio';
+// import Cheerio from 'cheerio';
 import Router from './router';
 import Quiz from '../../iquiz/js/q-app'
 //import { Base64 } from 'js-base64';
@@ -95,6 +95,8 @@ export default class Ebook {
     $on(window, "onunload", SCORM.quit);
     //this.router.navigate('task1/slides/0');
     this.router.navigate('course/intro/0');
+
+    SCORM.init();
   }
 
   loadSection() {
@@ -133,16 +135,29 @@ export default class Ebook {
     const xmlHttp = new XMLHttpRequest();
     let cFunction = this.htmlLoaded.bind(this);
 
+    var res = document.createElement( 'div' );
+
+    // xmlHttp.onreadystatechange = function () {
+    //   if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+    //     const $ = Cheerio.load(xmlHttp.responseText);
+    //     const content = $(selector).children()
+    //       .after($(this).contents())
+    //       .remove();
+    //     content_div.innerHTML = content;
+    //     cFunction(this);
+    //   }
+    // };
+
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-        const $ = Cheerio.load(xmlHttp.responseText);
-        const content = $(selector).children()
-          .after($(this).contents())
-          .remove();
-        content_div.innerHTML = content;
+
+        res.innerHTML = xmlHttp.responseText;
+        content_div.innerHTML = res.querySelector(".js-wrapper").innerHTML;
+        // $log('###### xmlHttp.responseText ', content_div.innerHTML);
         cFunction(this);
       }
     };
+    
     xmlHttp.open("GET", url, true);
     xmlHttp.send(null);
   }
@@ -203,7 +218,7 @@ export default class Ebook {
     this.resetNavigationStates();
     this.updateTitlesNav();
 
-    SCORM.init();
+    // SCORM.init();
     ///ANIME/// this.createAnimationTimelines();
     ////ANIME/// if (this.showAnimations) this.playTimelines();
   }

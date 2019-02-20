@@ -302,11 +302,6 @@ section {
     //  font-size: 1.1em;
     //}
 
-    .container--layout-1 .reverse-order {
-      display: flex;
-      flex-flow: column-reverse;
-    }
-
     .page-2col {
       display: block;
     }
@@ -319,6 +314,11 @@ section {
         padding-top: 0px;
         margin: 0 auto;
       }
+    }
+
+    .reverse-order {
+      display: flex;
+      flex-flow: column-reverse;
     }
 
   }
