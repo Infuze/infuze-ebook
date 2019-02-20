@@ -27,6 +27,14 @@ export default class Ebook {
 
     this.displayTypes = [
       {
+        type: 'intro',
+        container: '.container--layout-1',
+        prefix: 'i',
+        page: 'course-intro.html',
+        selector: 'page-',
+        button: null
+      },
+      {
         type: 'slides',
         container: '.container--layout-1',
         prefix: 's',
@@ -58,10 +66,17 @@ export default class Ebook {
     this.bookObj = window.bookObj;
     this.router = new Router({ 'errorPage': 'task1/slides/0' });
 
+    // add intro route
+    //
+    this.router.add('course/intro/0$', () => {
+      this.loadSection();
+    })
+
     const routesObj = window.availableRoutes;
     Object.keys(routesObj).forEach(e => {
       let task = e;
       let taskObj = routesObj[e];
+      // console.log('taskObj - ' + taskObj);
       Object.keys(taskObj).forEach(g => {
 
         for (let i = 0; i < taskObj[g]; i++) {
@@ -78,13 +93,15 @@ export default class Ebook {
     this.setNavigationEvents();
     $on(window, "onbeforeunload", SCORM.quit);
     $on(window, "onunload", SCORM.quit);
-    this.router.navigate('task1/slides/0');
+    //this.router.navigate('task1/slides/0');
+    this.router.navigate('course/intro/0');
   }
 
   loadSection() {
     $log('loadSection')
     $log('this.router', this.router)
     const urlPaths = Router.parseRoute(this.router.currentRoute);
+    $log('urlPaths', urlPaths)
 
     let flagForReload = false;
     if (this.task !== urlPaths[0]) {
@@ -196,6 +213,7 @@ export default class Ebook {
     });
   }
   setStateValues() {
+    $log('****** setStateValues ');
     const urlPaths = Router.parseRoute(this.router.currentRoute);
     this.task = urlPaths[0];
     if (this.taskType !== urlPaths[1]) {
@@ -206,7 +224,18 @@ export default class Ebook {
 
     const thisSectionType = this.displayTypes.find(type => type.type === this.taskType);
     this.display = thisSectionType.type;
-    qs(thisSectionType.button).checked = true;
+    $log(thisSectionType.type);
+
+
+    if(thisSectionType.type == 'intro') { // INTRO SO DE-SELECT ALL RADIO BUTTONS
+      Array.from(this.displayModeBtns).find(el => {
+        el.checked = false;
+      });
+    }else{
+      qs(thisSectionType.button).checked = true;
+    }
+
+
   }
   hidePages() {
     // Set wrapper and pages to hidden
@@ -343,34 +372,52 @@ export default class Ebook {
   updateTitlesNav() {
     $log('****** updateTitlesNav');
     // $log('%%%%%%%%% this.bookObj', this.bookObj.bookTasks[this.task].routes.slides);
-    
+
+    $log('this.task', this.task);
+
     // UPDATE TITLE
-    document.querySelector('.l-header__banner.row2 span:first-of-type').innerHTML = this.bookObj.bookTasks[this.task].taskName;
-    document.querySelector('.l-header__banner.row2 span:last-of-type').innerHTML = this.bookObj.bookTasks[this.task].taskDesc;
+    var title1, title2;
+    if(this.task == 'course') {
+      // INTRO
+      title1 = this.bookObj.bookTitle;
+      title2 = this.bookObj.bookSubTitle;
+    }else{
+      // CONTENT
+      title1 = this.bookObj.bookTasks[this.task].taskName;
+      title2 = this.bookObj.bookTasks[this.task].taskDesc;
+    }
+    document.querySelector('.l-header__banner.row2 span:first-of-type').innerHTML = title1;
+    document.querySelector('.l-header__banner.row2 span:last-of-type').innerHTML = title2;
 
     
     // UPDATE SECTION BTNS
-
-    // SLIDES
-    if(this.bookObj.bookTasks[this.task].routes.slides == 0) {
+    if(this.task == 'course') { // DISABLE ALL CONTENT NAV BUTTONS
       document.querySelector('.stv-radio-buttons-wrapper [id=slidesRadio]').setAttribute("disabled", "");
-    }else{
-      document.querySelector('.stv-radio-buttons-wrapper [id=slidesRadio]').removeAttribute("disabled", "");
-    }
-
-    // MEDIA
-    if(this.bookObj.bookTasks[this.task].routes.media == 0) {
       document.querySelector('.stv-radio-buttons-wrapper [id=mediaRadio]').setAttribute("disabled", "");
-    }else{
-      document.querySelector('.stv-radio-buttons-wrapper [id=mediaRadio]').removeAttribute("disabled", "");
-    }
-
-    // QUIZ
-    if(this.bookObj.bookTasks[this.task].routes.quiz == 0) {
       document.querySelector('.stv-radio-buttons-wrapper [id=quizRadio]').setAttribute("disabled", "");
     }else{
-      document.querySelector('.stv-radio-buttons-wrapper [id=quizRadio]').removeAttribute("disabled", "");
+      // SLIDES
+      if(this.bookObj.bookTasks[this.task].routes.slides == 0) {
+        document.querySelector('.stv-radio-buttons-wrapper [id=slidesRadio]').setAttribute("disabled", "");
+      }else{
+        document.querySelector('.stv-radio-buttons-wrapper [id=slidesRadio]').removeAttribute("disabled", "");
+      }
+
+      // MEDIA
+      if(this.bookObj.bookTasks[this.task].routes.media == 0) {
+        document.querySelector('.stv-radio-buttons-wrapper [id=mediaRadio]').setAttribute("disabled", "");
+      }else{
+        document.querySelector('.stv-radio-buttons-wrapper [id=mediaRadio]').removeAttribute("disabled", "");
+      }
+
+      // QUIZ
+      if(this.bookObj.bookTasks[this.task].routes.quiz == 0) {
+        document.querySelector('.stv-radio-buttons-wrapper [id=quizRadio]').setAttribute("disabled", "");
+      }else{
+        document.querySelector('.stv-radio-buttons-wrapper [id=quizRadio]').removeAttribute("disabled", "");
+      }
     }
+
   }
 
   toggleSideMenuSub(target, sub) {
