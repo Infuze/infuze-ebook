@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>
-        City & Guilds eBook
+        City & Guilds
     </title>
     <meta name="viewport" content="height=device-height ,width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
@@ -13,16 +13,28 @@
     <link rel="stylesheet" href="../_common/css/styles.css">
   <script>
 
+    var bookObj = {
+      'bookTitle': 'Introduction',
+      'bookSubTitle': 'Nutrition & Dietary Requirements',
+      'bookTasks': {
+        'task1': {
+          'taskName': 'Task 1',
+          'taskDesc': 'Key nutrients and dietary requirements',
+          'routes': {
+            'slides': 14,
+            'media': 4,
+            'quiz': 2
+          }
+        }
+      }
+    }
+    
+
     var availableRoutes = {
       'task1': {
         'slides': 14,
-        'quiz': 4,
-        'media': 2
-      },
-      'task2': {
-        'slides': 12,
-        'quiz': 2,
-        'media': 1
+        'media': 3,
+        'quiz': 4
       }
     }
 
@@ -67,11 +79,22 @@
         <!--</div>-->
       <!--</div>-->
       <div class="nav-bar_leftRight_wrapper">
-        <button class="nav-bar__button js-back touchevents"><span class="nav-bar__button-circle--left"><span class="img"></span></span>
-          <span class="nav-bar__button-text--right">PREVIOUS</span></button> <button class="nav-bar__button js-next touchevents"><span
-            class="nav-bar__button-text--left">NEXT</span>
-          <span class="nav-bar__button-circle--right"><span class="img"></span></span></button>
+
+        <button class="nav-bar__button js-back touchevents">
+          <span class="nav-bar__button-circle--left">
+            <img src="../_common/css/images/arrow-left-solid.svg" />
+          </span>
+          <span class="nav-bar__button-text--right">PREVIOUS</span>
+        </button>
+
+        <button class="nav-bar__button js-next touchevents"><span class="nav-bar__button-text--left">NEXT</span>
+          <span class="nav-bar__button-circle--right">
+            <img src="../_common/css/images/arrow-right-solid.svg" />
+          </span>
+        </button>
+
       </div>
+
       <div class="nav-bar__controls hidden">
         <button class="button__control js-replay">Replay</button>
       </div>
@@ -92,7 +115,7 @@
       <!--</h1>-->
 
       <h1 class="l-header__banner row2">
-        <strong>Task 1:</strong> Key nutrients and dietary requirements
+        <span>City & Guilds</span>: <span>Professional Chef</span>
       </h1>
     </div>
   </header>
@@ -117,7 +140,7 @@
       <!--MENU : INTRO-->
 
       <div class="menuItem_Container">
-        <a href="intro">Introduction
+        <a href="course/intro/0">Introduction
           <div style="font-size: 14px">Nutrition &amp; Dietary Requirements</div>
         </a>
       </div>
@@ -165,8 +188,8 @@
         <a href="task1/media/1">VIDEO : The Impact of Diet on Health</a>
         <a href="task1/media/2">VIDEO : Special Diets</a>
 
-        <!--<div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>-->
-        <!--<a href="task1/quiz/0" style="margin-top: -21px;">QUIZ</a>-->
+        <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+        <a href="task1/quiz/0" style="margin-top: -21px;">QUIZ</a>
       </div>
 
     </div>
