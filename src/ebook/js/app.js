@@ -30,7 +30,7 @@ export default class Ebook {
     this.displayTypes = [
       {
         type: 'intro',
-        container: '.container--layout-1',
+        container: '.container--layout-intro',
         prefix: 'i',
         page: 'course-intro.html',
         selector: 'page-',
@@ -128,7 +128,7 @@ export default class Ebook {
     }
   }
 
-  loadHTML() {
+  loadHTML_multiple() {
     $log('****** loadHTML ');
     var filesToLoad = [];
     var filesToLoadCount = 0;
@@ -229,7 +229,7 @@ export default class Ebook {
   }
 
 
-  xloadHTML() {
+  loadHTML() {
     $log('****** loadHTML ');
     const url = this.task + '-' + this.taskType + '.html',
       selector = '.js-wrapper';
@@ -255,7 +255,9 @@ export default class Ebook {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
 
         res.innerHTML = xmlHttp.responseText;
-        content_div.innerHTML = res.querySelector(".js-wrapper").innerHTML;
+        // content_div.innerHTML = res.querySelector(".js-wrapper").innerHTML;
+        content_div.insertAdjacentHTML('beforeend', res.querySelector(".js-wrapper").innerHTML);
+
         // $log('###### xmlHttp.responseText ', content_div.innerHTML);
         cFunction(this);
       }
@@ -355,18 +357,20 @@ export default class Ebook {
 
 
   }
+
+  definePages() {
+    $log('****** definePages ', this.display);
+    const container = this.displayTypes.find(type => type.type === this.display).container;
+    [...this.allSlides] = document.querySelectorAll(container);
+    this.slideCount = this.allSlides.length;
+    $log('****** this.allSlides ', this.allSlides);
+  }
   hidePages() {
     // Set wrapper and pages to hidden
     qs(".js-wrapper").classList.add = "hidden";
     this.allSlides.forEach(el => {
       el.classList.add("hidden");
     });
-  }
-  definePages() {
-    $log('****** definePages ', this.display);
-    const container = this.displayTypes.find(type => type.type === this.display).container;
-    [...this.allSlides] = document.querySelectorAll(container);
-    this.slideCount = this.allSlides.length;
   }
   displayPage() {
     const currentPageNum = this.getPageNumber();
@@ -725,8 +729,8 @@ export default class Ebook {
   }
 
   getPageNode(page) {
-    //console.log('getPageNode ', page);
-    //console.log('this.display ', this.display);
+    console.log('getPageNode ', page);
+    console.log('this.display ', this.display);
     const pageNamePrefix = this.displayTypes.find(type => type.type === this.display).selector;
     let node = this.allSlides.find(
       n => n.id === pageNamePrefix + page
