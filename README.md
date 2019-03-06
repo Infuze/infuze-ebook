@@ -2,6 +2,11 @@
 
 ## Gulp tasks
 
+```
+gulp dev
+```
+To build and watch book 0-example
+#
 The default gulp requires the --book argument, for example
 ```
 Gulp --book 1

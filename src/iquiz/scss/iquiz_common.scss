@@ -22,6 +22,50 @@
   //opacity: .3;
 }
 
+.iquiz_submitBtn {
+  color: white;
+  padding: 0;
+  background: #ffa300;
+  border-radius: 50px;
+  height: 30px;
+  line-height: 30px;
+  width: 200px;
+  border-color: #ffa300;
+  cursor: pointer;
+  text-align: center;
+  margin: 0 auto;
+  font-weight: 600;
+  letter-spacing: 2px;
+  transition: 0.2s;
+}
+
+.iquiz_submitBtn.disabled {
+  background: lightgray;
+  border-color: lightgray;
+  cursor:default;
+  transition: 0s;
+}
+
+.iquiz_submitBtn:focus{
+  outline: none;
+  transition: 0s;
+  //border-color: transparent;
+}
+
+.iquiz_submitBtn:active{
+  outline: none;
+  border-color: transparent;
+  transition: 0s;
+}
+
+@media (hover: hover) {
+  .iquiz_submitBtn:not(.disabled):hover {
+    background: #fe5000;
+    border-color: #fe5000;
+    text-decoration: none;
+  }
+}
+
 .container--iquiz {
   //background-color:rgba(255, 255, 255, .2);
   //color: #444;
@@ -114,41 +158,7 @@
     cursor: default;
   }
 
-  .iquiz_submitBtn {
-    color: white;
-    padding: 0;
-    background: #ffa300;
-    border-radius: 50px;
-    height: 30px;
-    line-height: 30px;
-    width: 200px;
-    border-color: #ffa300;
-    cursor: pointer;
-    text-align: center;
-    margin: 0 auto;
-    font-weight: 600;
-    letter-spacing: 2px;
-    transition: 0.2s;
-  }
 
-  .iquiz_submitBtn.disabled {
-    background: lightgray;
-    border-color: lightgray;
-    cursor:default;
-    transition: 0s;
-  }
-
-  .iquiz_submitBtn:focus{
-    outline: none;
-    transition: 0s;
-    //border-color: transparent;
-  }
-
-  .iquiz_submitBtn:active{
-    outline: none;
-    border-color: transparent;
-    transition: 0s;
-  }
 
   .iquiz-btn-add-container{
     position: relative;
@@ -203,13 +213,7 @@
     cursor: pointer;
   }
 
-  @media (hover: hover) {
-    .iquiz_submitBtn:not(.disabled):hover {
-      background: #fe5000;
-      border-color: #fe5000;
-      text-decoration: none;
-    }
-  }
+
 
 
   .iquiz_popBG {

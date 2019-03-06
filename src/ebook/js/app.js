@@ -226,6 +226,9 @@ export default class Ebook {
     Array.from(document.querySelectorAll(".js-start-quiz")).forEach(el => {
       el.onclick = e => this.startQuiz(e);
     });
+    Array.from(document.querySelectorAll(".js-start-course")).forEach(el => {
+      el.onclick = e => this.router.navigate('task1/slides/0');
+    });
   }
   setStateValues() {
     $log('****** setStateValues ');
@@ -538,7 +541,7 @@ export default class Ebook {
 
   nextClick() {
     const thisPageNode = this.getPageNode(this.getPageNumber());
-    $log('thisPageNode', thisPageNode)
+    // $log('thisPageNode', thisPageNode)
     if (
       this.getPageNode(this.getPageNumber()).classList.contains("left") &&
       this.getPageNode(this.getPageNumber(1)) &&
@@ -590,6 +593,15 @@ export default class Ebook {
     //this.setPageNumber(0);
     //document.querySelector('body').scrollTop = 0;
   }
+
+  resetVideos(){
+    var vimeoiframes = $('.vimeo-video');
+    vimeoiframes.each(function() {
+      var player = new Vimeo.Player(this);
+      player.unload();
+    });
+  }
+
   navigateToNextPage(p = 0) {
     $log('navigateToNextPage ', p)
     p = this.getPageNumber(1);
@@ -601,12 +613,17 @@ export default class Ebook {
     this.router.navigate(newURL);
   }
   navigateToPage(p = 0) {
-    $log('navigateToPage ', p)
+    $log('navigateToPage ', p);
     const urlPaths = Router.parseRoute(this.router.currentRoute);
     this.task = urlPaths[0];
     this.taskType = urlPaths[1];
     const newURL = this.task + '/' + this.taskType + '/' + p;
-    $log('newURL ', newURL)
+    $log('newURL ', newURL);
+    // PAUSE VIDEO IF ON MEDIA SECTION
+    if(this.taskType=='media'){
+       $log('pause vid');
+      this.resetVideos();
+    }
     this.router.navigate(newURL);
     this.setPageNumber(p);
     document.querySelector('.js-wrapper').scrollTop = 0;
