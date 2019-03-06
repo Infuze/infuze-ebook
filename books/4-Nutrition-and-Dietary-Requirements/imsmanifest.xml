@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="no" ?>
 
-<manifest identifier="uk.co.infuze.cityandguilds.ecourse.culinary-u1" version="1"
+<manifest identifier="uk.co.infuze.cityandguilds.ecourse.professional-chef-u4" version="1"
           xmlns="http://www.imsglobal.org/xsd/imscp_v1p1"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3"
@@ -17,11 +17,11 @@
     <schema>ADL SCORM</schema>
     <schemaversion>2004 3rd Edition</schemaversion>
   </metadata>
-  <organizations default="ORG-infuze_culinary-u1">
-    <organization identifier="ORG-infuze_culinary-u1">
-      <title>Professional Chef | Unit 1 | Food Trends and Influences</title>
+  <organizations default="ORG-infuze_professional-chef-u4">
+    <organization identifier="ORG-infuze_professional-chef-u4">
+      <title>Professional Chef | Unit 4 | Nutrition and Dietary Requirements</title>
       <item identifier="index" identifierref="index_resource">
-        <title>Professional Chef | Unit 1 | Food Trends and Influences</title>
+        <title>Professional Chef | Unit 4 | Nutrition and Dietary Requirements</title>
       </item>
     </organization>
   </organizations>
