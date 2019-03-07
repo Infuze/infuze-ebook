@@ -21,6 +21,7 @@ export default class Ebook {
     this.router;
     this.bookObj;
     this.quiz;
+    this.quizLoaded = false;
     this.slidesCurrentPage = 0;
     this.slideCount = 0;
     this.displayModeBtns = document.getElementsByName("displayMode");
@@ -128,8 +129,20 @@ export default class Ebook {
 
   loadHTML() {
     $log('****** loadHTML ');
-    const url = this.task + '-' + this.taskType + '.html',
-      selector = '.js-wrapper';
+    const url = this.task + '-' + this.taskType + '.html';
+    let selector = '.js-wrapper';
+
+
+
+    if(this.taskType=='quiz') {
+      if(this.quizLoaded == true){
+        this.htmlLoaded();
+        return;
+      }
+      selector = ".js-wrapper .quiz-wrapper";
+    }else{
+      selector = ".js-wrapper .slide-wrapper";
+    }
 
     const content_div = qs(selector);
     const xmlHttp = new XMLHttpRequest();
@@ -137,16 +150,6 @@ export default class Ebook {
 
     var res = document.createElement( 'div' );
 
-    // xmlHttp.onreadystatechange = function () {
-    //   if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-    //     const $ = Cheerio.load(xmlHttp.responseText);
-    //     const content = $(selector).children()
-    //       .after($(this).contents())
-    //       .remove();
-    //     content_div.innerHTML = content;
-    //     cFunction(this);
-    //   }
-    // };
 
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -164,13 +167,14 @@ export default class Ebook {
 
   htmlLoaded() {
     $log('****** htmlLoaded ');
-    if (this.taskType === 'quiz') {
+    if (this.taskType === 'quiz' && this.quizLoaded == false) {
       this.quiz = new Quiz();
       this.quiz.on('initialzeNavigation', this.quizInit.bind(this));
       this.quiz.on('beginQuiz', this.beginQuiz.bind(this));
       this.quiz.on('navigateToPage', this.navigateToPage.bind(this));
       this.quiz.on('navigateToNextPage', this.navigateToNextPage.bind(this));
       this.quiz.startUp();
+      this.quizLoaded = true;
     }
     this.setPageEvents();
     this.definePages();
