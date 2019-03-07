@@ -176,6 +176,9 @@ export default class Ebook {
       this.quiz.startUp();
       this.quizLoaded = true;
     }
+
+
+
     this.setPageEvents();
     this.definePages();
     this.addRoutes();
@@ -299,6 +302,15 @@ export default class Ebook {
     }
     // show wrapper
     qs(".js-wrapper").classList.remove("hidden");
+    // show other wrappers
+    if (this.taskType === 'quiz') {
+      $log('HHHHH hide slides show quiz ');
+      qs(".slide-wrapper").classList.add("hidden");
+      qs(".quiz-wrapper").classList.remove("hidden");
+    }else{
+      qs(".quiz-wrapper").classList.add("hidden");
+      qs(".slide-wrapper").classList.remove("hidden");
+    }
   }
   doResize() {
     $log('****** doResize');
