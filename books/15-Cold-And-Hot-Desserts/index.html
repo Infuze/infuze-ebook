@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    City & Guilds eBook
+  </title>
+  <meta name="viewport" content="height=device-height ,width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <script type="text/javascript" src="../_common/libs/modernizr-custom.js"></script>
+  <script type="text/javascript" src="../_common/libs/jquery/jquery-3.3.1.min.js"></script>
+  <link rel="stylesheet" href="../_common/css/styles.css">
+  <script>
+
+      var bookObj = {
+          'bookTitle': 'Introduction',
+          'bookSubTitle': 'Cold & Hot Desserts',
+          'bookTasks': {
+              'task1': {
+                  'taskName': 'Task 1',
+                  'taskDesc': 'Introduction to Hot and Cold Desserts',
+                  'routes': {
+                      'slides': 21,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task2': {
+                  'taskName': 'Task 2',
+                  'taskDesc': 'Techniques and Equipment',
+                  'routes': {
+                      'slides': 25,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task3': {
+                  'taskName': 'Task 3',
+                  'taskDesc': 'Producing and Presenting Desserts and Puddings',
+                  'routes': {
+                      'slides': 26,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              }
+          }
+      }
+
+    var availableRoutes = {
+      'task1': {
+        'slides': 21,
+        'quiz': 6,
+        'media': 0
+      },
+      'task2': {
+        'slides': 25,
+        'quiz': 6,
+        'media': 0
+      },
+      'task3': {
+        'slides': 26,
+        'quiz': 6,
+        'media': 0
+      }
+    }
+
+  </script>
+</head>
+
+<body>
+
+<nav class="l-nav-bar">
+    <div class="nav-bar__progress">
+        <div class="nav-bar__progress-bg">
+            <div class="nav-bar__progress-bar"></div>
+        </div>
+        <div class="nav-bar__progress-txt"></div>
+    </div>
+
+    <div class="nav-bar__container">
+        <div class="stv-radio-buttons-wrapper">
+            <div>
+                <input type="radio" name="displayMode" value="slides" id="slidesRadio"> <span class="rSpan r1"><label
+                    for="slidesRadio"><span class="img"></span><span class="button-text">SLIDES</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="media" id="mediaRadio"> <span class="rSpan r2"><label
+                    for="mediaRadio"><span class="img"></span><span class="button-text">MEDIA</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="quiz" id="quizRadio"> <span class="rSpan r3"><label
+                    for="quizRadio"><span class="img"></span><span class="button-text">QUIZ</span></label></span>
+            </div>
+
+        </div>
+
+        <div class="nav-bar_leftRight_wrapper">
+
+            <button class="nav-bar__button js-back touchevents">
+                <span class="nav-bar__button-circle--left">
+                    <img src="../_common/css/images/arrow-left-solid.svg"/>
+                </span>
+                <span class="nav-bar__button-text--right">PREVIOUS</span>
+            </button>
+
+            <button class="nav-bar__button js-next touchevents">
+                <span class="nav-bar__button-text--left">NEXT</span>
+                <span class="nav-bar__button-circle--right">
+                    <img src="../_common/css/images/arrow-right-solid.svg"/>
+                </span>
+            </button>
+
+        </div>
+
+        <div class="nav-bar__controls hidden">
+            <button class="button__control js-replay">Replay</button>
+        </div>
+
+    </div>
+</nav>
+
+<header class="true-header">
+    <div>
+        <div class="l-header">
+            <h1 class="l-header__banner">Professional Chef</h1>
+            <div class="header-menu-icon"><span></span></div>
+        </div>
+
+        <div class="l-header row2">
+            <h1 class="l-header__banner row2">
+                <span>City & Guilds</span>: <span>Professional Chef</span>
+            </h1>
+        </div>
+    </div>
+</header>
+
+
+<div class="l-wrapper js-wrapper hidden"></div>
+
+<div class="player_overlay"></div>
+
+<div id="mySidenav" class="player_sidenav">
+
+  <!--CLOSE BUTTON-->
+  <a href="closeSideNav" class="player_closebtn">&times;</a>
+
+  <div class="scrollContainer">
+
+
+
+
+
+    <!--MENU : INTRO-->
+
+    <div class="menuItem_Container">
+      <a href="intro">Introduction
+        <div style="font-size: 14px">Cold &amp; Hot Desserts</div>
+      </a>
+    </div>
+
+
+    <!--MENU : TASK 1-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task1/slides/0">Task 1
+          <div>Introduction to Hot and Cold Desserts</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t1-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 1 : SUBMENU -->
+
+      <div id="t1-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
+          <a href="task1/slides/1" style="margin-top: -19px;">Introduction to desserts and puddings</a>
+          <a href="task1/slides/2">Types of desserts</a>
+          <a href="task1/slides/3">Pastry-based desserts</a>
+          <a href="task1/slides/5">Batter- and egg-based desserts</a>
+          <a href="task1/slides/6">Custard- and cream-based desserts</a>
+          <a href="task1/slides/7">Fruit-based desserts</a>
+          <a href="task1/slides/8">Puddings</a>
+          <a href="task1/slides/10">Commodities used in desserts and puddings</a>
+          <a href="task1/slides/11">Quality of ingredients</a>
+          <a href="task1/slides/12">Commodities</a>
+          <a href="task1/slides/13">Flour</a>
+          <a href="task1/slides/14">Fat</a>
+          <a href="task1/slides/15">Sugar</a>
+          <a href="task1/slides/16">Creams</a>
+          <a href="task1/slides/17">Rice</a>
+          <a href="task1/slides/18">Fruits</a>
+          <a href="task1/slides/19">Flavourings, colourings and essences</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+          <a href="task1/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+
+    <!--MENU : TASK 2-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task2/slides/0">Task 2
+          <div>Techniques and Equipment</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t2-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 2 : SUBMENU -->
+
+      <div id="t2-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
+          <a href="task2/slides/1" style="margin-top: -19px;">Introduction to preparation techniques</a>
+          <a href="task2/slides/2">Essentials</a>
+          <a href="task2/slides/3">Techniques used in preparing desserts and puddings</a>
+          <a href="task2/slides/13">Introduction</a>
+          <a href="task2/slides/14">Mixers/food processors</a>
+          <a href="task2/slides/15">Tins/moulds</a>
+          <a href="task2/slides/16">Cutters/silpat mats</a>
+          <a href="task2/slides/17">Ovens and pans</a>
+          <a href="task2/slides/18">Specialist equipment</a>
+          <a href="task2/slides/19">Other equipment</a>
+          <a href="task2/slides/20">Storage</a>
+          <a href="task2/slides/21">Temperature</a>
+          <a href="task2/slides/22">Date labelling and coverings</a>
+          <a href="task2/slides/23">Positioning and stock rotation</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+          <a href="task2/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+
+    <!--MENU : TASK 3-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task3/slides/0">Task 3
+          <div>Producing and Presenting Desserts and Puddings</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t3-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 3 : SUBMENU -->
+
+      <div id="t3-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
+          <a href="task3/slides/1" style="margin-top: -19px;">Introduction to producing desserts and puddings</a>
+          <a href="task3/slides/2">Production techniques – soufflé</a>
+          <a href="task3/slides/3">Production techniques – sorbet</a>
+          <a href="task3/slides/4">Production techniques – mousse</a>
+          <a href="task3/slides/5">Production techniques – meringue</a>
+          <a href="task3/slides/6">Production techniques – crème caramel</a>
+          <a href="task3/slides/7">Production techniques – bavarois</a>
+          <a href="task3/slides/8">Production techniques – rice pudding</a>
+          <a href="task3/slides/9">Production techniques – beignet</a>
+          <a href="task3/slides/10">Production techniques – steamed sponge pudding</a>
+          <a href="task3/slides/11">Production techniques – trifle</a>
+          <a href="task3/slides/12">Introduction to finishing and presenting desserts</a>
+          <a href="task3/slides/13">Coulis</a>
+          <a href="task3/slides/14">Crème anglaise</a>
+          <a href="task3/slides/15">Powder-based custard</a>
+          <a href="task3/slides/16">Chantilly cream</a>
+          <a href="task3/slides/17">Butterscotch sauce</a>
+          <a href="task3/slides/18">Decorative items</a>
+          <a href="task3/slides/19">Fruit</a>
+          <a href="task3/slides/20">Nuts</a>
+          <a href="task3/slides/21">Cream/crème</a>
+          <a href="task3/slides/22">Chocolate</a>
+          <a href="task3/slides/23">Biscuits</a>
+          <a href="task3/slides/24">Handout 2: Fillings and sauces for desserts and puddings</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+          <a href="task3/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+  </div>
+</div>
+
+<script src="../_common/js/bundle.min.js"></script>
+
+
+</body>
+
+
+</html>

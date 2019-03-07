@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    City & Guilds eBook
+  </title>
+  <meta name="viewport" content="height=device-height ,width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <script type="text/javascript" src="../_common/libs/modernizr-custom.js"></script>
+  <script type="text/javascript" src="../_common/libs/jquery/jquery-3.3.1.min.js"></script>
+  <link rel="stylesheet" href="../_common/css/styles.css">
+  <script>
+
+    var bookObj = {
+      'bookTitle': 'Introduction',
+      'bookSubTitle': 'Fish & Shellfish',
+      'bookTasks': {
+        'task1': {
+          'taskName': 'Task 1',
+          'taskDesc': 'Introduction to fish and shellfish',
+          'routes': {
+            'slides': 29,
+            'media': 0,
+            'quiz': 6
+          }
+        },
+        'task2': {
+          'taskName': 'Task 2',
+          'taskDesc': 'Preservation methods and storage',
+          'routes': {
+            'slides': 19,
+            'media': 0,
+            'quiz': 6
+          }
+        },
+        'task3': {
+          'taskName': 'Task 3',
+          'taskDesc': 'Cooking Techniques',
+          'routes': {
+            'slides': 23,
+            'media': 0,
+            'quiz': 6
+          }
+        }
+      }
+    }
+
+    var availableRoutes = {
+      'task1': {
+        'slides': 29,
+        'quiz': 6,
+        'media': 0
+      },
+      'task2': {
+        'slides': 19,
+        'quiz': 6,
+        'media': 0
+      },
+      'task3': {
+        'slides': 23,
+        'quiz': 6,
+        'media': 0
+      }
+    }
+
+  </script>
+</head>
+
+<body>
+
+<nav class="l-nav-bar">
+    <div class="nav-bar__progress">
+        <div class="nav-bar__progress-bg">
+            <div class="nav-bar__progress-bar"></div>
+        </div>
+        <div class="nav-bar__progress-txt"></div>
+    </div>
+
+    <div class="nav-bar__container">
+        <div class="stv-radio-buttons-wrapper">
+            <div>
+                <input type="radio" name="displayMode" value="slides" id="slidesRadio"> <span class="rSpan r1"><label
+                    for="slidesRadio"><span class="img"></span><span class="button-text">SLIDES</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="media" id="mediaRadio"> <span class="rSpan r2"><label
+                    for="mediaRadio"><span class="img"></span><span class="button-text">MEDIA</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="quiz" id="quizRadio"> <span class="rSpan r3"><label
+                    for="quizRadio"><span class="img"></span><span class="button-text">QUIZ</span></label></span>
+            </div>
+
+        </div>
+
+        <div class="nav-bar_leftRight_wrapper">
+
+            <button class="nav-bar__button js-back touchevents">
+                <span class="nav-bar__button-circle--left">
+                    <img src="../_common/css/images/arrow-left-solid.svg"/>
+                </span>
+                <span class="nav-bar__button-text--right">PREVIOUS</span>
+            </button>
+
+            <button class="nav-bar__button js-next touchevents">
+                <span class="nav-bar__button-text--left">NEXT</span>
+                <span class="nav-bar__button-circle--right">
+                    <img src="../_common/css/images/arrow-right-solid.svg"/>
+                </span>
+            </button>
+
+        </div>
+
+        <div class="nav-bar__controls hidden">
+            <button class="button__control js-replay">Replay</button>
+        </div>
+
+    </div>
+</nav>
+
+<header class="true-header">
+    <div>
+        <div class="l-header">
+            <h1 class="l-header__banner">Professional Chef</h1>
+            <div class="header-menu-icon"><span></span></div>
+        </div>
+
+        <div class="l-header row2">
+            <h1 class="l-header__banner row2">
+                <span>City & Guilds</span>: <span>Professional Chef</span>
+            </h1>
+        </div>
+    </div>
+</header>
+
+
+<div class="l-wrapper js-wrapper hidden"></div>
+
+<div class="player_overlay"></div>
+
+<div id="mySidenav" class="player_sidenav">
+
+  <!--CLOSE BUTTON-->
+  <a href="closeSideNav" class="player_closebtn">&times;</a>
+
+  <div class="scrollContainer">
+
+    <!--MENU : INTRO-->
+
+    <div class="menuItem_Container">
+      <a href="intro">Introduction
+        <div style="font-size: 14px">Fish &amp; Shellfish</div>
+      </a>
+    </div>
+
+
+
+
+
+    <!--MENU : TASK 1-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task1/slides/0">Task 1
+          <div>Introduction to fish and shellfish</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t1-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 1 : SUBMENU -->
+
+    <div id="t1-sub" class="subMenuItem">
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
+      <a href="task1/slides/1" style="margin-top: -19px;">Introduction to seafood</a>
+      <a href="task1/slides/2">Seafood – nutrition</a>
+        <a href="task1/slides/4">Selecting seafood – important factors to consider</a>
+        <a href="task1/slides/5">Classification of seafood</a>
+        <a href="task1/slides/6">Fish sub-classification</a>
+        <a href="task1/slides/7">Freshwater fish</a>
+        <a href="task1/slides/8">Saltwater fish</a>
+        <a href="task1/slides/9">Flat and round fish</a>
+        <a href="task1/slides/10">Shellfish sub-classification</a>
+        <a href="task1/slides/11">Other seafood types, classification and quality points</a>
+        <a href="task1/slides/12">Shellfish classification</a>
+        <a href="task1/slides/16">Introduction to seafood quality points</a>
+        <a href="task1/slides/17">Live seafood</a>
+        <a href="task1/slides/18">Fresh seafood quality indicators</a>
+        <a href="task1/slides/20">Frozen seafood quality indicators</a>
+        <a href="task1/slides/21">Frozen seafood quality</a>
+        <a href="task1/slides/22">Crustacean quality indicators</a>
+        <a href="task1/slides/24">Mollusc quality points</a>
+        <a href="task1/slides/25">Mollusc quality indicators</a>
+        <a href="task1/slides/26">Handout 1: Introduction to fish species</a>
+        <a href="task1/slides/27">Handout 2: Introduction to shellfish species and other seafood</a>
+
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+      <a href="task1/quiz/0" style="margin-top: -19px;">QUIZ</a>
+    </div>
+
+
+
+
+
+
+
+
+    <!--MENU : TASK 2-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task2/slides/0">Task 2
+          <div>Preservation methods and storage</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t2-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 2 : SUBMENU -->
+
+    <div id="t2-sub" class="subMenuItem">
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
+      <a href="task2/slides/1" style="margin-top: -19px;">Seafood preparation</a>
+      <a href="task2/slides/2">Preventing seafood spoilage</a>
+        <a href="task2/slides/3">Seafood preparation – work area</a>
+        <a href="task2/slides/4">Buying seafood</a>
+        <a href="task2/slides/5">Preparing fresh fish</a>
+        <a href="task2/slides/6">Preparing whole fresh fish</a>
+        <a href="task2/slides/7">Preparing shellfish</a>
+        <a href="task2/slides/8">Seafood cuts</a>
+        <a href="task2/slides/9">Preparing seafood to dish requirements</a>
+        <a href="task2/slides/10">Seafood preservation methods</a>
+        <a href="task2/slides/11">Seafood storage</a>
+        <a href="task2/slides/13">Fresh seafood storage – points of care</a>
+        <a href="task2/slides/15">Seafood storage</a>
+        <a href="task2/slides/16">Seafood storage – frozen seafood</a>
+        <a href="task2/slides/17">Seafood frozen storage – points of care</a>
+
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+      <a href="task2/quiz/0" style="margin-top: -19px;">QUIZ</a>
+    </div>
+
+
+
+
+
+
+
+
+    <!--MENU : TASK 3-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task3/slides/0">Task 3
+          <div>Cooking Techniques</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t3-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 3 : SUBMENU -->
+
+    <div id="t3-sub" class="subMenuItem">
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
+      <a href="task3/slides/1" style="margin-top: -19px;">Introduction to cooking seafood</a>
+      <a href="task3/slides/2">Cooking seafood</a>
+      <a href="task3/slides/4">Moist heat cookery methods</a>
+        <a href="task3/slides/10">Dry heat cookery methods</a>
+        <a href="task3/slides/16">Finishing seafood to dish requirements</a>
+        <a href="task3/slides/17">Seafood accompaniments</a>
+        <a href="task3/slides/19">Storing finished seafood dishes</a>
+        <a href="task3/slides/20">Handout 3: Fish recipe – complex and modern</a>
+        <a href="task3/slides/21">Handout 4: Shellfish recipe – complex and modern</a>
+
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+      <a href="task3/quiz/0" style="margin-top: -19px;">QUIZ</a>
+    </div>
+
+
+  </div>
+</div>
+
+<script src="../_common/js/bundle.min.js"></script>
+
+
+</body>
+
+
+</html>

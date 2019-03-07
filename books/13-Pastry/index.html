@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    City & Guilds eBook
+  </title>
+  <meta name="viewport" content="height=device-height ,width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <script type="text/javascript" src="../_common/libs/modernizr-custom.js"></script>
+  <script type="text/javascript" src="../_common/libs/jquery/jquery-3.3.1.min.js"></script>
+  <link rel="stylesheet" href="../_common/css/styles.css">
+  <script>
+
+    var bookObj = {
+      'bookTitle': 'Introduction',
+      'bookSubTitle': 'Pastry',
+      'bookTasks': {
+        'task1': {
+          'taskName': 'Task 1',
+          'taskDesc': 'Introduction to Pastry',
+          'routes': {
+            'slides': 16,
+            'media': 0,
+            'quiz': 6
+          }
+        },
+        'task2': {
+          'taskName': 'Task 2',
+          'taskDesc': 'Producing Paste Products',
+          'routes': {
+            'slides': 25,
+            'media': 0,
+            'quiz': 6
+          }
+        }
+      }
+    }
+
+    var availableRoutes = {
+      'task1': {
+        'slides': 16,
+        'quiz': 6,
+        'media': 0
+      },
+      'task2': {
+        'slides': 25,
+        'quiz': 6,
+        'media': 0
+      }
+    }
+
+  </script>
+</head>
+
+<body>
+
+<nav class="l-nav-bar">
+    <div class="nav-bar__progress">
+        <div class="nav-bar__progress-bg">
+            <div class="nav-bar__progress-bar"></div>
+        </div>
+        <div class="nav-bar__progress-txt"></div>
+    </div>
+
+    <div class="nav-bar__container">
+        <div class="stv-radio-buttons-wrapper">
+            <div>
+                <input type="radio" name="displayMode" value="slides" id="slidesRadio"> <span class="rSpan r1"><label
+                    for="slidesRadio"><span class="img"></span><span class="button-text">SLIDES</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="media" id="mediaRadio"> <span class="rSpan r2"><label
+                    for="mediaRadio"><span class="img"></span><span class="button-text">MEDIA</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="quiz" id="quizRadio"> <span class="rSpan r3"><label
+                    for="quizRadio"><span class="img"></span><span class="button-text">QUIZ</span></label></span>
+            </div>
+
+        </div>
+
+        <div class="nav-bar_leftRight_wrapper">
+
+            <button class="nav-bar__button js-back touchevents">
+                <span class="nav-bar__button-circle--left">
+                    <img src="../_common/css/images/arrow-left-solid.svg"/>
+                </span>
+                <span class="nav-bar__button-text--right">PREVIOUS</span>
+            </button>
+
+            <button class="nav-bar__button js-next touchevents">
+                <span class="nav-bar__button-text--left">NEXT</span>
+                <span class="nav-bar__button-circle--right">
+                    <img src="../_common/css/images/arrow-right-solid.svg"/>
+                </span>
+            </button>
+
+        </div>
+
+        <div class="nav-bar__controls hidden">
+            <button class="button__control js-replay">Replay</button>
+        </div>
+
+    </div>
+</nav>
+
+<header class="true-header">
+    <div>
+        <div class="l-header">
+            <h1 class="l-header__banner">Professional Chef</h1>
+            <div class="header-menu-icon"><span></span></div>
+        </div>
+
+        <div class="l-header row2">
+            <h1 class="l-header__banner row2">
+                <span>City & Guilds</span>: <span>Professional Chef</span>
+            </h1>
+        </div>
+    </div>
+</header>
+
+
+<div class="l-wrapper js-wrapper hidden"></div>
+
+<div class="player_overlay"></div>
+
+<div id="mySidenav" class="player_sidenav">
+
+  <!--CLOSE BUTTON-->
+  <a href="closeSideNav" class="player_closebtn">&times;</a>
+
+  <div class="scrollContainer">
+
+
+
+
+
+    <!--MENU : INTRO-->
+
+    <div class="menuItem_Container">
+      <a href="intro">Introduction
+        <div style="font-size: 14px">Pastry</div>
+      </a>
+    </div>
+
+
+
+
+
+
+    <!--MENU : TASK 1-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task1/slides/0">Task 1
+          <div>Introduction to Pastry</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t1-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 1 : SUBMENU -->
+
+      <div id="t1-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
+          <a href="task1/slides/1" style="margin-top: -19px;">Introduction to types of paste</a>
+          <a href="task1/slides/2">Types of paste</a>
+          <a href="task1/slides/3">Short paste</a>
+          <a href="task1/slides/4">Sweet paste</a>
+          <a href="task1/slides/5">Choux paste</a>
+          <a href="task1/slides/6">Puff paste</a>
+          <a href="task1/slides/7">Suet paste</a>
+          <a href="task1/slides/8">Hot water paste</a>
+          <a href="task1/slides/9">Filo paste</a>
+          <a href="task1/slides/10">Introduction</a>
+          <a href="task1/slides/11">Flour</a>
+          <a href="task1/slides/12">Fat</a>
+          <a href="task1/slides/13">Sugar</a>
+          <a href="task1/slides/14">Eggs</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+          <a href="task1/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+    <!--MENU : TASK 2-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task2/slides/0">Task 2
+          <div>Producing Paste Products</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t2-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 2 : SUBMENU -->
+
+      <div id="t2-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_docs.svg"></div>
+          <a href="task2/slides/1" style="margin-top: -19px;">Introduction</a>
+          <a href="task2/slides/2">Rubbing-in</a>
+          <a href="task2/slides/3">Creaming</a>
+          <a href="task2/slides/4">Folding</a>
+          <a href="task2/slides/5">Rolling</a>
+          <a href="task2/slides/6">Resting</a>
+          <a href="task2/slides/7">Beating</a>
+          <a href="task2/slides/8">Boiling/melting</a>
+          <a href="task2/slides/9">Introduction</a>
+          <a href="task2/slides/10">Quiche Lorraine</a>
+          <a href="task2/slides/11">Fruit tarts</a>
+          <a href="task2/slides/12">Profiteroles</a>
+          <a href="task2/slides/13">Eccles cakes</a>
+          <a href="task2/slides/14">Steak and kidney pudding</a>
+          <a href="task2/slides/15">Introduction to finishing paste products</a>
+          <a href="task2/slides/16">Finishing paste products</a>
+          <a href="task2/slides/17">Icing</a>
+          <a href="task2/slides/18">Egg wash</a>
+          <a href="task2/slides/19">Glazing</a>
+          <a href="task2/slides/20">Piping</a>
+          <a href="task2/slides/21">Filling</a>
+          <a href="task2/slides/22">A complex choux paste recipe</a>
+          <a href="task2/slides/23">Puff paste recipe</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="css/images/icon_quiz.svg"></div>
+          <a href="task2/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+  </div>
+</div>
+
+<script src="../_common/js/bundle.min.js"></script>
+
+
+</body>
+
+
+</html>

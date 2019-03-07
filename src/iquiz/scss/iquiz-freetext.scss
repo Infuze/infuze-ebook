@@ -127,3 +127,53 @@
 .iquiz-ft-submitBtn-container .iquiz_submitBtn:first-child{
   margin-right: 10px;
 }
+
+//
+// PETE ADDITIONS START
+//
+
+.iquiz-ft-ques-container .quiz-1col {
+  padding: 10px 0 0 0;
+}
+
+.iquiz-ft-ques-container .quiz-2col {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+.iquiz-ft-ques-container .quiz-2col + .quiz-2col {
+  margin-top: 20px;
+  border-top: solid 1px #c4c4c4;
+  padding-top: 10px;
+}
+
+.iquiz-ft-ques-container .quiz-col-2-1 {
+  flex: 1;
+  padding: 0 20px 0 0;
+}
+
+.iquiz-ft-ques-container .quiz-col-2-2 {
+  flex: 1;
+}
+
+.iquiz-ft-ques-container .quiz-col-2-1 img,
+.iquiz-ft-ques-container .quiz-col-2-2 img {
+  width: 100%;
+  height: auto;
+  margin-left: auto;
+  padding-top: 10px;
+  display: block;
+}
+
+.iquiz-ft-ques-container .quiz-col-2-1 img + img,
+.iquiz-ft-ques-container .quiz-col-2-2 img + img {
+  margin-top: 5px;
+}
+
+//
+// PETE ADDITIONS END
+//
