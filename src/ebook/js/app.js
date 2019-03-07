@@ -21,6 +21,7 @@ export default class Ebook {
     this.router;
     this.bookObj;
     this.quiz;
+    this.quizLoaded = false;
     this.slidesCurrentPage = 0;
     this.slideCount = 0;
     this.displayModeBtns = document.getElementsByName("displayMode");
@@ -108,6 +109,7 @@ export default class Ebook {
     let flagForReload = false;
     if (this.task !== urlPaths[0]) {
       this.task = urlPaths[0];
+      this.quizLoaded = false;
       flagForReload = true;
     }
     if (this.taskType !== urlPaths[1]) {
@@ -128,8 +130,20 @@ export default class Ebook {
 
   loadHTML() {
     $log('****** loadHTML ');
-    const url = this.task + '-' + this.taskType + '.html',
-      selector = '.js-wrapper';
+    const url = this.task + '-' + this.taskType + '.html';
+    let selector = '.js-wrapper';
+
+
+
+    if(this.taskType=='quiz') {
+      if(this.quizLoaded == true){
+        this.htmlLoaded();
+        return;
+      }
+      selector = ".js-wrapper .quiz-wrapper";
+    }else{
+      selector = ".js-wrapper .slide-wrapper";
+    }
 
     const content_div = qs(selector);
     const xmlHttp = new XMLHttpRequest();
@@ -137,16 +151,6 @@ export default class Ebook {
 
     var res = document.createElement( 'div' );
 
-    // xmlHttp.onreadystatechange = function () {
-    //   if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-    //     const $ = Cheerio.load(xmlHttp.responseText);
-    //     const content = $(selector).children()
-    //       .after($(this).contents())
-    //       .remove();
-    //     content_div.innerHTML = content;
-    //     cFunction(this);
-    //   }
-    // };
 
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -164,14 +168,18 @@ export default class Ebook {
 
   htmlLoaded() {
     $log('****** htmlLoaded ');
-    if (this.taskType === 'quiz') {
+    if (this.taskType === 'quiz' && this.quizLoaded == false) {
       this.quiz = new Quiz();
       this.quiz.on('initialzeNavigation', this.quizInit.bind(this));
       this.quiz.on('beginQuiz', this.beginQuiz.bind(this));
       this.quiz.on('navigateToPage', this.navigateToPage.bind(this));
       this.quiz.on('navigateToNextPage', this.navigateToNextPage.bind(this));
       this.quiz.startUp();
+      this.quizLoaded = true;
     }
+
+
+
     this.setPageEvents();
     this.definePages();
     this.addRoutes();
@@ -295,25 +303,34 @@ export default class Ebook {
     }
     // show wrapper
     qs(".js-wrapper").classList.remove("hidden");
+
+    // arrange quiz & slide wrappers
+    if (this.taskType === 'quiz') {
+      $log('***** hide slides show quiz ');
+      qs(".slide-wrapper").classList.add("hidden");
+      qs(".quiz-wrapper").classList.remove("hidden");
+    }else{
+      qs(".quiz-wrapper").classList.add("hidden");
+      qs(".slide-wrapper").classList.remove("hidden");
+    }
   }
   doResize() {
     $log('****** doResize');
-    const thisPageNode = this.getPageNode(this.getPageNumber()),
-      nextPageNode = this.getPageNode(this.getPageNumber(1)),
-      prevPageNode = this.getPageNode(this.getPageNumber(-1)),
-      isLeft = thisPageNode.classList.contains("left"),
-      isRight = thisPageNode.classList.contains("right");
-    let pageToHide;
-
-    if (isLeft) pageToHide = nextPageNode;
-    if (isRight) pageToHide = prevPageNode;
-
-    if (window.innerWidth < 900) {
-      //TODO SAME AS tablet-landscape-up
-      if (pageToHide) pageToHide.classList.add("hidden");
-    } else {
-      if (pageToHide) pageToHide.classList.remove("hidden");
-    }
+    // const thisPageNode = this.getPageNode(this.getPageNumber()),
+    //   nextPageNode = this.getPageNode(this.getPageNumber(1)),
+    //   prevPageNode = this.getPageNode(this.getPageNumber(-1)),
+    //   isLeft = thisPageNode.classList.contains("left"),
+    //   isRight = thisPageNode.classList.contains("right");
+    // let pageToHide;
+    // if (isLeft) pageToHide = nextPageNode;
+    // if (isRight) pageToHide = prevPageNode;
+    //
+    // if (window.innerWidth < 900) {
+    //   //TODO SAME AS tablet-landscape-up
+    //   if (pageToHide) pageToHide.classList.add("hidden");
+    // } else {
+    //   if (pageToHide) pageToHide.classList.remove("hidden");
+    // }
     //this.resetNavigationStates();
   }
 
