@@ -109,6 +109,7 @@ export default class Ebook {
     let flagForReload = false;
     if (this.task !== urlPaths[0]) {
       this.task = urlPaths[0];
+      this.quizLoaded = false;
       flagForReload = true;
     }
     if (this.taskType !== urlPaths[1]) {
@@ -302,9 +303,10 @@ export default class Ebook {
     }
     // show wrapper
     qs(".js-wrapper").classList.remove("hidden");
-    // show other wrappers
+
+    // arrange quiz & slide wrappers
     if (this.taskType === 'quiz') {
-      $log('HHHHH hide slides show quiz ');
+      $log('***** hide slides show quiz ');
       qs(".slide-wrapper").classList.add("hidden");
       qs(".quiz-wrapper").classList.remove("hidden");
     }else{
@@ -314,22 +316,21 @@ export default class Ebook {
   }
   doResize() {
     $log('****** doResize');
-    const thisPageNode = this.getPageNode(this.getPageNumber()),
-      nextPageNode = this.getPageNode(this.getPageNumber(1)),
-      prevPageNode = this.getPageNode(this.getPageNumber(-1)),
-      isLeft = thisPageNode.classList.contains("left"),
-      isRight = thisPageNode.classList.contains("right");
-    let pageToHide;
-
-    if (isLeft) pageToHide = nextPageNode;
-    if (isRight) pageToHide = prevPageNode;
-
-    if (window.innerWidth < 900) {
-      //TODO SAME AS tablet-landscape-up
-      if (pageToHide) pageToHide.classList.add("hidden");
-    } else {
-      if (pageToHide) pageToHide.classList.remove("hidden");
-    }
+    // const thisPageNode = this.getPageNode(this.getPageNumber()),
+    //   nextPageNode = this.getPageNode(this.getPageNumber(1)),
+    //   prevPageNode = this.getPageNode(this.getPageNumber(-1)),
+    //   isLeft = thisPageNode.classList.contains("left"),
+    //   isRight = thisPageNode.classList.contains("right");
+    // let pageToHide;
+    // if (isLeft) pageToHide = nextPageNode;
+    // if (isRight) pageToHide = prevPageNode;
+    //
+    // if (window.innerWidth < 900) {
+    //   //TODO SAME AS tablet-landscape-up
+    //   if (pageToHide) pageToHide.classList.add("hidden");
+    // } else {
+    //   if (pageToHide) pageToHide.classList.remove("hidden");
+    // }
     //this.resetNavigationStates();
   }
 
