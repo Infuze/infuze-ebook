@@ -20,6 +20,76 @@
       "number": 4,
       "folder": "4-Nutrition-and-Dietary-Requirements",
       "title": "4. Nutrition and Dietary Requirements"
+    },
+    {
+      "number": 5,
+      "folder": "5-Fish-And-Shellfish",
+      "title": "5. Fish and Shellfish"
+    },
+    {
+      "number": 6,
+      "folder": "6-Meat-And-Offal",
+      "title": "6. Meat and Offal"
+    },
+    {
+      "number": 7,
+      "folder": "7-Poultry",
+      "title": "7. Poultry"
+    },
+    {
+      "number": 8,
+      "folder": "8-Vegetables-And-Fruit",
+      "title": "8. Vegetables and Fruit"
+    },
+    {
+      "number": 9,
+      "folder": "9-Sauces-Stock-And-Soup",
+      "title": "9. Stock, Soup and Sauces"
+    },
+    {
+      "number": 10,
+      "folder": "10-Rice-Pasta-And-Egg-Dishes",
+      "title": "10. Rice, Pasta and Egg Dishes"
+    },
+    {
+      "number": 11,
+      "folder": "11-Vegetable-Protein",
+      "title": "11. Vegetable Protein"
+    },
+    {
+      "number": 12,
+      "folder": "12-Bread-And-Dough",
+      "title": "12. Bread and Dough"
+    },
+    {
+      "number": 13,
+      "folder": "13-Pastry",
+      "title": "13. Pastry"
+    },
+    {
+      "number": 14,
+      "folder": "14-Cakes-Sponges-Biscuits-And-Scones",
+      "title": "14. Cakes, Sponges, Biscuits and Scones"
+    },
+    {
+      "number": 15,
+      "folder": "15-Cold-And-Hot-Desserts",
+      "title": "15. Desserts and Puddings"
+    },
+    {
+      "number": 16,
+      "folder": "16-Legislation-And-Responsibilities",
+      "title": "16. Legislation and Responsibilities"
+    },
+    {
+      "number": 17,
+      "folder": "17-Team-Development-And-Supervision",
+      "title": "17. Team Development and Supervision"
+    },
+    {
+      "number": 18,
+      "folder": "18-Business-Planning-And-Risks",
+      "title": "18. Business Planning and Risks"
     }
   ]
 }

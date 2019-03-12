@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    City & Guilds eBook
+  </title>
+  <meta name="viewport" content="height=device-height ,width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <script type="text/javascript" src="../_common/libs/modernizr-custom.js"></script>
+  <script type="text/javascript" src="../_common/libs/jquery/jquery-3.3.1.min.js"></script>
+  <link rel="stylesheet" href="../_common/css/styles.css">
+  <script>
+
+      var bookObj = {
+          'bookTitle': 'Introduction',
+          'bookSubTitle': 'Food Preparation',
+          'bookTasks': {
+              'task1': {
+                  'taskName': 'Task 1',
+                  'taskDesc': 'Baking',
+                  'routes': {
+                      'slides': 23,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task2': {
+                  'taskName': 'Task 2',
+                  'taskDesc': 'Boiling',
+                  'routes': {
+                      'slides': 15,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task3': {
+                  'taskName': 'Task 3',
+                  'taskDesc': 'Braising & Stewing',
+                  'routes': {
+                      'slides': 28,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task4': {
+                  'taskName': 'Task 4',
+                  'taskDesc': 'Cold Preparation',
+                  'routes': {
+                      'slides': 30,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task5': {
+                  'taskName': 'Task 5',
+                  'taskDesc': 'Frying',
+                  'routes': {
+                      'slides': 39,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task6': {
+                  'taskName': 'Task 6',
+                  'taskDesc': 'Grilling',
+                  'routes': {
+                      'slides': 14,
+                      'media': 0,
+                      'quiz': 5
+                  }
+              },
+              'task7': {
+                  'taskName': 'Task 7',
+                  'taskDesc': 'Poaching',
+                  'routes': {
+                      'slides': 15,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task8': {
+                  'taskName': 'Task 8',
+                  'taskDesc': 'Roasting',
+                  'routes': {
+                      'slides': 15,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task9': {
+                  'taskName': 'Task 9',
+                  'taskDesc': 'Steaming',
+                  'routes': {
+                      'slides': 14,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task10': {
+                  'taskName': 'Task 10',
+                  'taskDesc': 'Evaluation',
+                  'routes': {
+                      'slides': 10,
+                      'media': 0,
+                      'quiz': 0
+                  }
+              }
+          }
+      }
+
+      var availableRoutes = {
+          'task1': {
+              'slides': 23,
+              'quiz': 6,
+              'media': 0
+          },
+          'task2': {
+              'slides': 15,
+              'quiz': 6,
+              'media': 0
+          },
+          'task3': {
+              'slides': 28,
+              'quiz': 6,
+              'media': 0
+          },
+          'task4': {
+              'slides': 30,
+              'quiz': 6,
+              'media': 0
+          },
+          'task5': {
+              'slides': 39,
+              'quiz': 6,
+              'media': 0
+          },
+          'task6': {
+              'slides': 14,
+              'quiz': 5,
+              'media': 0
+          },
+          'task7': {
+              'slides': 15,
+              'quiz': 6,
+              'media': 0
+          },
+          'task8': {
+              'slides': 15,
+              'quiz': 6,
+              'media': 0
+          },
+          'task9': {
+              'slides': 14,
+              'quiz': 6,
+              'media': 0
+          },
+          'task10': {
+              'slides': 10,
+              'quiz': 0,
+              'media': 0
+          }
+      }
+
+  </script>
+</head>
+
+<body>
+
+<nav class="l-nav-bar">
+    <div class="nav-bar__progress">
+        <div class="nav-bar__progress-bg">
+            <div class="nav-bar__progress-bar"></div>
+        </div>
+        <div class="nav-bar__progress-txt"></div>
+    </div>
+
+    <div class="nav-bar__container">
+        <div class="stv-radio-buttons-wrapper">
+            <div>
+                <input type="radio" name="displayMode" value="slides" id="slidesRadio"> <span class="rSpan r1"><label
+                    for="slidesRadio"><span class="img"></span><span class="button-text">SLIDES</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="media" id="mediaRadio"> <span class="rSpan r2"><label
+                    for="mediaRadio"><span class="img"></span><span class="button-text">MEDIA</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="quiz" id="quizRadio"> <span class="rSpan r3"><label
+                    for="quizRadio"><span class="img"></span><span class="button-text">QUIZ</span></label></span>
+            </div>
+
+        </div>
+
+        <div class="nav-bar_leftRight_wrapper">
+
+            <button class="nav-bar__button js-back touchevents">
+                <span class="nav-bar__button-circle--left">
+                    <img src="../_common/css/images/arrow-left-solid.svg"/>
+                </span>
+                <span class="nav-bar__button-text--right">PREVIOUS</span>
+            </button>
+
+            <button class="nav-bar__button js-next touchevents">
+                <span class="nav-bar__button-text--left">NEXT</span>
+                <span class="nav-bar__button-circle--right">
+                    <img src="../_common/css/images/arrow-right-solid.svg"/>
+                </span>
+            </button>
+
+        </div>
+
+        <div class="nav-bar__controls hidden">
+            <button class="button__control js-replay">Replay</button>
+        </div>
+
+    </div>
+</nav>
+
+<header class="true-header">
+    <div>
+        <div class="l-header">
+            <h1 class="l-header__banner">Professional Chef</h1>
+            <div class="header-menu-icon"><span></span></div>
+        </div>
+
+        <div class="l-header row2">
+            <h1 class="l-header__banner row2">
+                <span>City & Guilds</span>: <span>Professional Chef</span>
+            </h1>
+        </div>
+    </div>
+</header>
+
+
+<div class="l-wrapper js-wrapper hidden">
+  <div class="quiz-wrapper hidden">
+    quiz-wrapper
+  </div>
+  <div class="slide-wrapper">
+    slide-wrapper
+  </div>
+</div>
+
+<div class="player_overlay"></div>
+
+<div id="mySidenav" class="player_sidenav">
+
+  <!--CLOSE BUTTON-->
+  <a href="closeSideNav" class="player_closebtn">&times;</a>
+
+  <div class="scrollContainer">
+
+    <!--MENU : INTRO-->
+
+    <div class="menuItem_Container">
+      <a href="course/intro/0">Introduction
+        <div style="font-size: 14px">Food Preparation</div>
+      </a>
+    </div>
+
+
+    <!--MENU : TASK 1-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task1/slides/0">Task 1
+          <div>Baking</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t1-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 1 : SUBMENU -->
+
+    <div id="t1-sub" class="subMenuItem">
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+      <a href="task1/slides/1" style="margin-top: -19px;">Introduction to baking</a>
+      <a href="task1/slides/2">Types of food suitable for baking</a>
+      <a href="task1/slides/6">Quality checks when selecting food items for baking</a>
+      <a href="task1/slides/7">Preparation methods for baking</a>
+      <a href="task1/slides/14">Techniques to produce baked products</a>
+      <a href="task1/slides/17">Quality checks during the baking process</a>
+      <a href="task1/slides/18">Finishing methods for baked products</a>
+
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+      <a href="task1/quiz/0" style="margin-top: -19px;">QUIZ</a>
+    </div>
+
+
+
+
+
+
+    <!--MENU : TASK 2-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task2/slides/0">Task 2
+          <div>Boiling</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t2-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 2 : SUBMENU -->
+
+    <div id="t2-sub" class="subMenuItem">
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+      <a href="task2/slides/1" style="margin-top: -19px;">Introduction to boiling</a>
+      <a href="task2/slides/2">Types of food suitable for boiling</a>
+      <a href="task2/slides/3">Boiling different types of food</a>
+      <a href="task2/slides/7">Quality checks when selecting food for boiling</a>
+      <a href="task2/slides/8">Techniques to produce boiled products</a>
+      <a href="task2/slides/11">Quality checks during the boiling process</a>
+      <a href="task2/slides/13">Finishing methods for boiled products</a>
+
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+      <a href="task2/quiz/0" style="margin-top: -19px;">QUIZ</a>
+    </div>
+
+
+
+
+
+
+    <!--MENU : TASK 3-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task3/slides/0">Task 3
+          <div>Braising &amp; Stewing</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t3-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 3 : SUBMENU -->
+
+    <div id="t3-sub" class="subMenuItem">
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+      <a href="task3/slides/1" style="margin-top: -19px;">Introduction to stewing</a>
+      <a href="task3/slides/2">Types of food suitable for stewing</a>
+      <a href="task3/slides/5">Quality checks when selecting food for stewing</a>
+        <a href="task3/slides/7">Preparation methods for stewing</a>
+        <a href="task3/slides/8">Techniques to produce stewed products</a>
+        <a href="task3/slides/11">Quality checks during the stewing process</a>
+        <a href="task3/slides/13">Finishing methods for stewed products</a>
+        <a href="task3/slides/14">Introduction to braising</a>
+        <a href="task3/slides/15">Types of food suitable for braising</a>
+        <a href="task3/slides/18">Quality checks when selecting food for braising</a>
+        <a href="task3/slides/19">Preparation methods for braising</a>
+        <a href="task3/slides/21">Techniques to produce braised products</a>
+        <a href="task3/slides/23">Quality checks during the braising process</a>
+        <a href="task3/slides/25">Finishing methods for braised products</a>
+
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+      <a href="task3/quiz/0" style="margin-top: -19px;">QUIZ</a>
+    </div>
+
+
+
+
+
+
+    <!--MENU : TASK 4-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task4/slides/0">Task 4
+          <div>Cold Preparation</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t4-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 4 : SUBMENU -->
+
+    <div id="t4-sub" class="subMenuItem">
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+      <a href="task4/slides/1" style="margin-top: -19px;">Introduction to cold foods</a>
+      <a href="task4/slides/2">Types of cold food</a>
+      <a href="task4/slides/15">Techniques to produce cold food products</a>
+        <a href="task4/slides/20">Producing different types of cold food products</a>
+        <a href="task4/slides/24">Finishing methods for cold food products</a>
+
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+      <a href="task4/quiz/0" style="margin-top: -19px;">QUIZ</a>
+    </div>
+
+
+
+
+
+
+
+
+      <!--MENU : TASK 5-->
+
+      <div class="menuItem_Container">
+          <div class="menuCol-fluid">
+              <a href="task5/slides/0">Task 5
+                  <div>Frying</div>
+              </a>
+          </div>
+
+          <div class="menuCol-fixed">
+              <button value="t5-sub">
+                  <div><i class="icon-sort-down"></i></div>
+              </button>
+          </div>
+      </div>
+
+      <!--TASK 5 : SUBMENU -->
+
+      <div id="t5-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+          <a href="task5/slides/1" style="margin-top: -19px;">Introduction to deep frying</a>
+          <a href="task5/slides/2">Types of food suitable for deep frying</a>
+          <a href="task5/slides/6">Preparation methods for deep frying</a>
+          <a href="task5/slides/9">Techniques to produce deep fried products</a>
+          <a href="task5/slides/12">Quality checks during the deep frying process</a>
+          <a href="task5/slides/15">Finishing methods for deep fried products</a>
+          <a href="task5/slides/18">Introduction to shallow frying</a>
+          <a href="task5/slides/19">Types of food suitable for shallow frying</a>
+          <a href="task5/slides/24">Preparation methods for shallow frying</a>
+          <a href="task5/slides/28">Techniques to produce shallow fried products</a>
+          <a href="task5/slides/32">Quality checks during the shallow frying process</a>
+          <a href="task5/slides/35">Finishing methods for shallow fried products</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+          <a href="task5/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+
+
+
+      <!--MENU : TASK 6-->
+
+      <div class="menuItem_Container">
+          <div class="menuCol-fluid">
+              <a href="task6/slides/0">Task 6
+                  <div>Grilling</div>
+              </a>
+          </div>
+
+          <div class="menuCol-fixed">
+              <button value="t6-sub">
+                  <div><i class="icon-sort-down"></i></div>
+              </button>
+          </div>
+      </div>
+
+      <!--TASK 6 : SUBMENU -->
+
+      <div id="t6-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+          <a href="task6/slides/1" style="margin-top: -19px;">Introduction to grilling</a>
+          <a href="task6/slides/2">Types of food suitable for grilling</a>
+          <a href="task6/slides/6">Preparation methods for grilling</a>
+          <a href="task6/slides/9">Techniques to produce grilled products</a>
+          <a href="task6/slides/10">Quality checks during the grilling process</a>
+          <a href="task6/slides/11">Finishing methods for grilled products</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+          <a href="task6/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+
+
+
+      <!--MENU : TASK 7-->
+
+      <div class="menuItem_Container">
+          <div class="menuCol-fluid">
+              <a href="task7/slides/0">Task 7
+                  <div>Poaching</div>
+              </a>
+          </div>
+
+          <div class="menuCol-fixed">
+              <button value="t7-sub">
+                  <div><i class="icon-sort-down"></i></div>
+              </button>
+          </div>
+      </div>
+
+      <!--TASK 7 : SUBMENU -->
+
+      <div id="t7-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+          <a href="task7/slides/1" style="margin-top: -19px;">Introduction to poaching</a>
+          <a href="task7/slides/2">Types of food suitable for poaching</a>
+          <a href="task7/slides/4">Preparation methods for poaching</a>
+          <a href="task7/slides/6">Techniques to produce poached products</a>
+          <a href="task7/slides/9">Quality checks during the poaching process</a>
+          <a href="task7/slides/11">Finishing methods for poached products</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+          <a href="task7/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+
+
+
+
+      <!--MENU : TASK 8-->
+
+      <div class="menuItem_Container">
+          <div class="menuCol-fluid">
+              <a href="task8/slides/0">Task 8
+                  <div>Roasting</div>
+              </a>
+          </div>
+
+          <div class="menuCol-fixed">
+              <button value="t8-sub">
+                  <div><i class="icon-sort-down"></i></div>
+              </button>
+          </div>
+      </div>
+
+      <!--TASK 8 : SUBMENU -->
+
+      <div id="t8-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+          <a href="task8/slides/1" style="margin-top: -19px;">Introduction to roasting</a>
+          <a href="task8/slides/2">Types of food suitable for roasting</a>
+          <a href="task8/slides/5">Preparation methods for roasting</a>
+          <a href="task8/slides/9">Techniques to produce roasted products</a>
+          <a href="task8/slides/11">Quality checks during the roasting process</a>
+          <a href="task8/slides/12">Finishing methods for roasted products</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+          <a href="task8/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+
+
+
+      <!--MENU : TASK 9-->
+
+      <div class="menuItem_Container">
+          <div class="menuCol-fluid">
+              <a href="task9/slides/0">Task 9
+                  <div>Steaming</div>
+              </a>
+          </div>
+
+          <div class="menuCol-fixed">
+              <button value="t9-sub">
+                  <div><i class="icon-sort-down"></i></div>
+              </button>
+          </div>
+      </div>
+
+      <!--TASK 9 : SUBMENU -->
+
+      <div id="t9-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+          <a href="task9/slides/1" style="margin-top: -19px;">Introduction to steaming</a>
+          <a href="task9/slides/2">Types of food suitable for steaming</a>
+          <a href="task9/slides/5">Preparation methods for steaming</a>
+          <a href="task9/slides/8">Techniques to produce steamed products</a>
+          <a href="task9/slides/10">Quality checks during the steaming process</a>
+          <a href="task9/slides/11">Finishing methods for steamed products</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+          <a href="task9/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+
+      <!--MENU : TASK 10-->
+
+      <div class="menuItem_Container">
+          <div class="menuCol-fluid">
+              <a href="task10/slides/0">Task 10
+                  <div>Evaluation</div>
+              </a>
+          </div>
+
+          <div class="menuCol-fixed">
+              <button value="t10-sub">
+                  <div><i class="icon-sort-down"></i></div>
+              </button>
+          </div>
+      </div>
+
+      <!--TASK 10 : SUBMENU -->
+
+      <div id="t10-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+          <a href="task10/slides/1" style="margin-top: -19px;">Evaluation</a>
+          <a href="task10/slides/3">Performing a sensory evaluation</a>
+          <a href="task10/slides/4">Evaluating portion size and colour</a>
+          <a href="task10/slides/5">Evaluating taste and texture</a>
+          <a href="task10/slides/6">Evaluating consistency and presentation</a>
+          <a href="task10/slides/7">Evaluating temperature and aroma</a>
+          <a href="task10/slides/8">Fault reporting</a>
+
+          <!--<div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>-->
+          <!--<a href="task10/quiz/0" style="margin-top: -19px;">QUIZ</a>-->
+      </div>
+
+
+  </div>
+</div>
+
+<script src="../_common/js/bundle.min.js"></script>
+
+
+</body>
+
+
+</html>
