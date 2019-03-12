@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    City & Guilds eBook
+  </title>
+  <meta name="viewport" content="height=device-height ,width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+  <script type="text/javascript" src="../_common/libs/modernizr-custom.js"></script>
+  <script type="text/javascript" src="../_common/libs/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../_common/libs/player.min.js"></script>
+  <link rel="stylesheet" href="../_common/css/styles.css">
+  <script>
+
+    var bookObj = {
+      'bookTitle': 'Introduction',
+      'bookSubTitle': 'Rice, Pasta & Egg Dishes',
+      'bookTasks': {
+        'task1': {
+          'taskName': 'Task 1',
+          'taskDesc': 'Introduction to farinaceous ingredients',
+          'routes': {
+            'slides': 37,
+            'media': 1,
+            'quiz': 6
+          }
+        },
+        'task2': {
+          'taskName': 'Task 2',
+          'taskDesc': 'Cooking techniques',
+          'routes': {
+            'slides': 26,
+            'media': 4,
+            'quiz': 6
+          }
+        }
+      }
+    }
+
+    var availableRoutes = {
+      'task1': {
+        'slides': 37,
+        'quiz': 6,
+        'media': 1
+      },
+      'task2': {
+        'slides': 26,
+        'quiz': 6,
+        'media': 4
+      }
+    }
+
+  </script>
+</head>
+
+<body>
+
+<nav class="l-nav-bar">
+    <div class="nav-bar__progress">
+        <div class="nav-bar__progress-bg">
+            <div class="nav-bar__progress-bar"></div>
+        </div>
+        <div class="nav-bar__progress-txt"></div>
+    </div>
+
+    <div class="nav-bar__container">
+        <div class="stv-radio-buttons-wrapper">
+            <div>
+                <input type="radio" name="displayMode" value="slides" id="slidesRadio"> <span class="rSpan r1"><label
+                    for="slidesRadio"><span class="img"></span><span class="button-text">SLIDES</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="media" id="mediaRadio"> <span class="rSpan r2"><label
+                    for="mediaRadio"><span class="img"></span><span class="button-text">MEDIA</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="quiz" id="quizRadio"> <span class="rSpan r3"><label
+                    for="quizRadio"><span class="img"></span><span class="button-text">QUIZ</span></label></span>
+            </div>
+
+        </div>
+
+        <div class="nav-bar_leftRight_wrapper">
+
+            <button class="nav-bar__button js-back touchevents">
+                <span class="nav-bar__button-circle--left">
+                    <img src="../_common/css/images/arrow-left-solid.svg"/>
+                </span>
+                <span class="nav-bar__button-text--right">PREVIOUS</span>
+            </button>
+
+            <button class="nav-bar__button js-next touchevents">
+                <span class="nav-bar__button-text--left">NEXT</span>
+                <span class="nav-bar__button-circle--right">
+                    <img src="../_common/css/images/arrow-right-solid.svg"/>
+                </span>
+            </button>
+
+        </div>
+
+        <div class="nav-bar__controls hidden">
+            <button class="button__control js-replay">Replay</button>
+        </div>
+
+    </div>
+</nav>
+
+<header class="true-header">
+    <div>
+        <div class="l-header">
+            <h1 class="l-header__banner">Professional Chef</h1>
+            <div class="header-menu-icon"><span></span></div>
+        </div>
+
+        <div class="l-header row2">
+            <h1 class="l-header__banner row2">
+                <span>City & Guilds</span>: <span>Professional Chef</span>
+            </h1>
+        </div>
+    </div>
+</header>
+
+
+<div class="l-wrapper js-wrapper hidden">
+  <div class="quiz-wrapper hidden">
+    quiz-wrapper
+  </div>
+  <div class="slide-wrapper">
+    slide-wrapper
+  </div>
+</div>
+
+<div class="player_overlay"></div>
+
+<div id="mySidenav" class="player_sidenav">
+
+  <!--CLOSE BUTTON-->
+  <a href="closeSideNav" class="player_closebtn">&times;</a>
+
+  <div class="scrollContainer">
+
+
+
+    <!--MENU : INTRO-->
+
+    <div class="menuItem_Container">
+      <a href="intro">Introduction
+        <div style="font-size: 14px">Rice, Pasta &amp; Egg Dishes</div>
+      </a>
+    </div>
+
+
+
+
+    <!--MENU : TASK 1-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task1/slides/0">Task 1
+          <div>Introduction to farinaceous ingredients</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t1-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 1 : SUBMENU -->
+
+      <div id="t1-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+          <a href="task1/slides/1" style="margin-top: -19px;">Introduction to farinaceous dishes</a>
+          <a href="task1/slides/2">Describing farinaceous dishes</a>
+          <a href="task1/slides/4">Rice types</a>
+          <a href="task1/slides/6">Introduction to eggs</a>
+          <a href="task1/slides/7">Varieties of eggs</a>
+          <a href="task1/slides/9">Egg production</a>
+          <a href="task1/slides/10">Egg storage</a>
+          <a href="task1/slides/11">Egg preparation and storage</a>
+          <a href="task1/slides/12">Grains</a>
+          <a href="task1/slides/13">Grain types – semolina</a>
+          <a href="task1/slides/14">Grain types – couscous</a>
+          <a href="task1/slides/15">Grain types – cracked wheat and bulgur</a>
+          <a href="task1/slides/16">Grain types – sago and tapioca</a>
+          <a href="task1/slides/17">Grain types – polenta</a>
+          <a href="task1/slides/18">Grain types – rye and buckwheat</a>
+          <a href="task1/slides/19">Grain types – oats</a>
+          <a href="task1/slides/20">Grain types – quinoa</a>
+          <a href="task1/slides/21">Describing pasta</a>
+          <a href="task1/slides/22">Pasta – cooking methods</a>
+          <a href="task1/slides/23">Pasta varieties</a>
+          <a href="task1/slides/25">Pasta sauces and dishes</a>
+          <a href="task1/slides/27">Describing noodles</a>
+          <a href="task1/slides/29">Describing gnocchi</a>
+          <a href="task1/slides/31">Describing dumplings and pancakes</a>
+          <a href="task1/slides/33">Introduction to grains of the world</a>
+          <a href="task1/slides/34">Introduction to rice of the world</a>
+          <a href="task1/slides/35">Introduction to pastas of the world</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_media.svg"></div>
+          <a href="task1/media/0" style="margin-top: -19px;">VIDEO : Introducing rice, pasta, grain and egg products</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+          <a href="task1/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+
+
+    <!--MENU : TASK 2-->
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task2/slides/0">Task 2
+          <div>Cooking techniques</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t2-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    <!--TASK 2 : SUBMENU -->
+
+      <div id="t2-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_docs.svg"></div>
+          <a href="task2/slides/1" style="margin-top: -19px;">Pilaf</a>
+          <a href="task2/slides/2">Chinese-style boiled or steamed rice</a>
+          <a href="task2/slides/3">Fried rice</a>
+          <a href="task2/slides/4">Risotto</a>
+          <a href="task2/slides/6">Condé rice</a>
+          <a href="task2/slides/7">Equipment for rice dishes</a>
+          <a href="task2/slides/8">Timings and costs of rice dishes</a>
+          <a href="task2/slides/9">Grain dishes – ingredients</a>
+          <a href="task2/slides/10">Grain dishes – timings and cost</a>
+          <a href="task2/slides/11">Pasta dishes – timings and cost</a>
+          <a href="task2/slides/12">Functions of egg</a>
+          <a href="task2/slides/15">Egg preparation</a>
+          <a href="task2/slides/16">Egg preparation and storage</a>
+          <a href="task2/slides/18">Egg preparation – egg white</a>
+          <a href="task2/slides/19">Egg cookery methods</a>
+          <a href="task2/slides/23">Points of care for egg dishes</a>
+          <a href="task2/slides/24">Handout 5: Rice recipe – complex and modern</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_media.svg"></div>
+          <a href="task2/media/0" style="margin-top: -19px;">VIDEO : Prepare and cook rice</a>
+          <a href="task2/media/1">VIDEO : Preparing pasta</a>
+          <a href="task2/media/2">VIDEO : Prepare and cook grains</a>
+          <a href="task2/media/3">VIDEO : Prepare and cook eggs</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="../_common/css/images/icon_quiz.svg"></div>
+          <a href="task2/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+  </div>
+</div>
+
+<script src="../_common/js/bundle.min.js"></script>
+
+
+</body>
+
+
+</html>

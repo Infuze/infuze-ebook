@@ -65,7 +65,7 @@ export default class Ebook {
   init() {
     $log('init', window.availableRoutes);
     this.bookObj = window.bookObj;
-    this.router = new Router({ 'errorPage': 'task1/slides/0' });
+    this.router = new Router({ 'errorPage': 'course/intro/0' });
 
     // add intro route
     //
@@ -592,8 +592,14 @@ export default class Ebook {
     this.task = urlPaths[0];
 
     const newURL = this.task + '/' + thisSectionType.type + '/0';
-    $log('displayModeChanged ', newURL)
+    $log('displayModeChanged ', newURL);
+    $log('this.taskType ', this.taskType)
+    if(this.taskType=='media'){
+      $log('pause vid');
+      this.resetVideos();
+    }
     this.router.navigate(newURL);
+
   }
 
   startQuiz(e) {
