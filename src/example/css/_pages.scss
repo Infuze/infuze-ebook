@@ -316,15 +316,18 @@ section {
     .page-2col {
       display: block;
     }
+
     .page-col-2-1 {
       padding: 0;
     }
+
     .page-col-2-2 {
       padding: 10px 0;
-      img {
+    }
+
+    .page-col-2-1 img, page-col-2-2 img {
         padding-top: 0px;
         margin: 0 auto;
-      }
     }
 
     .reverse-order {
