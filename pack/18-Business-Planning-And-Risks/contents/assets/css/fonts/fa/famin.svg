@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2018 by original authors @ fontello.com</metadata>
+<defs>
+<font id="famin" horiz-adv-x="1000" >
+<font-face font-family="famin" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="check-circle" unicode="&#xe800;" d="M500 834c-267 0-484-216-484-484s217-484 484-484 484 217 484 484-216 484-484 484z m0-93c216 0 391-175 391-391 0-216-175-391-391-391-216 0-391 175-391 391 0 216 175 391 391 391m274-255l-44 45c-9 9-24 9-33 0l-276-274-117 118c-9 9-24 9-33 0l-45-44c-9-9-9-24 0-33l178-179c9-9 23-9 33 0l337 334c9 9 9 24 0 33z" horiz-adv-x="1000" />
+
+<glyph glyph-name="times-circle-1" unicode="&#xe801;" d="M500 834c-268 0-484-216-484-484s216-484 484-484 484 216 484 484-216 484-484 484z m0-875c-216 0-391 175-391 391s175 391 391 391 391-175 391-391-175-391-391-391z m199 513l-122-122 122-121c9-10 9-24 0-34l-44-44c-9-9-24-9-33 0l-122 122-121-122c-10-9-24-9-34 0l-44 44c-9 10-9 24 0 34l122 121-122 122c-9 9-9 24 0 33l44 44c10 9 24 9 34 0l121-122 122 122c9 9 24 9 33 0l44-44c9-9 9-24 0-33z" horiz-adv-x="1000" />
+
+<glyph glyph-name="check-circle-1" unicode="&#xe802;" d="M984 350c0-267-216-484-484-484s-484 217-484 484 217 484 484 484 484-216 484-484z m-540-256l359 359c13 12 13 32 0 44l-44 44c-12 13-32 13-44 0l-293-293-137 137c-12 12-32 12-44 0l-44-44c-13-12-13-32 0-44l203-203c12-13 32-13 44 0z" horiz-adv-x="1000" />
+
+<glyph glyph-name="times-circle" unicode="&#xe803;" d="M500 834c-268 0-484-216-484-484s216-484 484-484 484 216 484 484-216 484-484 484z m238-611c9-9 9-24 0-33l-78-77c-9-10-24-10-33 0l-127 128-127-128c-9-10-24-10-33 0l-77 77c-10 9-10 24 0 33l128 127-128 127c-10 9-10 24 0 33l77 78c9 9 24 9 33 0l127-129 127 129c9 9 24 9 33 0l78-78c9-9 9-24 0-33l-129-127 129-127z" horiz-adv-x="1000" />
+
+<glyph glyph-name="sort-down" unicode="&#xe804;" d="M80 288h465c42 0 63-51 33-81l-232-232c-19-18-48-18-66 0l-233 232c-30 30-9 81 33 81z" horiz-adv-x="625" />
+</font>
+</defs>
+</svg>

@@ -41,7 +41,7 @@
 
     <!--QUESTION 1: SINGLE INPUT FIELD-->
 
-    <div data-iquiz="1" id="question-1" data-params="{#fixedUserAnswers#: #false#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
+    <div data-iquiz="1" id="question-1" data-params="{#fixedUserAnswers#: #true#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
         <article class="article">
             <section>
                 <div class="iquiz_Main">
@@ -52,7 +52,9 @@
                         <h3>Enter your answers in the textbox below then check by clicking <strong>'REVEAL'</strong></h3>
                     </div>
 
-                    <table class="page-table-base" style="min-width: 500px; margin-bottom: 10px">
+
+                  <div class="page-scroll-x-container">
+                    <table class="page-table-base" style="min-width: 200px; margin-bottom: 10px">
 
                         <tr>
                             <td style="width: 20%">1:1</td>
@@ -71,26 +73,21 @@
                         </tr>
 
                     </table>
+                  </div>
 
                     <div class="iquiz-ft-ques-container js-user-answers">
 
-                        <div class="iquiz-textarea-container with-btn js-textarea-container">
-                            <p style="line-height: 3em">TVP or TSP will equal about <textarea class="iquiz-ft-freetext js-textarea" style="width: 5em; height: 45px; line-height: 1.9em"></textarea> in weight of real minced lamb/beef once it has been fully soaked i.e. 1kg of TVP will represent <textarea class="iquiz-ft-freetext js-textarea" style="width: 5em; height: 45px; line-height: 1.9em"></textarea> of traditional meat once fully reconstituted. Unflavoured textured soy protein easily assumes the flavour of other liquids and foods.</p>
+                        <div class="iquiz-textarea-container">
+                          <p style="line-height: 2.4em; padding-bottom: 1em;">TVP or TSP will equal about <span class="js-textarea-container"><textarea maxlength="5" class="iquiz-ft-freetext js-textarea" style="width: 5em; max-height: 36px; min-height: 36px; line-height: 1.6em; padding: 5px 5px; height: 46px;"></textarea></span> in weight of real minced lamb/beef once it has been fully soaked i.e. 1kg of TVP will represent <span class="js-textarea-container"><textarea maxlength="5" class="iquiz-ft-freetext js-textarea" style="width: 5em; max-height: 36px; min-height: 36px; line-height: 1.6em; padding: 5px 5px; height: 46px;"></textarea></span> of traditional meat once fully reconstituted. Unflavoured textured soy protein easily assumes the flavour of other liquids and foods.</p>
                         </div>
 
                     </div>
-
-                    <!--<div class="iquiz-btn-add-container js-add-ans">
-                        <button class="iquiz-btn-add">
-                            +
-                        </button><span class="iquiz-btn-add-text">Add another answer</span>
-                    </div>-->
 
                     <div class="iquiz-ft-ans-container js-ans-container">
                         <div class="iquiz_questionText">
                             <h3>Now check <strong>your</strong> answers above to the <strong>correct</strong> answers below.</h3>
                         </div>
-                        <div class="js-answer iquiz-ft-freetext iquiz-ft-answer">Hydroponics – this is where the soil is substituted with a mineral mix. The farmer has control over growth but it is only used for high-yielding crops due to the expense.</div>
+                        <div class="js-answer iquiz-ft-freetext iquiz-ft-answer" style="line-height: 2em;">TVP or TSP will equal about <span style="line-height: 1.9em;background-color: #e4fbb0;padding: .2em 1em;border-radius: 6px;">1:2</span> in weight of real minced lamb/beef once it has been fully soaked i.e. 1kg of TVP will represent <span style="line-height: 1.9em;background-color: #e4fbb0;padding: .2em 1em;border-radius: 6px;">2kg</span> of traditional meat once fully reconstituted. Unflavoured textured soy protein easily assumes the flavour of other liquids and foods.</div>
                     </div>
 
                     <div class="iquiz-ft-submitBtn-container" style="width: 100%; text-align: center;">

@@ -47,37 +47,31 @@
 
     <!--QUESTION 1: SINGLE INPUT FIELD-->
 
-    <div data-iquiz="1" id="question-1" data-params="{#fixedUserAnswers#: #false#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
+    <div data-iquiz="1" id="question-1" data-params="{#fixedUserAnswers#: #true#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
         <article class="article">
             <section>
                 <div class="iquiz_Main">
 
                     <div class="iquiz_questionText">
                         <h1>QUESTION 1</h1>
-                        <h2>What technique is used to develop the gluten in a fermented dough?</h2>
-                        <h3>Enter your answers in the textbox below then check by clicking <strong>'REVEAL'</strong></h3>
+                        <h2>Fill the gaps in the sentence.</h2>
+                        <h3>Enter your answers in the spaces below then check by clicking <strong>'REVEAL'</strong></h3>
                     </div>
 
-                    <p>FILL THE GAPS NEEDED</p>
+                  <div class="iquiz-ft-ques-container js-user-answers">
 
-                    <div class="iquiz-ft-ques-container js-user-answers">
-
-                        <div class="iquiz-textarea-container with-btn js-textarea-container"><textarea class="iquiz-ft-freetext js-textarea"></textarea><button
-                                class="iquiz-btn-remove js-remove-ans disabled">&times;</button></div>
+                    <div class="iquiz-textarea-container">
+                      <p style="line-height: 2.4em; padding-bottom: 1em; margin-top: 0;">A mixing machine with a dough hook kneads the dough <span class="js-textarea-container"><textarea maxlength="12" class="iquiz-ft-freetext js-textarea" style="width: 10em; max-height: 36px; min-height: 36px; line-height: 1.6em; padding: 5px 5px; height: 46px;"></textarea></span> and <span class="js-textarea-container"><textarea maxlength="12" class="iquiz-ft-freetext js-textarea" style="width: 10em; max-height: 36px; min-height: 36px; line-height: 1.6em; padding: 5px 5px; height: 46px;"></textarea></span develops the gluten.</p>
                     </div>
 
-                    <div class="iquiz-btn-add-container js-add-ans">
-                        <button class="iquiz-btn-add">
-                            +
-                        </button><span class="iquiz-btn-add-text">Add another answer</span>
-                    </div>
+                  </div>
 
-                    <div class="iquiz-ft-ans-container js-ans-container">
-                        <div class="iquiz_questionText">
-                            <h3>Now check <strong>your</strong> answers above to the <strong>correct</strong> answers below.</h3>
-                        </div>
-                        <div class="js-answer iquiz-ft-freetext iquiz-ft-answer">xxxx</div>
+                  <div class="iquiz-ft-ans-container js-ans-container">
+                    <div class="iquiz_questionText">
+                      <h3>Now check <strong>your</strong> answers above to the <strong>correct</strong> answers below.</h3>
                     </div>
+                    <div class="js-answer iquiz-ft-freetext iquiz-ft-answer" style="line-height: 2em;">A mixing machine with a dough hook kneads the dough <span style="line-height: 1.9em;background-color: #e4fbb0;padding: .2em 1em;border-radius: 6px;">efficiently</span> and <span style="line-height: 1.9em;background-color: #e4fbb0;padding: .2em 1em;border-radius: 6px;">rapidly</span> develops the gluten.</div>
+                  </div>
 
                     <div class="iquiz-ft-submitBtn-container" style="width: 100%; text-align: center;">
                         <button class="js-reveal iquiz_submitBtn disabled">REVEAL</button>

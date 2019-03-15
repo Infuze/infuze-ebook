@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    City & Guilds eBook
+  </title>
+  <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+  <script type="text/javascript" src="./assets/libs/modernizr-custom.js"></script>
+  <script type="text/javascript" src="./assets/libs/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./assets/libs/player.min.js"></script>
+  <link rel="stylesheet" href="./assets/css/styles.min.css">
+  <script>
+
+      var bookObj = {
+          'bookTitle': 'Introduction',
+          'bookSubTitle': 'Legislation & Responsibilities',
+          'bookTasks': {
+              'task1': {
+                  'taskName': 'Task 1',
+                  'taskDesc': 'Food safety management',
+                  'routes': {
+                      'slides': 20,
+                      'media': 3,
+                      'quiz': 6
+                  }
+              },
+              'task2': {
+                  'taskName': 'Task 2',
+                  'taskDesc': 'Good hygiene practices',
+                  'routes': {
+                      'slides': 35,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              },
+              'task3': {
+                  'taskName': 'Task 3',
+                  'taskDesc': 'Food Safety Hazards',
+                  'routes': {
+                      'slides': 32,
+                      'media': 0,
+                      'quiz': 6
+                  }
+              }
+          }
+      }
+
+    var availableRoutes = {
+      'task1': {
+        'slides': 20,
+        'quiz': 6,
+        'media': 3
+      },
+      'task2': {
+        'slides': 35,
+        'quiz': 6,
+        'media': 0
+      },
+      'task3': {
+        'slides': 32,
+        'quiz': 6,
+        'media': 0
+      }
+    }
+
+  </script>
+</head>
+
+<body>
+
+<nav class="l-nav-bar">
+    <div class="nav-bar__progress">
+        <div class="nav-bar__progress-bg">
+            <div class="nav-bar__progress-bar"></div>
+        </div>
+        <div class="nav-bar__progress-txt"></div>
+    </div>
+
+    <div class="nav-bar__container">
+        <div class="stv-radio-buttons-wrapper">
+            <div>
+                <input type="radio" name="displayMode" value="slides" id="slidesRadio"> <span class="rSpan r1"><label for="slidesRadio"><span class="img"></span><span class="button-text">SLIDES</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="media" id="mediaRadio"> <span class="rSpan r2"><label for="mediaRadio"><span class="img"></span><span class="button-text">MEDIA</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="quiz" id="quizRadio"> <span class="rSpan r3"><label for="quizRadio"><span class="img"></span><span class="button-text">QUIZ</span></label></span>
+            </div>
+
+        </div>
+
+        <div class="nav-bar_leftRight_wrapper">
+
+            <button class="nav-bar__button js-back touchevents">
+                <span class="nav-bar__button-circle--left">
+                    <img src="./assets/css/images/arrow-left-solid.svg">
+                </span>
+                <span class="nav-bar__button-text--right">PREVIOUS</span>
+            </button>
+
+            <button class="nav-bar__button js-next touchevents">
+                <span class="nav-bar__button-text--left">NEXT</span>
+                <span class="nav-bar__button-circle--right">
+                    <img src="./assets/css/images/arrow-right-solid.svg">
+                </span>
+            </button>
+
+        </div>
+
+        <div class="nav-bar__controls hidden">
+            <button class="button__control js-replay">Replay</button>
+        </div>
+
+    </div>
+</nav>
+
+<header class="true-header">
+    <div>
+        <div class="l-header">
+            <h1 class="l-header__banner">Professional Chef</h1>
+            <div class="header-menu-icon"><span></span></div>
+        </div>
+
+        <div class="l-header row2">
+            <h1 class="l-header__banner row2">
+                <span>City & Guilds</span>: <span>Professional Chef</span>
+            </h1>
+        </div>
+    </div>
+</header>
+
+
+<div class="l-wrapper js-wrapper hidden">
+  <div class="quiz-wrapper hidden">
+    quiz-wrapper
+  </div>
+  <div class="slide-wrapper">
+    slide-wrapper
+  </div>
+</div>
+
+<div class="player_overlay"></div>
+
+<div id="mySidenav" class="player_sidenav">
+
+  
+  <a href="closeSideNav" class="player_closebtn">&times;</a>
+
+  <div class="scrollContainer">
+
+
+
+
+
+    
+
+    <div class="menuItem_Container">
+      <a href="intro">Introduction
+        <div style="font-size: 14px">Legislation &amp; Responsibilities</div>
+      </a>
+    </div>
+
+
+
+
+
+
+    
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task1/slides/0">Task 1
+          <div>Food safety management</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t1-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    
+
+      <div id="t1-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_docs.svg"></div>
+          <a href="task1/slides/1" style="margin-top: -19px;">Introduction to food safety management</a>
+          <a href="task1/slides/2">Food safety management procedures</a>
+          <a href="task1/slides/5">HACCP</a>
+          <a href="task1/slides/6">Safer Food Better Business</a>
+          <a href="task1/slides/8">Introduction to legislation and responsibilities</a>
+          <a href="task1/slides/9">Food Safety Act 1990</a>
+          <a href="task1/slides/10">Food Safety (England, Scotland, Wales, Northern Ireland) Regulations 2006</a>
+          <a href="task1/slides/11">Enforcement notices</a>
+          <a href="task1/slides/13">Records</a>
+          <a href="task1/slides/14">Responsibilities</a>
+          <a href="task1/slides/15">Employer responsibilities</a>
+          <a href="task1/slides/18">Compliance</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_media.svg"></div>
+          <a href="task1/media/0" style="margin-top: -19px;">VIDEO : Personal Responsibility</a>
+          <a href="task1/media/1">VIDEO : Keeping work areas clean</a>
+          <a href="task1/media/2">VIDEO : Keeping Food Safe</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_quiz.svg"></div>
+          <a href="task1/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+    
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task2/slides/0">Task 2
+          <div>Good hygiene practices</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t2-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    
+
+      <div id="t2-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_docs.svg"></div>
+          <a href="task2/slides/1" style="margin-top: -19px;">Introduction to temperature controls</a>
+          <a href="task2/slides/3">Methods of temperature controls</a>
+          <a href="task2/slides/6">Introduction to controlling and preventing contamination</a>
+          <a href="task2/slides/7">Vehicles for cross-contamination</a>
+          <a href="task2/slides/9">Controlling contamination and cross-contamination</a>
+          <a href="task2/slides/12">Cross-contamination</a>
+          <a href="task2/slides/13">Controlling contamination and cross-contamination</a>
+          <a href="task2/slides/14">Introduction to personal hygiene</a>
+          <a href="task2/slides/15">Preventing transmission</a>
+          <a href="task2/slides/16">Personal hygiene</a>
+          <a href="task2/slides/17">Types of bacteria</a>
+          <a href="task2/slides/18">Types of carriers</a>
+          <a href="task2/slides/19">Tainting and spoilage of food</a>
+          <a href="task2/slides/20">Introduction to cleaning and disinfection</a>
+          <a href="task2/slides/21">Policies for cleaning and disinfection</a>
+          <a href="task2/slides/22">Cleaning methods</a>
+          <a href="task2/slides/23">Using chemicals for cleaning</a>
+          <a href="task2/slides/24">Control of Substances Hazardous to Health (COSHH)</a>
+          <a href="task2/slides/25">Waste disposal</a>
+          <a href="task2/slides/27">Waste storage areas</a>
+          <a href="task2/slides/28">Introduction to pest control</a>
+          <a href="task2/slides/29">The importance of pest control</a>
+          <a href="task2/slides/30">Types of pests</a>
+          <a href="task2/slides/32">Methods to control pests</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_quiz.svg"></div>
+          <a href="task2/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+
+
+
+    
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task3/slides/0">Task 3
+          <div>Food Safety Hazards</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t3-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    
+
+      <div id="t3-sub" class="subMenuItem">
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_docs.svg"></div>
+          <a href="task3/slides/1" style="margin-top: -19px;">Introduction to the types of hazards</a>
+          <a href="task3/slides/2">Microbial hazards</a>
+          <a href="task3/slides/3">Pathogenic bacteria</a>
+          <a href="task3/slides/4">Bacterial growth</a>
+          <a href="task3/slides/6">Bacteria types</a>
+          <a href="task3/slides/7">Physical hazards</a>
+          <a href="task3/slides/8">Chemical hazards</a>
+          <a href="task3/slides/9">Allergens</a>
+          <a href="task3/slides/12">Types of allergen</a>
+          <a href="task3/slides/24">Introduction to training and communication</a>
+          <a href="task3/slides/25">Training</a>
+          <a href="task3/slides/26">Induction training</a>
+          <a href="task3/slides/27">Ongoing training</a>
+          <a href="task3/slides/28">Communication</a>
+
+          <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_quiz.svg"></div>
+          <a href="task3/quiz/0" style="margin-top: -19px;">QUIZ</a>
+      </div>
+
+
+
+  </div>
+</div>
+
+<script src="./assets/js/bundle.min.js"></script>
+
+
+</body>
+
+
+</html>

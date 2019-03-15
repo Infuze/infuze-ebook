@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>
+    City & Guilds eBook
+  </title>
+  <meta name="viewport" content="height=device-height,width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+  <script type="text/javascript" src="./assets/libs/modernizr-custom.js"></script>
+  <script type="text/javascript" src="./assets/libs/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./assets/libs/player.min.js"></script>
+  <link rel="stylesheet" href="./assets/css/styles.min.css">
+  <script>
+
+    var bookObj = {
+      'bookTitle': 'Introduction',
+      'bookSubTitle': 'Meat & Offal',
+      'bookTasks': {
+        'task1': {
+          'taskName': 'Task 1',
+          'taskDesc': 'Introduction to meat and offal',
+          'routes': {
+            'slides': 26,
+            'media': 1,
+            'quiz': 6
+          }
+        },
+        'task2': {
+          'taskName': 'Task 2',
+          'taskDesc': 'Preparation and Storage',
+          'routes': {
+            'slides': 20,
+            'media': 2,
+            'quiz': 6
+          }
+        },
+        'task3': {
+          'taskName': 'Task 3',
+          'taskDesc': 'Cooking Techniques',
+          'routes': {
+            'slides': 19,
+            'media': 1,
+            'quiz': 6
+          }
+        }
+      }
+    }
+
+    var availableRoutes = {
+      'task1': {
+        'slides': 26,
+        'quiz': 6,
+        'media': 1
+      },
+      'task2': {
+        'slides': 20,
+        'quiz': 6,
+        'media': 2
+      },
+      'task3': {
+        'slides': 19,
+        'quiz': 6,
+        'media': 1
+      }
+    }
+
+  </script>
+</head>
+
+<body>
+
+<nav class="l-nav-bar">
+    <div class="nav-bar__progress">
+        <div class="nav-bar__progress-bg">
+            <div class="nav-bar__progress-bar"></div>
+        </div>
+        <div class="nav-bar__progress-txt"></div>
+    </div>
+
+    <div class="nav-bar__container">
+        <div class="stv-radio-buttons-wrapper">
+            <div>
+                <input type="radio" name="displayMode" value="slides" id="slidesRadio"> <span class="rSpan r1"><label for="slidesRadio"><span class="img"></span><span class="button-text">SLIDES</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="media" id="mediaRadio"> <span class="rSpan r2"><label for="mediaRadio"><span class="img"></span><span class="button-text">MEDIA</span></label></span>
+            </div>
+
+            <div>
+                <input type="radio" name="displayMode" value="quiz" id="quizRadio"> <span class="rSpan r3"><label for="quizRadio"><span class="img"></span><span class="button-text">QUIZ</span></label></span>
+            </div>
+
+        </div>
+
+        <div class="nav-bar_leftRight_wrapper">
+
+            <button class="nav-bar__button js-back touchevents">
+                <span class="nav-bar__button-circle--left">
+                    <img src="./assets/css/images/arrow-left-solid.svg">
+                </span>
+                <span class="nav-bar__button-text--right">PREVIOUS</span>
+            </button>
+
+            <button class="nav-bar__button js-next touchevents">
+                <span class="nav-bar__button-text--left">NEXT</span>
+                <span class="nav-bar__button-circle--right">
+                    <img src="./assets/css/images/arrow-right-solid.svg">
+                </span>
+            </button>
+
+        </div>
+
+        <div class="nav-bar__controls hidden">
+            <button class="button__control js-replay">Replay</button>
+        </div>
+
+    </div>
+</nav>
+
+<header class="true-header">
+    <div>
+        <div class="l-header">
+            <h1 class="l-header__banner">Professional Chef</h1>
+            <div class="header-menu-icon"><span></span></div>
+        </div>
+
+        <div class="l-header row2">
+            <h1 class="l-header__banner row2">
+                <span>City & Guilds</span>: <span>Professional Chef</span>
+            </h1>
+        </div>
+    </div>
+</header>
+
+
+<div class="l-wrapper js-wrapper hidden">
+  <div class="quiz-wrapper hidden">
+    quiz-wrapper
+  </div>
+  <div class="slide-wrapper">
+    slide-wrapper
+  </div>
+</div>
+
+<div class="player_overlay"></div>
+
+<div id="mySidenav" class="player_sidenav">
+
+  
+  <a href="closeSideNav" class="player_closebtn">&times;</a>
+
+  <div class="scrollContainer">
+
+    
+
+    <div class="menuItem_Container">
+      <a href="intro">Introduction
+        <div style="font-size: 14px">Meat &amp; Offal</div>
+      </a>
+    </div>
+
+
+
+
+
+
+    
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task1/slides/0">Task 1
+          <div>Introduction to meat and offal</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t1-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    
+
+    <div id="t1-sub" class="subMenuItem">
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_docs.svg"></div>
+      <a href="task1/slides/1" style="margin-top: -19px;">Meat and offal</a>
+      <a href="task1/slides/3">Lamb cuts</a>
+        <a href="task1/slides/5">Pork cuts</a>
+        <a href="task1/slides/7">Beef cuts</a>
+        <a href="task1/slides/10">Veal cuts</a>
+        <a href="task1/slides/12">Cuts used for offal</a>
+        <a href="task1/slides/19">Quality signs of meat</a>
+        <a href="task1/slides/22">Quality signs of offal</a>
+        <a href="task1/slides/24">Introduction to exotic meat species of the world</a>
+
+        <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_media.svg"></div>
+        <a href="task1/media/0" style="margin-top: -19px;">VIDEO : Identifying meat and offal products</a>
+
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_quiz.svg"></div>
+      <a href="task1/quiz/0" style="margin-top: -19px;">QUIZ</a>
+    </div>
+
+
+
+
+
+
+
+
+
+    
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task2/slides/0">Task 2
+          <div>Preparation and Storage</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t2-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    
+
+    <div id="t2-sub" class="subMenuItem">
+        <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_docs.svg"></div>
+      <a href="task2/slides/1" style="margin-top: -19px;">Meat and offal usage</a>
+      <a href="task2/slides/2">Meat dishes</a>
+        <a href="task2/slides/3">Offal dishes</a>
+        <a href="task2/slides/4">Meat and offal dishes – key recipe points</a>
+        <a href="task2/slides/5">Preservation of meat and offal</a>
+        <a href="task2/slides/7">Tools and equipment</a>
+        <a href="task2/slides/8">Using tools and equipment</a>
+        <a href="task2/slides/9">Planning</a>
+        <a href="task2/slides/11">Hygiene</a>
+        <a href="task2/slides/13">Storage</a>
+        <a href="task2/slides/14">Storage – fresh meat and offal</a>
+        <a href="task2/slides/15">Storage – frozen meat and offal</a>
+        <a href="task2/slides/16">Temperature</a>
+        <a href="task2/slides/17">Date labelling and coverings</a>
+        <a href="task2/slides/18">Positioning and stock rotation</a>
+
+        <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_media.svg"></div>
+        <a href="task2/media/0" style="margin-top: -19px;">VIDEO : Navarin of lamb</a>
+        <a href="task2/media/1">VIDEO : Roast Beef</a>
+
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_quiz.svg"></div>
+      <a href="task2/quiz/0" style="margin-top: -19px;">QUIZ</a>
+    </div>
+
+
+
+
+
+
+
+
+    
+
+    <div class="menuItem_Container">
+      <div class="menuCol-fluid">
+        <a href="task3/slides/0">Task 3
+          <div>Cooking Techniques</div>
+        </a>
+      </div>
+
+      <div class="menuCol-fixed">
+        <button value="t3-sub">
+          <div><i class="icon-sort-down"></i></div>
+        </button>
+      </div>
+    </div>
+
+    
+
+    <div id="t3-sub" class="subMenuItem">
+        <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_docs.svg"></div>
+      <a href="task3/slides/1" style="margin-top: -19px;">Dry heat cookery methods</a>
+      <a href="task3/slides/4">Moist heat cookery methods</a>
+      <a href="task3/slides/8">Degree of cooking – lamb and beef</a>
+        <a href="task3/slides/9">Beef steak – restaurant dishes</a>
+        <a href="task3/slides/11">Planning and preparing menus</a>
+        <a href="task3/slides/13">Suitable sauces</a>
+        <a href="task3/slides/15">Menus and cooking</a>
+        <a href="task3/slides/16">Storage of cooked dishes</a>
+        <a href="task3/slides/17">Handout 4: Meat recipe – complex and modern</a>
+
+        <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_media.svg"></div>
+        <a href="task3/media/0" style="margin-top: -19px;">VIDEO : Pork Cutlets</a>
+
+      <div style="margin: 10px 0 0 5px;"><img height="16px" src="./assets/css/images/icon_quiz.svg"></div>
+      <a href="task3/quiz/0" style="margin-top: -19px;">QUIZ</a>
+    </div>
+
+
+  </div>
+</div>
+
+<script src="./assets/js/bundle.min.js"></script>
+
+
+</body>
+
+
+</html>
