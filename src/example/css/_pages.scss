@@ -220,6 +220,17 @@ section {
   //  padding-bottom: 20%;
   //}
 
+
+  @media only screen and (max-width: 600px) {
+
+    .page-startscreen .page-logo{
+      width: 30%;
+      min-width:160px;
+      padding-bottom: 20px;
+    }
+  }
+
+
 }
 
 .container--iquiz .page-startscreen{
@@ -307,11 +318,11 @@ section {
       line-height: 1.4em;
 
 
-    .page-startscreen .page-logo{
-      width: 30%;
-      min-width:160px;
-      padding-bottom: 20px;
-    }
+    //.page-startscreen .page-logo{
+    //  width: 30%;
+    //  min-width:160px;
+    //  padding-bottom: 20px;
+    //}
 
     .page-2col {
       display: block;
@@ -325,10 +336,10 @@ section {
       padding: 10px 0;
     }
 
-    .page-col-2-1 img, page-col-2-2 img {
+    .page-col-2-1 img, .page-col-2-2 img {
         padding-top: 0px;
         margin: 0 auto;
-      //background-color: yellow;
+      //border: blue solid 6px;
     }
 
     .reverse-order {
