@@ -84,7 +84,7 @@
 
     <!--QUESTION 2: SINGLE INPUT FIELD-->
 
-    <div data-iquiz="2" id="question-2" data-params="{#fixedUserAnswers#: #false#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
+    <div data-iquiz="2" id="question-2" data-params="{#fixedUserAnswers#: #true#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
         <article class="article">
             <section>
                 <div class="iquiz_Main">
@@ -95,39 +95,133 @@
                         <h3>Enter your answers in the textbox below then check by clicking <strong>'REVEAL'</strong></h3>
                     </div>
 
-                    <div class="iquiz-ft-ques-container js-user-answers">
+                  <div class="iquiz-ft-ques-container in-table js-user-answers">
 
-                        <div class="iquiz-textarea-container with-btn js-textarea-container"><textarea class="iquiz-ft-freetext js-textarea"></textarea><button
-                                class="iquiz-btn-remove js-remove-ans disabled">&times;</button></div>
-                    </div>
+                    <table class="iquiz-ft-table-base">
 
-                    <div class="iquiz-btn-add-container js-add-ans">
-                        <button class="iquiz-btn-add">
-                            +
-                        </button><span class="iquiz-btn-add-text">Add another answer</span>
-                    </div>
+                      <tr>
+                        <td style="width: 20%;">
+                          <strong>Boiling</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Beans, broccoli, peas, potatoes, carrots, sweet potatoes, potatoes</div>
+                          </div>
+                        </td>
+                      </tr>
 
-                    <div class="iquiz-ft-ans-container js-ans-container">
-                        <div class="iquiz_questionText">
-                            <h3>Now check <strong>your</strong> answers above to the <strong>correct</strong> answers below.</h3>
-                        </div>
-                        <div class="js-answer iquiz-ft-freetext iquiz-ft-answer">
-                            <div class="page-u-list">
-                                <ul>
-                                    <li>Boiling – Beans, broccoli, peas, potatoes, carrots, sweet potatoes, potatoes</li>
-                                    <li>Steaming – Snow peas, asparagus, sweet potatoes, potatoes</li>
-                                    <li>Braising – Fennel, okra, aubergines, onions, potatoes, parsnips</li>
-                                    <li>Grilling – Asparagus, mushrooms, potatoes</li>
-                                    <li>Roasting – Capsicums, carrots, potatoes</li>
-                                    <li>Stewing – Onions, aubergines, capsicums, tomatoes</li>
-                                    <li>Baking – Aubergines, blanched okra, potatoes</li>
-                                    <li>Deep frying – Tempura, crumbed items, potatoes, thinly sliced root vegetables</li>
-                                    <li>Shallow frying – Blanched vegetables, stir-fry, shaped and blanched vegetables</li>
-                                    <li>Microwave – All varieties</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                      <tr>
+                        <td>
+                          <strong>Steaming</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Snow peas, asparagus, sweet potatoes, potatoes</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Braising</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Fennel, okra, aubergines, onions, potatoes, parsnips</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Grilling</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Asparagus, mushrooms, potatoes</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Roasting</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Capsicums, carrots, potatoes</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Stewing</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Onions, aubergines, capsicums, tomatoes</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Baking</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Aubergines, blanched okra, potatoes</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Deep-Frying</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Tempura, crumbed items, potatoes, thinly sliced root vegetables</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Shallow-Frying</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Blanched vegetables, stir-fry, shaped and blanched vegetables</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Microwave</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">All varieties</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </table>
+
+                  </div>
 
                     <div class="iquiz-ft-submitBtn-container" style="width: 100%; text-align: center;">
                         <button class="js-reveal iquiz_submitBtn disabled">REVEAL</button>
@@ -145,7 +239,7 @@
 
     <!--QUESTION 3: SINGLE INPUT FIELD-->
 
-    <div data-iquiz="3" id="question-3" data-params="{#fixedUserAnswers#: #false#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
+    <div data-iquiz="3" id="question-3" data-params="{#fixedUserAnswers#: #true#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
         <article class="article">
             <section>
                 <div class="iquiz_Main">
@@ -156,41 +250,141 @@
                         <h3>Enter your answers in the textbox below then check by clicking <strong>'REVEAL'</strong></h3>
                     </div>
 
-                    <div class="iquiz-ft-ques-container js-user-answers">
-
-                        <div class="iquiz-textarea-container with-btn js-textarea-container"><textarea class="iquiz-ft-freetext js-textarea"></textarea><button
-                                class="iquiz-btn-remove js-remove-ans disabled">&times;</button></div>
+                  <div class="iquiz-ft-ans-container js-ans-container">
+                    <div class="iquiz_questionText">
+                      <h3>Now check <strong>your</strong> answers to the <strong>correct</strong> answers shown below.</h3>
                     </div>
+                  </div>
 
-                    <div class="iquiz-btn-add-container js-add-ans">
-                        <button class="iquiz-btn-add">
-                            +
-                        </button><span class="iquiz-btn-add-text">Add another answer</span>
-                    </div>
+                  <div class="iquiz-ft-ques-container in-table js-user-answers">
 
-                    <div class="iquiz-ft-ans-container js-ans-container">
-                        <div class="iquiz_questionText">
-                            <h3>Now check <strong>your</strong> answers above to the <strong>correct</strong> answers below.</h3>
-                        </div>
-                        <div class="js-answer iquiz-ft-freetext iquiz-ft-answer">
-                            <div class="page-u-list">
-                                <ul>
-                                    <li>Boiling – Lemons, oranges, apples and hard fruit, jam fruit</li>
-                                    <li>Steaming – Dried fruit, fresh fruit</li>
-                                    <li>Braising – Dried fruit</li>
-                                    <li>Grilling – Bananas, pears, peaches, pineapples</li>
-                                    <li>Roasting – Stone fruit, tropical fruit, hard fruit</li>
-                                    <li>Stewing – Rhubarb, plums, apples</li>
-                                    <li>Baking – Hard fruit, soft fruit, dried fruit</li>
-                                    <li>Deep frying – Hard fruit, stone fruit, bananas</li>
-                                    <li>Shallow frying – Most fruit</li>
-                                    <li>Microwave – All varieties</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <table class="iquiz-ft-table-base">
 
-                    <div class="iquiz-ft-submitBtn-container" style="width: 100%; text-align: center;">
+                      <tr>
+                        <td style="width: 20%;">
+                          <strong>Boiling</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Lemons, oranges, apples and hard fruit, jam fruit</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Steaming</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Dried fruit, fresh fruit</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Braising</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Dried fruit</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Grilling</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Bananas, pears, peaches, pineapples</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Roasting</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Stone fruit, tropical fruit, hard fruit</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Stewing</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Rhubarb, plums, apples</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Baking</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Hard fruit, soft fruit, dried fruit</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Deep-Frying</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Hard fruit, stone fruit, bananas</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Shallow-Frying</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Most fruit</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>Microwave</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">All varieties</div>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </table>
+
+                  </div>
+
+                  <div class="iquiz-ft-submitBtn-container" style="width: 100%; text-align: center;">
                         <button class="js-reveal iquiz_submitBtn disabled">REVEAL</button>
                         <button class="js-reset iquiz_submitBtn">RESET</button>
                     </div>

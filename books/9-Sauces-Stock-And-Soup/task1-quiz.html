@@ -41,7 +41,7 @@
 
     <!--QUESTION 1: SINGLE INPUT FIELD-->
 
-    <div data-iquiz="1" id="question-1" data-params="{#fixedUserAnswers#: #false#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
+    <div data-iquiz="1" id="question-1" data-params="{#fixedUserAnswers#: #true#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
         <article class="article">
             <section>
                 <div class="iquiz_Main">
@@ -52,66 +52,110 @@
                         <h3>Enter your answers in the textbox below then check by clicking <strong>'REVEAL'</strong></h3>
                     </div>
 
-                    <div class="iquiz-ft-ques-container js-user-answers">
+                    <!--<div class="iquiz-ft-ques-container js-user-answers">-->
 
-                        <div class="iquiz-textarea-container with-btn js-textarea-container"><textarea class="iquiz-ft-freetext js-textarea"></textarea><button
-                                class="iquiz-btn-remove js-remove-ans disabled">&times;</button></div>
+                        <!--<div class="iquiz-textarea-container with-btn js-textarea-container"><textarea class="iquiz-ft-freetext js-textarea"></textarea><button-->
+                                <!--class="iquiz-btn-remove js-remove-ans disabled">&times;</button></div>-->
+                    <!--</div>-->
+
+                    <!--<div class="iquiz-btn-add-container js-add-ans">-->
+                        <!--<button class="iquiz-btn-add">-->
+                            <!--+-->
+                        <!--</button><span class="iquiz-btn-add-text">Add another answer</span>-->
+                    <!--</div>-->
+
+                    <!--<div class="iquiz-ft-ans-container js-ans-container">-->
+                        <!--<div class="iquiz_questionText">-->
+                            <!--<h3>Now check <strong>your</strong> answers above to the <strong>correct</strong> answers below.</h3>-->
+                        <!--</div>-->
+                        <!--<div class="js-answer iquiz-ft-freetext iquiz-ft-answer">-->
+                            <!--White stock-->
+                            <!--<div class="page-u-list">-->
+                                <!--<ul style="margin-top: 5px">-->
+                                    <!--<li>Fish stock</li>-->
+                                    <!--<li>Chicken stock</li>-->
+                                    <!--<li>Vegetable stock</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                            <!--Brown stock-->
+                            <!--<div class="page-u-list">-->
+                                <!--<ul style="margin-top: 5px">-->
+                                    <!--<li>Veal stock</li>-->
+                                    <!--<li>Beef stock</li>-->
+                                    <!--<li>Game stock</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                            <!--Miscellaneous stock-->
+                            <!--<div class="page-u-list">-->
+                                <!--<ul style="margin-top: 5px">-->
+                                    <!--<li>Provençale mussel stock</li>-->
+                                    <!--<li>Chinese master stock</li>-->
+                                    <!--<li>Dashi</li>-->
+                                    <!--<li>Miso</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                  <div class="iquiz-ft-ques-container in-table js-user-answers">
+
+                    <table class="iquiz-ft-table-base">
+
+                      <tr>
+                        <td style="width: 20%;">
+                          <strong>White stock</strong>
+                        </td>
+                        <td>
+                          <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                          <div class="iquiz-ft-ans-container in-table js-ans-container">
+                            <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Fish stock, Chicken stock, Vegetable stock</div>
                     </div>
+                  </td>
+                </tr>
 
-                    <div class="iquiz-btn-add-container js-add-ans">
-                        <button class="iquiz-btn-add">
-                            +
-                        </button><span class="iquiz-btn-add-text">Add another answer</span>
-                    </div>
+                <tr>
+                  <td>
+                    <strong>Brown stock</strong>
+                  </td>
+                  <td>
+                    <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+                    <div class="iquiz-ft-ans-container in-table js-ans-container">
+                      <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Veal stock, Beef stock, Game stock</div>
+              </div>
+            </td>
+          </tr>
 
-                    <div class="iquiz-ft-ans-container js-ans-container">
-                        <div class="iquiz_questionText">
-                            <h3>Now check <strong>your</strong> answers above to the <strong>correct</strong> answers below.</h3>
-                        </div>
-                        <div class="js-answer iquiz-ft-freetext iquiz-ft-answer">
-                            White stock
-                            <div class="page-u-list">
-                                <ul style="margin-top: 5px">
-                                    <li>Fish stock</li>
-                                    <li>Chicken stock</li>
-                                    <li>Vegetable stock</li>
-                                </ul>
-                            </div>
-                            Brown stock
-                            <div class="page-u-list">
-                                <ul style="margin-top: 5px">
-                                    <li>Veal stock</li>
-                                    <li>Beef stock</li>
-                                    <li>Game stock</li>
-                                </ul>
-                            </div>
-                            Miscellaneous stock
-                            <div class="page-u-list">
-                                <ul style="margin-top: 5px">
-                                    <li>Provençale mussel stock</li>
-                                    <li>Chinese master stock</li>
-                                    <li>Dashi</li>
-                                    <li>Miso</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+          <tr>
+            <td>
+              <strong>Miscellaneous stock</strong>
+            </td>
+            <td>
+              <div class="iquiz-textarea-container js-textarea-container"><textarea class="iquiz-ft-freetext in-table js-textarea"></textarea></div>
+              <div class="iquiz-ft-ans-container in-table js-ans-container">
+                <div data-answer="1" class="js-answer iquiz-ft-freetext iquiz-ft-answer in-table">Provençale mussel stock, Chinese master stock, Dashi, Miso</div>
+              </div>
+            </td>
+          </tr>
 
-                    <div class="iquiz-ft-submitBtn-container" style="width: 100%; text-align: center;">
-                        <button class="js-reveal iquiz_submitBtn disabled">REVEAL</button>
-                        <button class="js-reset iquiz_submitBtn">RESET</button>
-                    </div>
+        </table>
 
-                </div>
+      </div>
 
-            </section>
-        </article>
+        <div class="iquiz-ft-submitBtn-container" style="width: 100%; text-align: center;">
+            <button class="js-reveal iquiz_submitBtn disabled">REVEAL</button>
+            <button class="js-reset iquiz_submitBtn">RESET</button>
+        </div>
+
     </div>
 
+</section>
+</article>
+</div>
 
 
 
-    <!--QUESTION 2: SINGLE INPUT FIELD-->
+
+<!--QUESTION 2: SINGLE INPUT FIELD-->
 
     <div data-iquiz="2" id="question-2" data-params="{#fixedUserAnswers#: #false#}" data-type="freetext" data-state="" class="js-quiz container--iquiz -hidden">
         <article class="article">
@@ -120,7 +164,7 @@
 
                     <div class="iquiz_questionText">
                         <h1>QUESTION 2</h1>
-                        <h2>Soups can be classified into three distinct types. List them below and provide and provide <strong>two</strong> examples of each.</h2>
+                        <h2>Soups can be classified into three distinct types. List them below and provide <strong>two</strong> examples of each.</h2>
                         <h3>Enter your answers in the textbox below then check by clicking <strong>'REVEAL'</strong></h3>
                     </div>
 
